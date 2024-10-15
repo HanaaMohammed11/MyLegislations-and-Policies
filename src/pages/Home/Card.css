@@ -5,7 +5,7 @@
     border: none;
     box-shadow: #535353 2px 2px 9px;
     border-radius: 50%;
-    background-color: #CDA03D; 
+    background-color: #771D1D; 
     color: white;
     font-size: 2000px;
     text-transform: uppercase;
@@ -25,7 +25,7 @@
     content: '';
     position: absolute;
 
-    background-color: #000000; 
+    background-color: #CDA03D; ; 
     transition: width 0.5s ease, height 1s ease, top 0.5s ease, left 0.5s ease;
     border-radius: 50%;
     z-index: 1;
@@ -63,7 +63,7 @@
 }
 
 .aux-gold {
-    background-color: #CDA03D; 
+    background-color: #771D1D; 
 }
 .rotating-image {
     width: 100px; 

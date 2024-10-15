@@ -202,7 +202,7 @@ export default function AddAccounts() {
       firstname: selectedEmployee.firstname,
       lastname: selectedEmployee.lastname,
       accountType: selectedEmployee.accountType,
-      docId: selectedEmployee.docId, // Assuming docId is a part of the employee data
+      docId: selectedEmployee.docId, 
     });
     setOpenEditModal(true);
   };
