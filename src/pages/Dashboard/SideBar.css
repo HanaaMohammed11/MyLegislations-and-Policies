@@ -4,10 +4,10 @@
     display: inline-block;
     padding: 10px 20px;
     border: 5px solid transparent; /* حدود شفافة */
-    background: linear-gradient(#CDA03D, #CDA03D) padding-box, 
+    background: linear-gradient(#771D1D, #771D1D) padding-box, 
                 linear-gradient(45deg, #000000 40%, #404040 60%, #C0C0C0 100%) border-box; /* حدود متدرجة */
     border-radius: 50%; /* شكل دائري */
-    background-color: #CDA03D; 
+    background-color: #771D1D; ; 
     color: white;
     font-size: 16px;
     text-transform: uppercase;
@@ -54,7 +54,7 @@
 .btn-button::before {
     content: '';
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.801); /* خلفية خفيفة عند hover */
+    background-color: #CDA03D; /* خلفية خفيفة عند hover */
     transition: width 0.3s ease, height 0.3s ease;
     border-radius: 50%;
     z-index: 0;
@@ -93,5 +93,5 @@
 }
 
 .btn-gold {
-    background-color: #CDA03D; 
+    background-color: #771D1D; ; 
 }

@@ -1,16 +1,16 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"; // استيراد getDoc لجلب دوكيومنت فردي
-import { getDownloadURL, ref } from "firebase/storage"; // Firebase Storage functions
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"; 
+import { getDownloadURL, ref } from "firebase/storage"; 
 import { Card } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom"; 
-import db, { storage } from "../../config/firebase"; // Firebase config
+import db, { storage } from "../../config/firebase"; 
 import "./Card.css";
 
 export default function Cards() {
   const { t } = useTranslation("global");
   const [user, setUser] = useState("");
-  const [bannerUrl, setBannerUrl] = useState(""); // رابط صورة البانر
+  const [bannerUrl, setBannerUrl] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Cards() {
           setUser(userData[0]);
 
           // Fetch the single banner image from banners collection
-          const bannerDocRef = doc(db, "banners", "homeElements"); // استبدلي yourDocumentId بالـ ID الخاص بالدوكيومنت
+          const bannerDocRef = doc(db, "banners", "homeElements"); 
           const bannerDoc = await getDoc(bannerDocRef);
           
           if (bannerDoc.exists()) {
@@ -36,7 +36,7 @@ export default function Cards() {
             if (bannerData.imageUrl) {
               const imageRef = ref(storage, bannerData.imageUrl);
               const url = await getDownloadURL(imageRef);
-              setBannerUrl(url); // Set URL to state
+              setBannerUrl(url);
             }
           } else {
             console.log("No banner document found");
@@ -59,10 +59,9 @@ export default function Cards() {
         {/* Card 1 */}
         <div className="p-4 text-center relative bg-transparent w-64 card-container card-1"> 
           <img
-            src={bannerUrl || "default-image-url"}  // Use the same image in all cards
+            src={bannerUrl }  
             alt="Banner"
             className="inset-0 w-full h-full object-contain"
-            style={{ animation: "spin 10s linear infinite" }}
           />
           <button
             className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase "
@@ -77,10 +76,10 @@ export default function Cards() {
         {/* Card 2 */}
         <div className="p-4 text-center relative bg-transparent w-64 card-container card-2"> 
           <img
-            src={bannerUrl || "default-image-url"}  // Use the same image in all cards
+            src={bannerUrl}  
             alt="Banner"
             className="inset-0 w-full h-full object-contain"
-            style={{ animation: "spin 10s linear infinite" }}
+            
           />
           <button
             className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase"
@@ -96,10 +95,10 @@ export default function Cards() {
    
         <div className="p-4 text-center relative bg-transparent w-64 card-container card-3"> 
           <img
-            src={bannerUrl || "default-image-url"}  // Use the same image in all cards
+            src={bannerUrl }  
             alt="Banner"
             className="inset-0 w-full h-full object-contain"
-            style={{ animation: "spin 10s linear infinite" }}
+            
           />
           <button
             className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase"
@@ -115,10 +114,10 @@ export default function Cards() {
         {(user.accountType === "admin" || user.accountType === "superAdmin") && (
           <div className="p-4 text-center relative bg-transparent w-64 card-container card-4"> 
             <img
-              src={bannerUrl || "default-image-url"}  // Use the same image in all cards
+              src={bannerUrl } 
               alt="Banner"
               className="inset-0 w-full h-full object-contain"
-              style={{ animation: "spin 10s linear infinite" }}
+              
             />
             <button
               className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase"
