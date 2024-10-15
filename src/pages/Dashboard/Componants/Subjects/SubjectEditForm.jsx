@@ -35,8 +35,7 @@ export default function SubjectEditForm() {
     subjectField: subject.subjectField || "",
     subjectTitle: subject.subjectTitle || "",
     subjectContent: subject.subjectContent || "",
-    relatedMatrix: subject.relatedMatrix || "",
-    sharedEmployees: subject.sharedEmployees || [{ empId: "", role: "" }],
+    relatedLegislation: subject.relatedLegislation || "",
     notes: subject.notes || "",
     negotiationLimit: subject.negotiationLimit || "",
   });
@@ -52,13 +51,48 @@ export default function SubjectEditForm() {
   // Remove shared employee
 
   // Save updated subject data
-  const handleSave = async () => {
+  const handleSave = async (docID) => {
     const subjectRef = doc(db, "subjects", subject.id);
 
     try {
+      // Update the subject document with the new subject data
       await updateDoc(subjectRef, subjectData);
-      // navigate("/dashboard");
+
+      // Show the success popup after updating the subject document
       setIsPopupVisible(true);
+
+      // Fetch the related legislation document reference
+      const matrixDocRef = doc(db, "legislations", docID);
+
+      // Fetch the legislation document snapshot
+      const matrixDocSnapshot = await getDoc(matrixDocRef);
+
+      // Check if the legislation document exists
+      if (matrixDocSnapshot.exists()) {
+        const matrixData = matrixDocSnapshot.data();
+        const subjectsArray = matrixData.subjects || [];
+
+        // Find the index of the existing subject in the array
+        const subjectIndex = subjectsArray.indexOf(subject.subjectTitle);
+
+        if (subjectIndex !== -1) {
+          // If the subject is found, update it with the new title
+          subjectsArray[subjectIndex] = subjectData.subjectTitle;
+        } else {
+          // If the subject is not found, add it to the array
+          subjectsArray.push(subjectData.subjectTitle);
+        }
+
+        // Update the 'subjects' array in the legislation document
+        await updateDoc(matrixDocRef, {
+          subjects: subjectsArray, // Replace the entire array with the updated one
+        });
+
+        // Optional: You can navigate to a different page after a successful update
+        // navigate("/dashboard");
+      } else {
+        console.error("Related legislation document does not exist.");
+      }
     } catch (error) {
       console.error("Error updating subject:", error);
     }
@@ -89,7 +123,7 @@ export default function SubjectEditForm() {
   return (
     <div>
       <Topbanner />
-      <div className="   " dir={direction}>
+      <div dir={direction}>
         <button
           className="text-center bg-[#CDA03D]  py-2 px-9 shadow-xl m-9 rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
@@ -203,13 +237,13 @@ export default function SubjectEditForm() {
             <div className=" col-span-2 pt-8" dir={direction}>
               <Label
                 htmlFor="relatedMatrix"
-                value={t("subjectEditForm.relatedMatrix")}
+                value={t("subjectEditForm.relatedLegislations")}
                 className="text-xl font-semibold"
               />
               <Select
                 id="relatedMatrix"
                 className="mt-2"
-                value={subjectData.relatedMatrix.title || ""}
+                value={subjectData.relatedLegislation.title || ""}
                 onChange={(e) => {
                   const selectedMatrix = matrix.find(
                     (item) => item.title === e.target.value
@@ -247,7 +281,14 @@ export default function SubjectEditForm() {
             {/* Save Button */}
             <div className="mt-6 flex justify-center">
               <div
-                onClick={handleSave}
+                onClick={() => {
+                  const legislation = matrix.find(
+                    (item) =>
+                      item.title === subjectData.relatedLegislation.title
+                  );
+
+                  handleSave(legislation.id);
+                }}
                 className={`aux-button aux-curve aux-gold flex items-center justify-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300 `}
               >
                 <span className="flex items-center space-x-4 aux-text">

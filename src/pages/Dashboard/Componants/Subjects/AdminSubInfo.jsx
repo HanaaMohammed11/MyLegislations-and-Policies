@@ -152,7 +152,7 @@ export default function AdminSubjectInfo() {
                     }}
                   >
                     <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectEditForm.relatedMatrix")}
+                      {t("subjectEditForm.relatedLegislations")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2 overflow-hidden ">
                       {subject.relatedLegislation.title}

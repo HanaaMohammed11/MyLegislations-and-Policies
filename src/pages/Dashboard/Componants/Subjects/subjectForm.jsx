@@ -194,7 +194,7 @@ export default function SubjectForm({ onClose }) {
             <div className="col-span-2 pt-8">
               <Label
                 htmlFor="relatedMatrix"
-                value={t("subjectEditForm.relatedMatrix")}
+                value={t("subjectEditForm.relatedLegislations")}
                 className="text-xl font-semibold"
               />
               <Select
