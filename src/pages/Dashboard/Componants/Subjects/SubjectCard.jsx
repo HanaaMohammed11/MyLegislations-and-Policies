@@ -1,17 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Button } from "flowbite-react";
-import { collection, deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import db from "../../../../config/firebase";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../Login/loader";
-import {
-  AiOutlineEdit,
-  AiOutlineDelete,
-  AiFillEye,
-} from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineDelete, AiFillEye } from "react-icons/ai";
 
 export default function SubjctCard({ searchTerm }) {
   const navigate = useNavigate();
@@ -39,12 +42,12 @@ export default function SubjctCard({ searchTerm }) {
   };
 
   useEffect(() => {
-    const q = query(
-      collection(db, "subjects"),
-      where("ownerAdmin", "==", localStorage.getItem("id"))
-    );
+    const q = query(collection(db, "subjects"), where("subjectTitle", "!=", 0));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const subjectsList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const subjectsList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setSubjects(subjectsList);
       setLoading(false);
     });
@@ -55,15 +58,28 @@ export default function SubjctCard({ searchTerm }) {
   const filteredSubjects = subjects.filter((subject) => {
     const searchText = searchTerm.toLowerCase().replace(/\s+/g, "");
     return (
-      subject.subjectTitle.toLowerCase().replace(/\s+/g, "").includes(searchText) ||
-      subject.subjectNum.toString().toLowerCase().replace(/\s+/g, "").includes(searchText) ||
-      subject.subjectContent.toString().toLowerCase().replace(/\s+/g, "").includes(searchText) ||
-      subject.subjectField.toString().toLowerCase().replace(/\s+/g, "").includes(searchText) ||
+      subject.subjectTitle
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .includes(searchText) ||
+      subject.subjectNum
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .includes(searchText) ||
+      subject.subjectContent
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .includes(searchText) ||
+      subject.subjectField
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .includes(searchText) ||
       subject.ownerAdmin.toLowerCase().replace(/\s+/g, "").includes(searchText)
     );
   });
-  
-  
 
   return (
     <div className={`mx-4  mt-32 mb-9 w-full ${direction} `}>
@@ -76,29 +92,58 @@ export default function SubjctCard({ searchTerm }) {
           <table className="min-w-full border-collapse" dir={direction}>
             <thead className=" uppercase bg-gray-50" dir={direction}>
               <tr>
-                <th className="px-4 py-2 text-xl font-semibold ">{t("subjectInfo.subjectTitle")}</th>
-                <th className="px-4 py-2  text-xl font-semibold r">{t("subjectCardDashboard.subjectNum")}</th>
-                <th className="px-4 py-2  text-xl font-semibold texnter">{t("subjectInfo.action")}</th>
+                <th className="px-4 py-2 text-xl font-semibold ">
+                  {t("subjectInfo.subjectTitle")}
+                </th>
+                <th className="px-4 py-2  text-xl font-semibold r">
+                  {t("subjectCardDashboard.subjectNum")}
+                </th>
+                <th className="px-4 py-2  text-xl font-semibold texnter">
+                  {t("subjectInfo.action")}
+                </th>
               </tr>
             </thead>
             <tbody className="">
               {filteredSubjects.map((subjectItem, index) => (
-                <tr key={subjectItem.id} className={`border-b twxt-xl  ${index % 2 === 0 ? "bg-[#DEBA9A]" : "bg-white"}`}>
-                  <td className="px-4 py-2 font-semibold text-center text-xl">{subjectItem.subjectTitle}</td>
-                  <td className="px-4 py-2 font-semibold text-center text-xl">{subjectItem.subjectNum}</td>
+                <tr
+                  key={subjectItem.id}
+                  className={`border-b twxt-xl  ${
+                    index % 2 === 0 ? "bg-[#DEBA9A]" : "bg-white"
+                  }`}
+                >
+                  <td className="px-4 py-2 font-semibold text-center text-xl">
+                    {subjectItem.subjectTitle}
+                  </td>
+                  <td className="px-4 py-2 font-semibold text-center text-xl">
+                    {subjectItem.subjectNum}
+                  </td>
                   <td className="px-4 py-2 font-semibold text-center flex justify-center space-x-3">
-                  <button onClick={() => handleShowInfo(subjectItem)} className="text-blue-500 ml-3">
+                    <button
+                      onClick={() => handleShowInfo(subjectItem)}
+                      className="text-blue-500 ml-3"
+                    >
                       <AiFillEye size={20} />
                     </button>
-                    <button onClick={() => handleEdit(subjectItem)} className="bg-transparent border-0">
-                      <AiOutlineEdit size={20} className="text-yellow-500 hover:text-blue-700" title="Edit" />
+                    <button
+                      onClick={() => handleEdit(subjectItem)}
+                      className="bg-transparent border-0"
+                    >
+                      <AiOutlineEdit
+                        size={20}
+                        className="text-yellow-500 hover:text-blue-700"
+                        title="Edit"
+                      />
                     </button>
-                    <button onClick={() => deleteSubject(subjectItem.id)} className="bg-transparent border-0">
-                      <AiOutlineDelete size={20} className="text-red-700 hover:text-red-900" title="Delete" />
+                    <button
+                      onClick={() => deleteSubject(subjectItem.id)}
+                      className="bg-transparent border-0"
+                    >
+                      <AiOutlineDelete
+                        size={20}
+                        className="text-red-700 hover:text-red-900"
+                        title="Delete"
+                      />
                     </button>
-                 
-                 
-                 
                   </td>
                 </tr>
               ))}
@@ -115,7 +160,9 @@ export default function SubjctCard({ searchTerm }) {
       {isPopupVisible && (
         <div style={popupStyles}>
           <div style={popupContentStyles}>
-            <h3 className="font-semibold">{t("matrixEditForm.savedSuccessfully")}</h3>
+            <h3 className="font-semibold">
+              {t("matrixEditForm.savedSuccessfully")}
+            </h3>
             <div className="mt-4">
               <Button onClick={() => setIsPopupVisible(false)}>
                 {t("text.ok")}

@@ -48,10 +48,12 @@ export default function AdminSubjectInfo() {
   const location = useLocation();
   const navigate = useNavigate();
   const subject = location.state?.subject;
-  const [employees, setEmployees] = useState([]);
   const [matrices, setMatrices] = useState([]);
   useEffect(() => {
-    const qUser = query(collection(db, "matrix"), where("title", "!=", 0));
+    const qUser = query(
+      collection(db, "legislations"),
+      where("title", "!=", 0)
+    );
     const unsubscribe = onSnapshot(qUser, (snapshot) => {
       const matrix = [];
       snapshot.forEach((doc) => {
@@ -69,14 +71,6 @@ export default function AdminSubjectInfo() {
           console.error("No subject data found in location state");
           return;
         }
-
-        const employeesSnapshot = await getDocs(collection(db, "employees"));
-        const employeesList = employeesSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setEmployees(employeesList);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -85,8 +79,6 @@ export default function AdminSubjectInfo() {
     fetchData();
   }, [subject]);
 
-  const emp1 = employees.find((emp) => emp.employeeId === subject.emp1Id);
-  const emp2 = employees.find((emp) => emp.employeeId === subject.emp2Id);
   const handleBack = () => {
     navigate(-1);
   };
@@ -163,56 +155,10 @@ export default function AdminSubjectInfo() {
                       {t("subjectEditForm.relatedMatrix")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2 overflow-hidden ">
-                      {subject.relatedMatrix.title}
+                      {subject.relatedLegislation.title}
                     </td>
                   </tr>
-                  <tr className="bg-[#fce8ca]">
-                    <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectInfo.authorizedEmployee")}
-                    </td>
-                    <td className="px-4 py-2 break-words w-1/2">
-                      {subject.emp1.employeeName} - {subject.emp1.jobTitle}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectInfo.sharedEmployees")}
-                    </td>
-                    <td className="px-4 py-2 break-words w-1/2">
-                      {emp2?.employeeName} - {emp2?.role}
-                    </td>
-                  </tr>
-                  {subject.sharedEmployees.length > 0 ? (
-                    subject.sharedEmployees.map((emp) => {
-                      const user = employees.find(
-                        (empl) => empl.employeeId === emp.empId
-                      );
-                      return (
-                        <tr
-                          className="cursor-pointer hover:bg-gray-100"
-                          onClick={() => {
-                            if (user) {
-                              navigate("/userinfo", { state: { user } });
-                            }
-                          }}
-                          key={emp.empId}
-                        >
-                          <td className="px-4 py-2 break-words w-1/2">
-                            {emp.role}
-                          </td>
-                          <td className="px-4 py-2 break-words w-1/2">
-                            {user ? user.employeeName : ""}
-                          </td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan={2} className="px-4 py-2 text-center">
-                        {t("subjectInfo.noRelatedSubjects")}
-                      </td>
-                    </tr>
-                  )}
+
                   <tr className="bg-[#fce8ca]">
                     <td className="px-4 py-2 font-bold w-1/2">
                       {t("subjectEditForm.negotiationLimit")}

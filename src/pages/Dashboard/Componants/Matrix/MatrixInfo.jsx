@@ -41,7 +41,7 @@ export default function AdminMatrixInfo() {
   const [loading, setLoading] = useState(true);
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const location = useLocation();
-  const matrix = location.state.matrix;
+  const legislation = location.state.Legislation;
   const navigate = useNavigate();
   const [relatedsubjects, setRelatedsubjectss] = useState([]);
   const handleBack = () => {
@@ -51,12 +51,12 @@ export default function AdminMatrixInfo() {
   useEffect(() => {
     const usersCollectionRef = collection(db, "subjects");
 
-    if (matrix.subjects) {
+    if (legislation.subjects) {
       console.log("inside if cond");
 
       const q = query(
         usersCollectionRef,
-        where("subjectTitle", "in", matrix.subjects)
+        where("subjectTitle", "in", legislation.subjects)
       );
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -72,7 +72,8 @@ export default function AdminMatrixInfo() {
     } else {
       setLoading(false);
     }
-  }, [matrix]);
+  }, [legislation]);
+  console.log(relatedsubjects);
 
   return (
     <div>
@@ -111,51 +112,51 @@ export default function AdminMatrixInfo() {
                   <tbody className="text-gray-700">
                     <tr>
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.name")}
+                        {t("legislationsinfo.name")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {matrix.title}
+                        {legislation.title}
                       </td>
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.releaseDate")}
+                        {t("legislationsinfo.releaseDate")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {matrix.releaseDate}
+                        {legislation.releaseDate}
                       </td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.updateDate")}
+                        {t("legislationsinfo.updateDate")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {matrix.updateDate}
+                        {legislation.updateDate}
                       </td>
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.publisher")}
+                        {t("legislationsinfo.publisher")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {matrix.companyName}
+                        {legislation.companyName}
                       </td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.introduction")}
+                        {t("legislationsinfo.introduction")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {matrix.intro}
+                        {legislation.intro}
                       </td>
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.definitions")}
+                        {t("legislationsinfo.definitions")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden"></td>
                     </tr>
-                    {matrix.definitions.map((elem, index) => (
+                    {legislation.definitions.map((elem, index) => (
                       <tr key={index}>
                         <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                           {elem.term}
@@ -167,7 +168,7 @@ export default function AdminMatrixInfo() {
                     ))}
                     <tr>
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.permissions")}
+                        {t("legislationsinfo.permissions")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden"></td>
                     </tr>
@@ -181,7 +182,7 @@ export default function AdminMatrixInfo() {
                           key={subject.id}
                         >
                           <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                            {t("matrixinfo.subjectTitle")}
+                            {t("legislationsinfo.subjectTitle")}
                           </td>
                           <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                             {subject.subjectTitle}
@@ -191,16 +192,16 @@ export default function AdminMatrixInfo() {
                     ) : (
                       <tr>
                         <td colSpan={2} className="px-4 py-2 text-center">
-                          {t("matrixinfo.noRelatedSubjects")}
+                          {t("legislationsinfo.noRelatedSubjects")}
                         </td>
                       </tr>
                     )}
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.notes")}
+                        {t("legislationsinfo.notes")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {matrix.notes}
+                        {legislation.notes}
                       </td>
                     </tr>
                   </tbody>

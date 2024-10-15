@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Label, Textarea, TextInput, Select } from "flowbite-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
+  arrayUnion,
   collection,
   doc,
+  getDoc,
   onSnapshot,
   query,
   updateDoc,
@@ -23,7 +25,6 @@ export default function SubjectEditForm() {
   const subject = location.state?.subject || {};
 
   const [matrix, setMatrix] = useState([]);
-  const [employees, setEmployees] = useState([]);
   const { t, i18n } = useTranslation("global");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
@@ -35,7 +36,6 @@ export default function SubjectEditForm() {
     subjectTitle: subject.subjectTitle || "",
     subjectContent: subject.subjectContent || "",
     relatedMatrix: subject.relatedMatrix || "",
-    emp1: subject.emp1 || "",
     sharedEmployees: subject.sharedEmployees || [{ empId: "", role: "" }],
     notes: subject.notes || "",
     negotiationLimit: subject.negotiationLimit || "",
@@ -48,28 +48,8 @@ export default function SubjectEditForm() {
   };
 
   // Handle shared employee change
-  const handleSharedEmployeeChange = (index, field, value) => {
-    const updatedEmployees = subjectData.sharedEmployees.map((employee, i) =>
-      i === index ? { ...employee, [field]: value } : employee
-    );
-    setSubjectData({ ...subjectData, sharedEmployees: updatedEmployees });
-  };
-
-  // Add new shared employee
-  const handleAddSharedEmployee = () => {
-    setSubjectData((prevState) => ({
-      ...prevState,
-      sharedEmployees: [...prevState.sharedEmployees, { empId: "", role: "" }],
-    }));
-  };
 
   // Remove shared employee
-  const handleRemoveSharedEmployee = (index) => {
-    const updatedEmployees = subjectData.sharedEmployees.filter(
-      (_, i) => i !== index
-    );
-    setSubjectData({ ...subjectData, sharedEmployees: updatedEmployees });
-  };
 
   // Save updated subject data
   const handleSave = async () => {
@@ -87,8 +67,8 @@ export default function SubjectEditForm() {
   useEffect(() => {
     // const matrixCollectionRef = collection(db, "matrix");
     const qMatrix = query(
-      collection(db, "matrix"),
-      where("ownerAdmin", "==", localStorage.getItem("id"))
+      collection(db, "legislations"),
+      where("intro", "!=", 0)
     );
     const unsubscribeMatrix = onSnapshot(qMatrix, (snapshot) => {
       const matrixList = [];
@@ -98,21 +78,9 @@ export default function SubjectEditForm() {
 
     // Fetch employee data
     // const employeesCollectionRef = collection(db, "employees");
-    const qEmps = query(
-      collection(db, "employees"),
-      where("ownerAdmin", "==", localStorage.getItem("id"))
-    );
-    const unsubscribeEmployees = onSnapshot(qEmps, (snapshot) => {
-      const employeeList = [];
-      snapshot.forEach((doc) =>
-        employeeList.push({ id: doc.id, ...doc.data() })
-      );
-      setEmployees(employeeList);
-    });
 
     return () => {
       unsubscribeMatrix();
-      unsubscribeEmployees();
     };
   }, []);
   const handleBack = () => {
@@ -260,35 +228,6 @@ export default function SubjectEditForm() {
               </Select>
             </div>
 
-            {/* Assigned Employee */}
-            <div className=" col-span-2 pt-8" dir={direction}>
-              <Label
-                htmlFor="emp1"
-                value={t("subjectEditForm.hiredEmp")}
-                className="text-xl font-semibold"
-              />
-              <Select
-                id="emp1"
-                className="mt-2"
-                value={subjectData.emp1.employeeName || ""}
-                onChange={(e) => {
-                  const selectedEmployee = employees.find(
-                    (item) => item.employeeName === e.target.value
-                  );
-                  setSubjectData({ ...subjectData, emp1: selectedEmployee });
-                }}
-              >
-                <option value="" disabled>
-                  {t("subjectEditForm.chooseEmp")}
-                </option>
-                {employees.map((item) => (
-                  <option key={item.id} value={item.employeeName}>
-                    {item.employeeName}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
             {/* Notes */}
             <div className="text-right col-span-2 pt-8">
               <Label
@@ -305,68 +244,6 @@ export default function SubjectEditForm() {
               />
             </div>
 
-            {/* Shared Employees */}
-            <div className=" col-span-2 pt-8" dir={direction}>
-              <Label
-                value={t("subjectEditForm.sharedEmployees")}
-                className="text-xl font-semibold"
-              />
-              {subjectData.sharedEmployees.map((sharedEmployee, index) => (
-                <div
-                  key={index}
-                  className="flex gap-4 mt-2 xs:flex-col sm:flex-row xs:items-center"
-                >
-                  <Select
-                    className="w-1/2"
-                    value={sharedEmployee.role}
-                    onChange={(e) =>
-                      handleSharedEmployeeChange(index, "role", e.target.value)
-                    }
-                  >
-                    <option value="" disabled>
-                      {t("subjectEditForm.chooseRole")}
-                    </option>
-                    <option value="منفردين">
-                      {t("subjectEditForm.single")}
-                    </option>
-                    <option value="مجتمعين">
-                      {t("subjectEditForm.grouped")}
-                    </option>
-                  </Select>
-
-                  <Select
-                    className="w-1/2"
-                    value={sharedEmployee.empId}
-                    onChange={(e) =>
-                      handleSharedEmployeeChange(index, "empId", e.target.value)
-                    }
-                  >
-                    <option value="" disabled>
-                      {t("subjectEditForm.chooseEmp")}
-                    </option>
-                    {employees.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.employeeName}
-                      </option>
-                    ))}
-                  </Select>
-
-                  {/* Remove Employee Button */}
-                  <Button
-                    color="failure"
-                    onClick={() => handleRemoveSharedEmployee(index)}
-                  >
-                    {t("subjectEditForm.delete")}
-                  </Button>
-                </div>
-              ))}
-
-              {/* Add New Employee Button */}
-              <Button className="mt-4" onClick={handleAddSharedEmployee}>
-                {t("subjectEditForm.addNewEmp")}
-              </Button>
-            </div>
-
             {/* Save Button */}
             <div className="mt-6 flex justify-center">
               <div
@@ -381,7 +258,7 @@ export default function SubjectEditForm() {
             {isPopupVisible && (
               <div style={popupStyles}>
                 <div style={popupContentStyles}>
-                <p>{t("matrixForm.alert")}</p>
+                  <p>{t("matrixForm.alert")}</p>
                   <button
                     onClick={() => {
                       setIsPopupVisible(false);
@@ -389,7 +266,7 @@ export default function SubjectEditForm() {
                     }}
                     className="text-red-600"
                   >
-                       {t("text.close")}
+                    {t("text.close")}
                   </button>
                 </div>
               </div>

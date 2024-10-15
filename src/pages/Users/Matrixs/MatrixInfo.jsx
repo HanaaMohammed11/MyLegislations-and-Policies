@@ -42,7 +42,7 @@ export default function MatrixInfo() {
   const navigate = useNavigate();
   const [relatedsubjects, setRelatedsubjectss] = useState([]);
   const matrix = location.state.item || location.state.matrix;
-  console.log(matrix.subjects);
+  console.log(matrix);
 
   useEffect(() => {
     const usersCollectionRef = collection(db, "subjects");
@@ -76,7 +76,7 @@ export default function MatrixInfo() {
   return (
     <div>
       <Topbanner />
-      <div dir={direction} style={{ marginTop: "400px", marginRight:"15px" }}>
+      <div dir={direction} style={{ marginTop: "400px", marginRight: "15px" }}>
         <button
           className="text-center bg-[#CDA03D] py-2 px-9 shadow-xl  rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
@@ -111,7 +111,7 @@ export default function MatrixInfo() {
                   <tbody className="text-gray-700">
                     <tr>
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.name")}
+                        {t("legislationsinfo.name")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                         {matrix.title}
@@ -119,7 +119,7 @@ export default function MatrixInfo() {
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.releaseDate")}
+                        {t("legislationsinfo.releaseDate")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflmatrixow-hidden">
                         {matrix.releaseDate}
@@ -127,7 +127,7 @@ export default function MatrixInfo() {
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.updateDate")}
+                        {t("legislationsinfo.updateDate")}
                       </td>
 
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
@@ -136,7 +136,7 @@ export default function MatrixInfo() {
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.publisher")}
+                        {t("legislationsinfo.publisher")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                         {matrix.companyName}
@@ -145,7 +145,7 @@ export default function MatrixInfo() {
                     <tr>
                       <td className="px-4 py-2 font-bold">
                         {" "}
-                        {t("matrixinfo.introduction")}
+                        {t("legislationsinfo.introduction")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                         {matrix.intro}
@@ -153,7 +153,7 @@ export default function MatrixInfo() {
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.definitions")}
+                        {t("legislationsinfo.definitions")}
                       </td>
 
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
@@ -172,7 +172,7 @@ export default function MatrixInfo() {
                     ))}
                     <tr>
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.permissions")}
+                        {t("legislationsinfo.permissions")}
                       </td>
 
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden"></td>
@@ -187,7 +187,7 @@ export default function MatrixInfo() {
                           key={subject.id}
                         >
                           <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                            {t("matrixinfo.subjectTitle")}
+                            {t("legislationsinfo.subjectTitle")}
                           </td>
                           <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                             {subject.subjectTitle}
@@ -197,14 +197,14 @@ export default function MatrixInfo() {
                     ) : (
                       <tr>
                         <td colSpan={2} className="px-4 py-2 text-center">
-                          {t("matrixinfo.noRelatedSubjects")}
+                          {t("legislationsinfo.noRelatedSubjects")}
                         </td>
                       </tr>
                     )}
 
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("matrixinfo.notes")}
+                        {t("legislationsinfo.notes")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                         {matrix.notes}

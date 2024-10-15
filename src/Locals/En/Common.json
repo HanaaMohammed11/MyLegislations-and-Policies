@@ -2,8 +2,8 @@
   "text": {
     "DashBoard": "Dashboard",
     "Employees": "Employees",
-    "Articles": "Articles",
-    "Matrices": "Matrix",
+    "Articles": "Policies",
+    "Matrices": "Legislations",
     "masfofa": "Masfofa",
     "home": "Main",
     "download": "Print",
@@ -95,22 +95,22 @@
     "details": "Details"
   },
 
-  "matrixinfo": {
-    "name": "Matrix Name :",
+  "legislationsinfo": {
+    "name": "Legislation Name :",
     "releaseDate": "Release Date :",
     "updateDate": "Amendment Date :",
     "publisher": "Publishing Entity :",
     "introduction": "Introduction :",
     "definitionsHeader": "Definitions Used in the Matrix",
     "definitions": "Definitions :",
-    "permissions": "Associated Articles :",
-    "subjectTitle": "Articles Title :",
-    "noRelatedSubjects": "No Related Articles",
+    "permissions": "Associated Policies :",
+    "subjectTitle": "Policies Title :",
+    "noRelatedSubjects": "No Related Policies",
     "notes": "Notes :"
   },
   "sidebar": {
-    "dashboard": "Matrix",
-    "permissions": "Articles",
+    "Legislations": "Legislations",
+    "Policies": "Policies",
     "employees": "Employees",
     "editAppearance": "Edit Theme",
     "addUser": "Add User"
@@ -173,12 +173,12 @@
   "matrixCardDashboard": {
     "update": "update",
     "delete": "delete",
-    "noMatrix": "no Matrix found"
+    "noMatrix": "no legislations found"
   },
-  "matrixEditForm": {
-    "updateMatrix": "Update Matrix",
+  "legislationEditForm": {
+    "updateLegislation": "Update Legislation",
     "companyName": "Company name",
-    "matrixName": "Matrix Name",
+    "legislationName": "Legislation Name",
     "updateDate": "Amendment Date",
     "releaseDate": "Release Date",
     "Introduction": "Introduction",
@@ -191,9 +191,9 @@
   },
   "matrixForm": {
     "alert": "Data has been save successfully",
-    "addNewMatrix": "Add New Matrix",
+    "addNewLegislations": "Add New Legislations",
     "companyName": "Company name",
-    "matrixName": "Matrix Name",
+    "legislationsName": "Legislations Name",
     "updateDate": "Amendment Date",
     "releaseDate": "Release Date",
     "Introduction": "Introduction",
@@ -213,14 +213,14 @@
   },
   "subjectEditForm": {
     "editSubject": "Edit Article",
-    "addSubject": "Add New Article",
+    "addSubject": "Add New Policy",
     "search": "Search ",
     "field": "Field",
     "subjectNum": "Article Number",
     "subjectTitle": "Article Title",
     "subjectContent": "Article Content",
     "negotiationLimit": "Authorization Limit",
-    "relatedMatrix": "Related Matrix",
+    "relatedLegislations": "Related legislations",
     "hiredEmp": "Authorized Employee",
     "chooseEmp": "choose Employee",
     "notes": "Notes",

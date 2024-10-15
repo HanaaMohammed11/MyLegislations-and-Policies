@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
@@ -12,7 +13,7 @@ import "../../../Home/Card.css";
 export default function MatrixEditForm() {
   const location = useLocation();
   const navigate = useNavigate();
-  const matrix = location.state?.matrix;
+  const matrix = location.state?.Legislation;
   const { t, i18n } = useTranslation("global");
 
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
@@ -46,43 +47,49 @@ export default function MatrixEditForm() {
   const handleAddDefinition = () => {
     setMatrixData({
       ...matrixData,
-      definitions: [...matrixData.definitions, { term: "", interpretation: "" }],
+      definitions: [
+        ...matrixData.definitions,
+        { term: "", interpretation: "" },
+      ],
     });
   };
 
   const handleSave = async () => {
-    const matrixRef = doc(db, "matrix", matrix.id);
+    const matrixRef = doc(db, "legislations", matrix.id);
     try {
       await updateDoc(matrixRef, matrixData);
       setIsPopupVisible(true);
     } catch (error) {
       console.error("Error updating matrix:", error);
-      alert(t("matrixEditForm.errorUpdating")); // Inform the user about the error
+      alert(t("legislationEditForm.errorUpdating")); // Inform the user about the error
     }
   };
 
   return (
     <div>
       <Topbanner />
-      <div dir={direction} >
+      <div dir={direction}>
         <button
-        style={{marginTop:"400px"}}
+          style={{ marginTop: "400px" }}
           className="text-center bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
         >
           <IoArrowBack className="mt-1 mr-3" /> {t("text.back")}
         </button>
-        <div className="mx-auto p-8 w-full max-w-5xl" style={{paddingBottom:"400px"}}>
+        <div
+          className="mx-auto p-8 w-full max-w-5xl"
+          style={{ paddingBottom: "400px" }}
+        >
           <h1 className="text-3xl font-semibold text-white bg-[#CDA03D] p-5 rounded-t-xl">
-            {t("matrixEditForm.updateMatrix")}
+            {t("legislationEditForm.updateLegislation")}
           </h1>
           <div className="bg-white p-8 rounded-lg shadow-md">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {Object.entries({
-                companyName: t("matrixEditForm.companyName"),
-                title: t("matrixEditForm.matrixName"),
-                updateDate: t("matrixEditForm.updateDate"),
-                releaseDate: t("matrixEditForm.releaseDate"),
+                companyName: t("legislationEditForm.companyName"),
+                title: t("legislationEditForm.legislationName"),
+                updateDate: t("legislationEditForm.updateDate"),
+                releaseDate: t("legislationEditForm.releaseDate"),
               }).map(([key, label]) => (
                 <div className="xs:col-span-2 md:col-span-1" key={key}>
                   <Label htmlFor={key} value={label} />
@@ -95,7 +102,10 @@ export default function MatrixEditForm() {
                 </div>
               ))}
               <div className="col-span-2">
-                <Label htmlFor="intro" value={t("matrixEditForm.Introduction")} />
+                <Label
+                  htmlFor="intro"
+                  value={t("legislationEditForm.Introduction")}
+                />
                 <Textarea
                   id="intro"
                   rows={4}
@@ -104,7 +114,7 @@ export default function MatrixEditForm() {
                 />
               </div>
               <div className="col-span-2">
-                <Label htmlFor="notes" value={t("matrixEditForm.notes")} />
+                <Label htmlFor="notes" value={t("legislationEditForm.notes")} />
                 <Textarea
                   id="notes"
                   rows={4}
@@ -116,13 +126,16 @@ export default function MatrixEditForm() {
 
             {/* Definitions Section */}
             <h2 className="text-2xl font-semibold text-white bg-[#CDA03D] p-4 md:p-5 rounded-t-xl mt-6 md:mt-9">
-              {t("matrixEditForm.definitions")}
+              {t("legislationEditForm.definitions")}
             </h2>
             <div className="bg-white p-4 md:p-8 rounded-lg shadow-md">
               {matrixData.definitions.map((definition, index) => (
                 <div key={index} className="grid grid-cols-1 gap-4 mb-4 w-full">
                   <div className="col-span-2 w-full">
-                    <Label htmlFor={`term-${index}`} value={t("matrixEditForm.term")} />
+                    <Label
+                      htmlFor={`term-${index}`}
+                      value={t("legislationEditForm.term")}
+                    />
                     <TextInput
                       id={`term-${index}`}
                       type="text"
@@ -133,13 +146,20 @@ export default function MatrixEditForm() {
                     />
                   </div>
                   <div className="col-span-2 w-full">
-                    <Label htmlFor={`interpretation-${index}`} value={t("matrixEditForm.interpretation")} />
+                    <Label
+                      htmlFor={`interpretation-${index}`}
+                      value={t("legislationEditForm.interpretation")}
+                    />
                     <Textarea
                       id={`interpretation-${index}`}
                       rows={4}
                       value={definition.interpretation}
                       onChange={(e) =>
-                        handleDefinitionChange(index, "interpretation", e.target.value)
+                        handleDefinitionChange(
+                          index,
+                          "interpretation",
+                          e.target.value
+                        )
                       }
                     />
                   </div>
@@ -147,14 +167,19 @@ export default function MatrixEditForm() {
               ))}
               <div className="mt-4 text-right">
                 <Button onClick={handleAddDefinition} className="bg-gray-700">
-                  {t("matrixEditForm.addNewDef")}
+                  {t("legislationEditForm.addNewDef")}
                 </Button>
               </div>
             </div>
             <div className="mt-8 flex justify-center">
-              <div onClick={handleSave}            className={`aux-button aux-curve aux-gold flex items-center justify-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300 `}
+              <div
+                onClick={handleSave}
+                className={`aux-button aux-curve aux-gold flex items-center justify-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300 `}
               >
-              <span className="aux-text"> {t("matrixEditForm.save")}</span> 
+                <span className="aux-text">
+                  {" "}
+                  {t("legislationEditForm.save")}
+                </span>
               </div>
             </div>
             {isPopupVisible && (

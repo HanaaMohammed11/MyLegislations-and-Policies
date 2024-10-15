@@ -27,32 +27,24 @@ function SideBar() {
 
   const handleItemClick = (content) => {
     setSelectedItem(content);
-    setIsOpen(false)
+    setIsOpen(false);
   };
 
   const items = [
     {
-      name: t("sidebar.dashboard"),
+      name: t("sidebar.Legislations"),
       icon: <FaTh className="text-[#f5bc42]" />,
       content: (
         // <MatrixList handleClickShow={(item) => handleItemClick(<AdminMatrixInfo item={item}/>)} />
-                <MatrixList />
+        <MatrixList />
       ),
     },
     {
-      name: t("sidebar.permissions"),
+      name: t("sidebar.Policies"),
       icon: <FaBook className="text-[#f5bc42]" />,
       content: (
         // <SubjectList handleClickShow={(item) => handleItemClick(<AdminSubjectInfo item={item}/>)} />
-        <SubjectList/>
-
-      ),
-    },
-    {
-      name: t("sidebar.employees"),
-      icon: <FaUsers className="text-[#f5bc42]" />,
-      content: (
-        <AdminUsers />
+        <SubjectList />
       ),
     },
     {
@@ -106,7 +98,7 @@ function SideBar() {
             : "translate-x-full"
         } lg:translate-x-0 lg:block md:hidden hidden z-50`}
       >
-        <div className=" flex gap-9 text-center justify-center top-0 ml-9 z-50" >
+        <div className=" flex gap-9 text-center justify-center top-0 ml-9 z-50">
           {items.map(({ name, icon, content }) => (
             <button
               key={name}
@@ -115,11 +107,8 @@ function SideBar() {
               aria-label={`Navigate to ${name}`}
             >
               <span className="flex items-center space-x-4 btn-text text-center">
-        
                 <span className="whitespace-nowrap text-center">{name}</span>
-             
               </span>
-           
             </button>
           ))}
         </div>

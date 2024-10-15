@@ -23,55 +23,27 @@ export default function MatrixLists() {
   const [searchBy, setSearchBy] = useState("");
   const [filteredMatrices, setFilteredMatrices] = useState([]);
   const [matrix, setMatrix] = useState([]);
-  const [user, setUser] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const qUser = query(
-      collection(db, "users"),
-      where("ID", "==", localStorage.getItem("id"))
+    const qmatrix = query(
+      collection(db, "legislations"),
+      where("intro", "!=", 0)
     );
-    const unsubscribe = onSnapshot(qUser, (snapshot) => {
-      const userData = [];
+
+    const unsubscribe = onSnapshot(qmatrix, (snapshot) => {
+      const matrixData = [];
       snapshot.forEach((doc) => {
-        userData.push({ docId: doc.id, ...doc.data() });
+        matrixData.push({ id: doc.id, ...doc.data() });
       });
-      setUser(userData);
-      setMatrix(matrix);
-      setFilteredMatrices(matrix);
-      setLoading(false); // Set loading to false when data is fetched
+      setMatrix(matrixData);
+      setFilteredMatrices(matrixData);
+      setLoading(false);
     });
 
     return () => unsubscribe();
-  }, []); // Keep this as is
-
-  useEffect(() => {
-    if (user.length > 0) {
-      let qmatrix;
-      if (user.ownerAdmin) {
-        qmatrix = query(
-          collection(db, "matrix"),
-          where("ownerAdmin", "==", user[0]?.ownerAdmin)
-        );
-      } else {
-        qmatrix = query(
-          collection(db, "matrix"),
-          where("ownerAdmin", "==", user[0]?.ID)
-        );
-      }
-      const unsubscribe = onSnapshot(qmatrix, (snapshot) => {
-        const matrixData = [];
-        snapshot.forEach((doc) => {
-          matrixData.push({ id: doc.id, ...doc.data() });
-        });
-        setMatrix(matrixData);
-        setFilteredMatrices(matrixData);
-      });
-
-      return () => unsubscribe();
-    }
-  }, [user]);
+  }, []);
 
   const searchSubjectContent = async (searchQuery) => {
     try {
@@ -101,41 +73,6 @@ export default function MatrixLists() {
       return [];
     }
   };
-
-  useEffect(() => {
-    if (user.length > 0) {
-      let qEmps;
-      if (user.ownerAdmin) {
-        qEmps = query(
-          collection(db, "employees"),
-          where("ownerAdmin", "==", user[0]?.ownerAdmin)
-        );
-      } else {
-        qEmps = query(
-          collection(db, "employees"),
-          where("ownerAdmin", "==", user[0]?.ID)
-        );
-      }
-      const unsubscribe = onSnapshot(qEmps, (snapshot) => {
-        const employeeList = [];
-        snapshot.forEach((doc) => {
-          employeeList.push({ id: doc.id, ...doc.data() });
-        });
-        setEmployees(employeeList);
-      });
-      const employeesCollectionRef = collection(db, "employees");
-
-      // const unsubscribe = onSnapshot(employeesCollectionRef, (snapshot) => {
-      //   const employeeList = [];
-      //   snapshot.forEach((doc) => {
-      //     employeeList.push({ id: doc.id, ...doc.data() });
-      //   });
-      //   setEmployees(employeeList);
-      // });
-
-      return () => unsubscribe();
-    }
-  }, [user]);
 
   const handleSearch = async () => {
     if (searchBy === "MainEmployees" && searchQuery) {

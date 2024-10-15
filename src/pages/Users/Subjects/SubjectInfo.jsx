@@ -49,12 +49,14 @@ export default function SubjectInfo() {
   const navigate = useNavigate();
 
   const [subject, setSubject] = useState(null);
-  const [employees, setEmployees] = useState([]);
   const [matrices, setMatrices] = useState([]);
   const clickedSubject = location.state?.subject;
-  console.log(clickedSubject.relatedMatrix.title);
+  console.log(clickedSubject.relatedLegislation.title);
   useEffect(() => {
-    const qUser = query(collection(db, "matrix"), where("title", "!=", 0));
+    const qUser = query(
+      collection(db, "legislations"),
+      where("intro", "!=", 0)
+    );
     const unsubscribe = onSnapshot(qUser, (snapshot) => {
       const matrix = [];
       snapshot.forEach((doc) => {
@@ -73,14 +75,6 @@ export default function SubjectInfo() {
           return;
         }
 
-        const employeesSnapshot = await getDocs(collection(db, "employees"));
-        const employeesList = employeesSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setEmployees(employeesList);
-
         setSubject(clickedSubject);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -90,12 +84,6 @@ export default function SubjectInfo() {
     fetchData();
   }, [clickedSubject]);
 
-  const emp1 = employees.find(
-    (emp) => emp.employeeId === clickedSubject.emp1Id
-  );
-  const emp2 = employees.find(
-    (emp) => emp.employeeId === clickedSubject.emp2Id
-  );
   const handleBack = () => {
     navigate(-1);
   };
@@ -103,8 +91,7 @@ export default function SubjectInfo() {
   return (
     <div>
       <Topbanner />
-      <div dir={direction} style={{  marginTop: "400px",marginLeft:20
-        }}>
+      <div dir={direction} style={{ marginTop: "400px", marginLeft: 20 }}>
         <button
           className="text-center bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
@@ -113,8 +100,10 @@ export default function SubjectInfo() {
           <IoArrowBack className="mt-1 mr-3" /> {t("text.back")}
         </button>
       </div>
-      <div className=" justify-center flex items-center" style={{  paddingTop: "2px",
-      paddingBottom: "440px"}}>
+      <div
+        className=" justify-center flex items-center"
+        style={{ paddingTop: "2px", paddingBottom: "440px" }}
+      >
         <Card className="w-[1200px] ">
           <div className=" w-full" dir={direction}>
             <Button onClick={downloadPDF} className="bg-[#d4af37] rounded-full">
@@ -161,7 +150,7 @@ export default function SubjectInfo() {
 
                       const matrix = matrices.find(
                         (item) =>
-                          item.title === clickedSubject.relatedMatrix.title
+                          item.title === clickedSubject.relatedLegislation.title
                       );
                       console.log(matrix);
 
@@ -171,70 +160,13 @@ export default function SubjectInfo() {
                     }}
                   >
                     <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectEditForm.relatedMatrix")}
+                      {t("subjectEditForm.relatedLegislations")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2 overflow-hidden ">
-                      {clickedSubject.relatedMatrix.title}
+                      {clickedSubject.relatedLegislation.title}
                     </td>
                   </tr>
-                  <tr className="bg-[#fce8ca]">
-                    <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectInfo.authorizedEmployee")}
-                    </td>
-                    <td className="px-4 py-2 break-words w-1/2">
-                      {clickedSubject.emp1.employeeName} -{" "}
-                      {clickedSubject.emp1.jobTitle}{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectInfo.sharedEmployees")}
-                    </td>
-                    <td className="px-4 py-2 break-words w-1/2">
-                      {emp2?.employeeName} - {emp2?.role}
-                    </td>
-                  </tr>
-                  {clickedSubject.sharedEmployees.length > 0 ? (
-                    clickedSubject.sharedEmployees.map((emp) => {
-                      const user = employees.find(
-                        (empl) => empl.employeeId === emp.empId
-                      );
-                      console.log("Found user:", user);
-                      return (
-                        <tr
-                          className="cursor-pointer hover:bg-[#fce8ca]"
-                          onClick={() => {
-                            if (user) {
-                              navigate("/userinfo", { state: { user } });
-                            } else {
-                              console.log(
-                                "No user found for empId:",
-                                emp.empId
-                              );
-                            }
-                          }}
-                          key={emp.empId}
-                        >
-                          {user && (
-                            <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                              {emp.role}
-                            </td>
-                          )}
-                          {user && (
-                            <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                              {user.employeeName}
-                            </td>
-                          )}
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan={2} className="px-4 py-2 text-center">
-                        {t("subjectInfo.noRelatedSubjects")}
-                      </td>
-                    </tr>
-                  )}
+
                   <tr className="bg-[#fce8ca]">
                     <td className="px-4 py-2 font-bold w-1/2">
                       {t("subjectEditForm.negotiationLimit")}

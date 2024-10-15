@@ -26,7 +26,7 @@ export default function MatrixForm({ onClose }) {
 
   const handleSave = async () => {
     const data = {
-      ownerAdmin: localStorage.getItem("id"),
+      // ownerAdmin: localStorage.getItem("id"),
       title: title,
       companyName: companyName,
       releaseDate: releaseDate,
@@ -40,7 +40,7 @@ export default function MatrixForm({ onClose }) {
     };
 
     try {
-      await addDoc(collection(db, "matrix"), data);
+      await addDoc(collection(db, "legislations"), data);
       setIsPopupVisible(true);
       onClose();
     } catch (error) {
@@ -65,7 +65,7 @@ export default function MatrixForm({ onClose }) {
           dir={direction}
           className=" text-2xl md:text-3xl font-semibold text-white bg-[#CDA03D] p-4 md:p-5 rounded-t-xl"
         >
-          {t("matrixForm.addNewMatrix")}
+          {t("matrixForm.addNewLegislations")}
         </h1>
 
         {/* قسم تفاصيل المصفوفة */}
@@ -95,7 +95,7 @@ export default function MatrixForm({ onClose }) {
             <div className="xs:col-span-2 md:col-span-1 w-full">
               <Label
                 htmlFor="matrix-name"
-                value={t("matrixForm.matrixName")}
+                value={t("matrixForm.legislationsName")}
                 className="text-lg md:text-xl font-semibold"
               />
               <TextInput
@@ -259,16 +259,16 @@ export default function MatrixForm({ onClose }) {
         {isPopupVisible && (
           <div style={popupStyles}>
             <div style={popupContentStyles}>
-            <p>{t("matrixForm.alert")}</p>
+              <p>{t("matrixForm.alert")}</p>
               <button
-                    onClick={() => {
-                      setIsPopupVisible(false);
-                      navigation(-1);
-                    }}
-                    className="text-red-600"
-                  >
-                    {t("text.close")}
-                  </button>
+                onClick={() => {
+                  setIsPopupVisible(false);
+                  navigation(-1);
+                }}
+                className="text-red-600"
+              >
+                {t("text.close")}
+              </button>
             </div>
           </div>
         )}

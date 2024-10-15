@@ -50,7 +50,6 @@ export default function App() {
     <Routes>
       {isLoggedIn ? (
         <>
-          
           <Route path="/" element={<Home />} />
           <Route path="/userinfo" element={<UserInfo />} />
           <Route path="/users" element={<Users />} />
@@ -59,7 +58,7 @@ export default function App() {
           <Route path="/MatrixInfo" element={<MatrixInfo />} />
           <Route path="/userProxy" element={<UerProxy />} />
           <Route path="/subjectInfo" element={<SubjectInfo />} />
-          <Route path="/AdminSubjectInfo" element={<AdminSubjectInfo  />} />
+          <Route path="/AdminSubjectInfo" element={<AdminSubjectInfo />} />
           <Route path="/admin-subjects" element={<SubjectsList />} />
           <Route path="/editproxy" element={<EditProxyrForm />} />
           <Route path="/acc" element={<AddAccounts />} />
@@ -72,13 +71,11 @@ export default function App() {
           <Route path="/AdminUserCard" element={<AdminUserCard />} />
           <Route path="/AdminMtrixInfo" element={<AdminMatrixInfo />} />
 
-
           <Route path="/edit-Theme" element={<EditTheme />} />
           <Route path="/AdminUsers" element={<AdminUsers />} />
           <Route path="/MatrixList" element={<MatrixList />} />
           <Route path="/MatrixEditForm" element={<MatrixEditForm />} />
           <Route path="/MatrixForm" element={<MatrixForm />} />
-        
         </>
       ) : (
         <Route path="/login" element={<Form />} />

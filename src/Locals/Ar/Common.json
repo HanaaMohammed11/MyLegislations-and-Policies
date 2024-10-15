@@ -3,7 +3,7 @@
     "DashBoard": "لوحة التحكم",
     "Employees": "الموظفين",
     "Articles": "المواد",
-    "Matrices": "المصفوفات",
+    "Matrices": "التشريعات",
     "masfofa": "مصفوفتي",
     "home": "الرئيسية",
     "download": "طباعة",
@@ -92,22 +92,22 @@
     "searchByLabel": "بحث عن طريق",
     "details": "التفاصيل"
   },
-  "matrixinfo": {
-    "name": "اسم المصفوفة :",
+  "legislationsinfo": {
+    "name": "اسم التشريع :",
     "releaseDate": "تاريخ الإصدار :",
     "updateDate": "تاريخ التعديل :",
     "publisher": "الجهة التي أصدرتها :",
     "introduction": "مقدمة :",
     "definitionsHeader": "التعريفات :",
     "definitions": "التعريفات :",
-    "permissions": "الصلاحيات التابعة لها :",
+    "permissions": "المواد التابعة لها :",
     "subjectTitle": "عنوان المادة :",
     "noRelatedSubjects": "لا توجد مواد",
     "notes": "ملاحظات :"
   },
   "sidebar": {
-    "dashboard": "المصفوفات",
-    "permissions": "المواد",
+    "Legislations": "التشريعات",
+    "Policies": "المواد",
     "employees": "الموظفين",
     "editAppearance": "تعديل المظهر",
     "addUser": "اضافة مستخدم"
@@ -169,12 +169,12 @@
   "matrixCardDashboard": {
     "update": "تعديل",
     "delete": "حذف",
-    "noMatrix": "لا يوجد مصفوفات"
+    "noMatrix": "لا يوجد تشريعات"
   },
-  "matrixEditForm": {
-    "updateMatrix": "تعديل المصفوفة",
+  "legislationEditForm": {
+    "updateLegislation": "تعديل التشريع",
     "companyName": "الجهة المُنشئة",
-    "matrixName": "اسم المصفوفة",
+    "legislationName": "اسم التشريع",
     "updateDate": "تاريخ التعديل",
     "releaseDate": "تاريخ الإصدار",
     "Introduction": "المقدمة",
@@ -187,9 +187,9 @@
   },
   "matrixForm": {
     "alert": "تم حفظ البيانات بنجاح",
-    "addNewMatrix": "إضافة مصفوفة جديدة",
+    "addNewLegislations": "إضافة تشريع جديد",
     "companyName": "الجهة المُنشئة",
-    "matrixName": "اسم المصفوفة",
+    "legislationsName": "اسم التشريع",
     "updateDate": "تاريخ التعديل",
     "releaseDate": "تاريخ الإصدار",
     "Introduction": "المقدمة",
@@ -221,7 +221,7 @@
     "single": "منفردين",
     "grouped": "مجتمعين",
     "negotiationLimit": "حدود التفاوض",
-    "relatedMatrix": "المصفوفات التابعة لها",
+    "relatedLegislations": "التشريعات التابعة لها",
     "subjectNotes": "الملاحظات",
     "chooseEmp": "اختيار موظف",
     "save": "حفظ",
