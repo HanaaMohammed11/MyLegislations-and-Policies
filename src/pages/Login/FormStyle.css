@@ -1,0 +1,70 @@
+/* FormStyle.css */
+
+/* Make video fill the background */
+/* .background-video {
+    position: fixed;
+
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1; 
+    object-fit: cover; 
+} */
+
+/* Form container styling */
+.form {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.767)), url("/form.jpeg");
+    background-size: cover;
+    background-position: center;
+}
+
+.form-container {
+    position: relative;
+    /* width: 100%; */
+    height: calc(100vh - 94px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form-overlay {
+    position: relative;
+    z-index: 1;
+    /* Keeps form above the video */
+    background-color: rgba(165, 165, 165, 0.877);
+    /* Semi-transparent background for contrast */
+    border-radius: 10px;
+    /* padding: 20px; */
+}
+
+/* Loader animation */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

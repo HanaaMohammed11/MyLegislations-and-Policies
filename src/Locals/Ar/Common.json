@@ -1,0 +1,248 @@
+{
+  "text": {
+    "DashBoard": "لوحة التحكم",
+    "Employees": "الموظفين",
+    "Articles": "المواد",
+    "Matrices": "المصفوفات",
+    "masfofa": "مصفوفتي",
+    "home": "الرئيسية",
+    "download": "طباعة",
+    "back": "العودة",
+    "close": "اغلاق"
+  },
+  "login": {
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "loginButton": "تسجيل",
+    "invalidEmail": "بريد إلكتروني غير صالح",
+    "requiredEmail": "البريد الإلكتروني مطلوب",
+    "invalidPassword": "يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل",
+    "requiredPassword": "كلمة المرور مطلوبة",
+    "loginError": "فشل تسجيل الدخول: "
+  },
+  "logout": {
+    "Logout": "تسجيل الخروج"
+  },
+  "EmpCard": {
+    "details": "التفاصيل",
+    "noEmp": "لا يوجد موظفين"
+  },
+  "search": {
+    "searchEmployees": "بحث  "
+  },
+  "employees": {
+    "title": "الموظفين"
+  },
+  "job": {
+    "jobTitle": "المسمى الوظيفي",
+    "employeeId": "الرقم الوظيفي",
+    "phoneNumber": "الهاتف"
+  },
+  "userInfo": {
+    "employeeName": "اسم الموظف : ",
+    "employeeId": "الرقم الوظيفي: ",
+    "hireDate": "تاريخ التعيين  : ",
+    "jobGrade": "الدرجة الوظيفية  : ",
+    "department": "الإدارة/القسم : ",
+    "officeNumber": "رقم المكتب  : ",
+    "jobTitle": "المسمى الوظيفي  : ",
+    "phoneNumber": "رقم الهاتف  : ",
+    "email": " البريد الالكتروني :",
+    "currentOffice": "المكتب الحالي  : ",
+    "proxyEmployeeTitle": "الموظف الذي ينوب عنه : ",
+    "proxyEmployeeName": "اسم الموظف البديل  : ",
+    "proxyPhoneNumber": "رقم الهاتف   : ",
+    "noProxyEmployees": "لا يوجد موظفين  لهذا المستخدم.",
+    "permissionsTitle": "الصلاحيات  : ",
+    "subjectTitle": "عنوان المادة  : ",
+    "noRelatedSubjects": "لا توجد مواد",
+    "edituser": "تعديل",
+    "delete": "حذف"
+  },
+  "articels": {
+    "title": "المواد",
+    "searchPlaceholder": "بحث",
+    "noResults": "لم يتم العثور على مواد.",
+    "details": "التفاصيل"
+  },
+  "subjectInfo": {
+    "subjectNumber": "رقم المادة :",
+    "subjectTitle": "موضوع المادة :",
+    "subjectContent": "نص المادة :",
+    "authorizedEmployee": "الموظف المفوض :",
+    "sharedEmployees": "الموظفين المشتركين  :",
+    "noRelatedSubjects": "لا توجد مواد",
+    "negotiationLimit": "حدود التفاوض :",
+    "notes": "ملاحظات :",
+    "relatedMatrix": "",
+    "action": "اجراء"
+  },
+  "matrix": {
+    "title": "المصفوفات",
+    "selectSearchCriterion": "اختر معيار البحث",
+    "searchByMatrix": "البحث عن طريق المصفوفة",
+    "searchByCompany": "البحث عن طريق الجهة",
+    "searchBySubjects": "البحث عن طريق الصلاحيات",
+    "searchByEmployee": "البحث عن طريق اسم الموظف",
+    "searchByJobTitle": "البحث عن طريق المسمى الوظيفي",
+    "searchBySubjectContent": "البحث عن طريق نص المادة",
+    "searchPlaceholder": "بحث عن مصفوفة",
+    "searchButton": "بحث",
+    "clearFilters": "مسح الفلاتر",
+    "searchByLabel": "بحث عن طريق",
+    "details": "التفاصيل"
+  },
+  "matrixinfo": {
+    "name": "اسم المصفوفة :",
+    "releaseDate": "تاريخ الإصدار :",
+    "updateDate": "تاريخ التعديل :",
+    "publisher": "الجهة التي أصدرتها :",
+    "introduction": "مقدمة :",
+    "definitionsHeader": "التعريفات :",
+    "definitions": "التعريفات :",
+    "permissions": "الصلاحيات التابعة لها :",
+    "subjectTitle": "عنوان المادة :",
+    "noRelatedSubjects": "لا توجد مواد",
+    "notes": "ملاحظات :"
+  },
+  "sidebar": {
+    "dashboard": "المصفوفات",
+    "permissions": "المواد",
+    "employees": "الموظفين",
+    "editAppearance": "تعديل المظهر",
+    "addUser": "اضافة مستخدم"
+  },
+  "edittheme": {
+    "topBanner": "صورة البانر العلوي",
+    "bottomBanner": "صورة البانر السفلي",
+    "logo": "صورة الشعار",
+    "upload": "اضغط لتحميل الصور",
+    "save": "حفظ",
+    "success": "تم الحفظ بنجاح",
+    "error": "حدث خطأ أثناء الحفظ، يرجى المحاولة مرة أخرى.",
+    "homeElements": "عناصر الصفحة الرئيسية"
+  },
+  "addaccount": {
+    "createAccount": "إنشاء حساب مستخدم",
+    "searchPlaceholder": "بحث",
+    "firstName": "الاسم ",
+    "lastName": "الاسم الأخير",
+    "email": "البريد الإلكتروني للمستخدم",
+    "password": "الرمز السري",
+    "registering": "جاري التسجيل...",
+    "register": "تسجيل",
+    "update": "تعديل",
+    "accType": "نوع الحساب",
+    "emp": "موظف",
+    "admin": "أدمن",
+    "superAdmin": "سوبر أدمن",
+    "noUsers": "لا يوجد مستخدمين"
+  },
+  "userform": {
+    "empimg": "صورة الموظف",
+    "adduser": "اضافة موظف",
+    "employeeName": "اسم الموظف",
+    "employeeId": "الرقم الوظيفي",
+    "hireDate": "تاريخ التعيين",
+    "jobGrade": "الدرجة الوظيفية",
+    "department": "الادارة (الدائرة - القسم)",
+    "officeNumber": "رقم المكتب",
+    "jobTitle": "المسمى الوظيفي",
+    "phoneNumber": "رقم الهاتف",
+    "currentOffice": "المبني والمكتب المتواجد به",
+    "email": "البريد الالكتروني",
+    "proxyEmployeeName": "اسم الموظف البديل",
+    "proxyEmployeeId": "الرقم الوظيفي",
+    "proxyHireDate": "تاريخ التعيين",
+    "proxyJobGrade": "الدرجة الوظيفية",
+    "proxyDepartment": "الادارة (الدائرة - القسم)",
+    "proxyOfficeNumber": "رقم المكتب",
+    "proxyJobTitle": "المسمى الوظيفي",
+    "proxyPhoneNumber": "رقم الهاتف",
+    "proxyCurrentOffice": "المبني والمكتب المتواجد به",
+    "proxyEmail": "البريد الالكتروني",
+    "title": "الموظف الذي ينوب عنه",
+    "appproxy": "اضافة موظف بديل",
+    "save": "حفظ",
+    "edittitle": "تعديل بيانات الموظف"
+  },
+  "matrixCardDashboard": {
+    "update": "تعديل",
+    "delete": "حذف",
+    "noMatrix": "لا يوجد مصفوفات"
+  },
+  "matrixEditForm": {
+    "updateMatrix": "تعديل المصفوفة",
+    "companyName": "الجهة المُنشئة",
+    "matrixName": "اسم المصفوفة",
+    "updateDate": "تاريخ التعديل",
+    "releaseDate": "تاريخ الإصدار",
+    "Introduction": "المقدمة",
+    "notes": "ملاحظات",
+    "definitions": "التعريفات",
+    "term": "المصطلح",
+    "interpretation": "التفسير",
+    "addNewDef": "إضافة تعريف جديد",
+    "save": "حفظ"
+  },
+  "matrixForm": {
+    "alert": "تم حفظ البيانات بنجاح",
+    "addNewMatrix": "إضافة مصفوفة جديدة",
+    "companyName": "الجهة المُنشئة",
+    "matrixName": "اسم المصفوفة",
+    "updateDate": "تاريخ التعديل",
+    "releaseDate": "تاريخ الإصدار",
+    "Introduction": "المقدمة",
+    "notes": "ملاحظات",
+    "definitions": "التعريفات",
+    "term": "المصطلح",
+    "interpretation": "التفسير",
+    "addNewDef": "إضافة تعريف جديد",
+    "save": "حفظ",
+    "search": "بحث  "
+  },
+  "subjectCardDashboard": {
+    "subjectNum": "رقم المادة",
+    "update": "تعديل",
+    "delete": "حذف",
+    "nosubjects": "لا توجد مواد"
+  },
+  "subjectEditForm": {
+    "editSubject": "تعديل المادة",
+    "addSubject": "إضافة مادة جديدة",
+    "search": "بحث عن مادة",
+    "field": "الحقل",
+    "subjectNum": "رقم المادة",
+    "subjectTitle": "موضوع المادة",
+    "subjectContent": "نص المادة",
+    "hiredEmp": "الموظف المفوض",
+    "notes": "ملاحظات",
+    "sharedEmployees": "الموظفين المشتركين  ",
+    "single": "منفردين",
+    "grouped": "مجتمعين",
+    "negotiationLimit": "حدود التفاوض",
+    "relatedMatrix": "المصفوفات التابعة لها",
+    "subjectNotes": "الملاحظات",
+    "chooseEmp": "اختيار موظف",
+    "save": "حفظ",
+    "chooseRole": "الحالة",
+    "delete": "حذف",
+    "addNewEmp": "اضافة موظف مشترك"
+  },
+  "validation": {
+    "firstName": {
+      "required": "الاسم الأول مطلوب"
+    },
+    "lastName": {
+      "required": "الاسم الأخير مطلوب"
+    },
+    "email": {
+      "invalid": "البريد الإلكتروني غير صحيح",
+      "required": "البريد الإلكتروني مطلوب"
+    },
+    "password": {
+      "minLength": "يجب أن يكون الرمز السري 6 أحرف على الأقل",
+      "required": "الرمز السري مطلوب"
+    }
+  }
+}

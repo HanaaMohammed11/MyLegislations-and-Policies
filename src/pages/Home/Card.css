@@ -1,0 +1,93 @@
+.aux-button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    box-shadow: #535353 2px 2px 9px;
+    border-radius: 50%;
+    background-color: #CDA03D; 
+    color: white;
+    font-size: 2000px;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden; 
+    width: 190px;
+    margin-top: 10%;
+    transition: color 0.4s ease;
+}
+
+.aux-button .aux-text {
+    position: relative;
+    z-index: 2;
+}
+
+.aux-button::before {
+    content: '';
+    position: absolute;
+
+    background-color: #000000; 
+    transition: width 0.5s ease, height 1s ease, top 0.5s ease, left 0.5s ease;
+    border-radius: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+}
+
+.aux-button:hover::before {
+    width: 300%;
+    height: 300%;
+    top: 50%;
+    left: 50%;
+}
+
+.aux-button:hover {
+    color: white; 
+}
+
+.aux-medium {
+    font-size: 25px;
+    padding: 4px 24px;
+}
+
+.aux-curve {
+    border-radius: 200px;
+}
+
+.aux-none {
+    border: none;
+}
+
+.aux-uppercase {
+    text-transform: uppercase;
+}
+
+.aux-gold {
+    background-color: #CDA03D; 
+}
+.rotating-image {
+    width: 100px; 
+    height: 100px; 
+    animation: rotate 3s linear infinite; 
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg); 
+    }
+}
+
+@keyframes slideUp {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  

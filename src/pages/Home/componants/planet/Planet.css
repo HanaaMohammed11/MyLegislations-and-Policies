@@ -1,0 +1,24 @@
+
+.planet-container {
+    display: flex;
+    top: 0;
+    left: 60;
+ margin-top: -5%;
+ 
+  }
+  
+  .planet {
+    width: 168px;
+    height: 233px;
+    animation: spin 5s linear infinite; 
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  

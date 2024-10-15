@@ -1,0 +1,79 @@
+.add-btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: #535353 2px 2px 9px;
+    background-color: #CDA03D; 
+    color: white;
+  
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden; 
+
+    transition: color 0.4s ease;
+}
+
+.add-btn .add-text {
+    position: relative;
+    z-index: 2;
+}
+
+.add-btn::before {
+    content: '';
+    position: absolute;
+
+    background-color: #000000; 
+    transition: width 0.5s ease, height 1s ease, top 0.5s ease, left 0.5s ease;
+    border-radius: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+}
+
+.add-btn:hover::before {
+  
+    top: 50%;
+    left: 50%;
+}
+
+.add-btn:hover {
+    color: white; 
+}
+
+.add-m {
+    font-size: 30px;
+    padding: 4px 24px;
+}
+
+.add-c {
+    border-radius: 200px;
+}
+
+.add- {
+    border: none;
+}
+
+.add-uppercase {
+    text-transform: uppercase;
+}
+
+.add-g {
+    background-color: #CDA03D; 
+}
+.rotating-image {
+    width: 100px; 
+    height: 100px; 
+    animation: rotate 3s linear infinite; 
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg); 
+    }
+}
