@@ -136,13 +136,21 @@ export default function AdminMatrixInfo() {
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
+                        {t("legislationsinfo.category")}
+                      </td>
+                      <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
+                        {legislation.category}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 font-bold">
                         {t("legislationsinfo.publisher")}
                       </td>
                       <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
                         {legislation.companyName}
                       </td>
                     </tr>
-                    <tr>
+                    <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
                         {t("legislationsinfo.introduction")}
                       </td>
@@ -150,7 +158,7 @@ export default function AdminMatrixInfo() {
                         {legislation.intro}
                       </td>
                     </tr>
-                    <tr className="bg-[#fce8ca]">
+                    <tr>
                       <td className="px-4 py-2 font-bold">
                         {t("legislationsinfo.definitions")}
                       </td>

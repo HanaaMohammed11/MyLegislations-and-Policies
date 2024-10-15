@@ -13,6 +13,7 @@ import {
 import db from "../../../config/firebase";
 import { useTranslation } from "react-i18next";
 import Loader from "../../Login/loader";
+import { Checkbox } from "flowbite-react"; // Import Flowbite Checkbox
 
 export default function MatrixLists() {
   const { t, i18n } = useTranslation("global");
@@ -23,8 +24,19 @@ export default function MatrixLists() {
   const [searchBy, setSearchBy] = useState("");
   const [filteredMatrices, setFilteredMatrices] = useState([]);
   const [matrix, setMatrix] = useState([]);
-  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategories, setSelectedCategories] = useState([]); // Category selection state
+
+  // Define categories for filtering
+  const categories = [
+    "قانون",
+    "النظام",
+    "اللائحة التنفيذية",
+    "لائحة",
+    "سياسة",
+    "قرارات",
+    "تعليمات",
+  ];
 
   useEffect(() => {
     const qmatrix = query(
@@ -47,7 +59,6 @@ export default function MatrixLists() {
 
   const searchSubjectContent = async (searchQuery) => {
     try {
-      // Fetch all subjects
       const subjectQuery = query(collection(db, "subjects"));
       const subjectSnapshot = await getDocs(subjectQuery);
 
@@ -56,7 +67,6 @@ export default function MatrixLists() {
 
       subjectSnapshot.forEach((doc) => {
         const subjectData = doc.data();
-        // Compare subjectContent in a case-insensitive manner
         if (
           subjectData.subjectContent
             .toLowerCase()
@@ -66,7 +76,7 @@ export default function MatrixLists() {
         }
       });
 
-      console.log("Subjects fetched:", subjectTitles); // Log the fetched subjects
+      console.log("Subjects fetched:", subjectTitles);
       return subjectTitles;
     } catch (error) {
       console.error("Error fetching subjects:", error);
@@ -75,74 +85,28 @@ export default function MatrixLists() {
   };
 
   const handleSearch = async () => {
-    if (searchBy === "MainEmployees" && searchQuery) {
-      const matchedEmployees = employees.filter((emp) =>
-        emp.employeeName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+    let results = [...matrix];
 
-      if (matchedEmployees.length > 0) {
-        const results = matrix.filter((matrixItem) => {
-          const mainEmployees = matrixItem.MainEmployees || [];
-          return (
-            Array.isArray(mainEmployees) &&
-            matchedEmployees.some((emp) =>
-              mainEmployees.includes(emp.employeeId)
-            )
-          );
-        });
-
-        setFilteredMatrices(results);
-      } else {
-        setFilteredMatrices([]);
-      }
-    } else if (searchBy === "jobTitle" && searchQuery) {
-      const matchedEmployeesByJobTitle = employees.filter((emp) =>
-        emp.jobTitle.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-
-      if (matchedEmployeesByJobTitle.length > 0) {
-        const results = matrix.filter((matrixItem) => {
-          const mainEmployees = matrixItem.MainEmployees || [];
-          return (
-            Array.isArray(mainEmployees) &&
-            matchedEmployeesByJobTitle.some((emp) =>
-              mainEmployees.includes(emp.employeeId)
-            )
-          );
-        });
-
-        setFilteredMatrices(results);
-      } else {
-        setFilteredMatrices([]);
-      }
-    } else if (searchBy === "subjectContent" && searchQuery) {
+    if (searchBy === "subjectContent" && searchQuery) {
       try {
-        const subjectTitles = await searchSubjectContent(searchQuery); // Get matching subjectTitles
-
+        const subjectTitles = await searchSubjectContent(searchQuery);
         if (subjectTitles.length > 0) {
-          console.log(`Matching subjectTitles: ${subjectTitles}`);
-
-          const results = matrix.filter((matrixItem) => {
-            const matrixSubjects = matrixItem.subjects || []; // Ensure subjects field exists
-            console.log(`Matrix item subjects: ${matrixSubjects}`);
-
-            // Check if any of the matrix subjects match the fetched subject titles
+          results = results.filter((matrixItem) => {
+            const matrixSubjects = matrixItem.subjects || [];
             return matrixSubjects.some((subjectTitle) =>
               subjectTitles.includes(subjectTitle)
             );
           });
-
-          console.log("Filtered matrices:", results); // Add this to check the filtered matrices
           setFilteredMatrices(results);
         } else {
-          setFilteredMatrices([]); // No matches found
+          setFilteredMatrices([]);
         }
       } catch (error) {
         console.error("Error fetching subjects:", error);
-        setFilteredMatrices([]); // Handle error by clearing results
+        setFilteredMatrices([]);
       }
     } else if (searchBy && searchQuery) {
-      const results = matrix.filter((matrixItem) => {
+      results = results.filter((matrixItem) => {
         const value = matrixItem[searchBy];
 
         if (Array.isArray(value)) {
@@ -154,11 +118,10 @@ export default function MatrixLists() {
         }
         return false;
       });
-
-      setFilteredMatrices(results);
     }
-  };
 
+    setFilteredMatrices(results);
+  };
   const handleSearchByChange = (e) => {
     setSearchBy(e.target.value);
   };
@@ -166,12 +129,50 @@ export default function MatrixLists() {
   const handleClearFilters = () => {
     setSearchQuery("");
     setSearchBy("");
-    setFilteredMatrices(matrix);
+    setSelectedCategories([]); // Clear category selection
+    setFilteredMatrices(matrix); // Reset matrices to the full list
+  };
+
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+
+    // Update selected categories based on checkbox interaction
+    const updatedCategories = checked
+      ? [...selectedCategories, value]
+      : selectedCategories.filter((category) => category !== value);
+
+    setSelectedCategories(updatedCategories);
+
+    // Immediately apply filtering based on the updated category selection
+    filterByCategory(updatedCategories);
+  };
+
+  const filterByCategory = (updatedCategories) => {
+    let results = [...matrix];
+
+    // Filter by selected categories
+    if (updatedCategories.length > 0) {
+      results = results.filter((matrixItem) => {
+        // Assuming the category is a string
+        if (typeof matrixItem.category === "string") {
+          return updatedCategories.includes(matrixItem.category);
+        }
+        // If it's an array, make sure to check each item in the array
+        if (Array.isArray(matrixItem.category)) {
+          return matrixItem.category.some((cat) =>
+            updatedCategories.includes(cat)
+          );
+        }
+        return false; // Default case
+      });
+    }
+
+    setFilteredMatrices(results); // Update the filtered matrices
   };
 
   return (
     <div
-      className="flex flex-col  "
+      className="flex flex-col"
       style={{ paddingTop: "270px", paddingBottom: "44px" }}
     >
       <div className="relative flex justify-center items-center text-center">
@@ -188,13 +189,10 @@ export default function MatrixLists() {
         >
           <option value="" disabled>
             {t("matrix.selectSearchCriterion")}
-            {t("matrix.selectSearchCriterion")}
           </option>
           <option value="title">{t("matrix.searchByMatrix")}</option>
           <option value="companyName">{t("matrix.searchByCompany")}</option>
           <option value="subjects">{t("matrix.searchBySubjects")}</option>
-          <option value="MainEmployees">{t("matrix.searchByEmployee")}</option>
-          <option value="jobTitle">{t("matrix.searchByJobTitle")}</option>
           <option value="subjectContent">
             {t("matrix.searchBySubjectContent")}
           </option>
@@ -223,8 +221,24 @@ export default function MatrixLists() {
         </button>
       </div>
 
+      {/* Category filter section */}
+      <div className="flex justify-center mt-4">
+        {categories.map((category, index) => (
+          <div key={index} className="mx-2">
+            <label className="flex items-center space-x-2">
+              <Checkbox
+                value={category}
+                checked={selectedCategories.includes(category)}
+                onChange={handleCategoryChange}
+              />
+              <span>{category}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+
       {loading ? (
-        <div className="flex justify-center items-center  m-44">
+        <div className="flex justify-center items-center m-44">
           <Loader />
         </div>
       ) : (

@@ -99,6 +99,7 @@
     "name": "Legislation Name :",
     "releaseDate": "Release Date :",
     "updateDate": "Amendment Date :",
+    "category": "Category",
     "publisher": "Publishing Entity :",
     "introduction": "Introduction :",
     "definitionsHeader": "Definitions Used in the Matrix",
@@ -189,13 +190,14 @@
     "addNewDef": "Add NewDef",
     "save": "save"
   },
-  "matrixForm": {
+  "legislationForm": {
     "alert": "Data has been save successfully",
     "addNewLegislations": "Add New Legislations",
     "companyName": "Company name",
     "legislationsName": "Legislations Name",
     "updateDate": "Amendment Date",
     "releaseDate": "Release Date",
+    "category": "Category",
     "Introduction": "Introduction",
     "notes": "Notes",
     "definitions": "Definitions",

@@ -31,7 +31,7 @@ export default function MatrixList() {
             onClick={handleClick}
           >
             <span className="whitespace-nowrap flex items-center space-x-2 btn-text">
-              {t("matrixForm.addNewLegislations")}
+              {t("legislationForm.addNewLegislations")}
             </span>
           </div>
 
@@ -40,7 +40,7 @@ export default function MatrixList() {
             <input
               type="text"
               className="rounded-full text-right h-9 px-4"
-              placeholder={t("matrixForm.search")}
+              placeholder={t("legislationForm.search")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />

@@ -96,6 +96,7 @@
     "name": "اسم التشريع :",
     "releaseDate": "تاريخ الإصدار :",
     "updateDate": "تاريخ التعديل :",
+    "category": "التصنيف",
     "publisher": "الجهة التي أصدرتها :",
     "introduction": "مقدمة :",
     "definitionsHeader": "التعريفات :",
@@ -185,13 +186,14 @@
     "addNewDef": "إضافة تعريف جديد",
     "save": "حفظ"
   },
-  "matrixForm": {
+  "legislationForm": {
     "alert": "تم حفظ البيانات بنجاح",
     "addNewLegislations": "إضافة تشريع جديد",
     "companyName": "الجهة المُنشئة",
     "legislationsName": "اسم التشريع",
     "updateDate": "تاريخ التعديل",
     "releaseDate": "تاريخ الإصدار",
+    "category": "التصنيف",
     "Introduction": "المقدمة",
     "notes": "ملاحظات",
     "definitions": "التعريفات",

@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { Button, Label, Textarea, TextInput } from "flowbite-react";
+import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import db from "../../../../config/firebase";
 import { addDoc, collection } from "firebase/firestore";
@@ -17,6 +18,7 @@ export default function MatrixForm({ onClose }) {
   const [title, setTitle] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [updateDate, setUpdateDate] = useState("");
+  const [category, setCategory] = useState("");
   const [intro, setIntro] = useState("");
   const [notes, setNotes] = useState("");
   const { t, i18n } = useTranslation("global");
@@ -31,6 +33,7 @@ export default function MatrixForm({ onClose }) {
       companyName: companyName,
       releaseDate: releaseDate,
       updateDate: updateDate,
+      category: category,
       intro: intro,
       notes: notes,
       definitions: definitions.map((def) => ({
@@ -65,7 +68,7 @@ export default function MatrixForm({ onClose }) {
           dir={direction}
           className=" text-2xl md:text-3xl font-semibold text-white bg-[#CDA03D] p-4 md:p-5 rounded-t-xl"
         >
-          {t("matrixForm.addNewLegislations")}
+          {t("legislationForm.addNewLegislations")}
         </h1>
 
         {/* قسم تفاصيل المصفوفة */}
@@ -78,7 +81,7 @@ export default function MatrixForm({ onClose }) {
             <div className="xs:col-span-2 md:col-span-1 w-full">
               <Label
                 htmlFor="issuer"
-                value={t("matrixForm.companyName")}
+                value={t("legislationForm.companyName")}
                 className="text-lg md:text-xl font-semibold"
               />
               <TextInput
@@ -95,7 +98,7 @@ export default function MatrixForm({ onClose }) {
             <div className="xs:col-span-2 md:col-span-1 w-full">
               <Label
                 htmlFor="matrix-name"
-                value={t("matrixForm.legislationsName")}
+                value={t("legislationForm.legislationsName")}
                 className="text-lg md:text-xl font-semibold"
               />
               <TextInput
@@ -112,7 +115,7 @@ export default function MatrixForm({ onClose }) {
             <div className="xs:col-span-2 md:col-span-1 w-full">
               <Label
                 htmlFor="modification-date"
-                value={t("matrixForm.updateDate")}
+                value={t("legislationForm.updateDate")}
                 className="text-lg md:text-xl font-semibold"
               />
               <TextInput
@@ -128,7 +131,7 @@ export default function MatrixForm({ onClose }) {
             <div className="xs:col-span-2 md:col-span-1 w-full">
               <Label
                 htmlFor="release-date"
-                value={t("matrixForm.releaseDate")}
+                value={t("legislationForm.releaseDate")}
                 className="text-lg md:text-xl font-semibold"
               />
               <TextInput
@@ -140,11 +143,36 @@ export default function MatrixForm({ onClose }) {
               />
             </div>
 
+            {/* تنصيف التشريع */}
+            <div className="col-span-2 w-full">
+              <Label
+                htmlFor="category"
+                value={t("legislationForm.category")}
+                className="text-lg md:text-xl font-semibold"
+              />
+              <Select
+                id="category"
+                className="mt-2 w-full"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option disabled value="">
+                  اختر التصنيف
+                </option>
+                <option value="قانون">قانون</option>
+                <option value="النظام">النظام </option>
+                <option value="اللائحة التنفيذية">اللائحة التنفيذية </option>
+                <option value="لائحة">لائحة </option>
+                <option value="سياسة">سياسة </option>
+                <option value="قرارات ">قرارات </option>
+                <option value="تعليمات">تعليمات </option>
+              </Select>
+            </div>
             {/* المقدمة */}
             <div className="col-span-2 w-full">
               <Label
                 htmlFor="introduction"
-                value={t("matrixForm.Introduction")}
+                value={t("legislationForm.Introduction")}
                 className="text-lg md:text-xl font-semibold"
               />
               <Textarea
@@ -162,7 +190,7 @@ export default function MatrixForm({ onClose }) {
             <div className="col-span-2 w-full">
               <Label
                 htmlFor="notes"
-                value={t("matrixForm.notes")}
+                value={t("legislationForm.notes")}
                 className="text-lg md:text-xl font-semibold"
               />
               <Textarea
@@ -183,7 +211,7 @@ export default function MatrixForm({ onClose }) {
           dir={direction}
           className=" text-2xl md:text-2xl font-semibold text-white bg-[#CDA03D] p-4 md:p-5 rounded-t-xl mt-6 md:mt-9"
         >
-          {t("matrixForm.definitions")}
+          {t("legislationForm.definitions")}
         </h2>
 
         <div className="bg-white p-4 md:p-8 rounded-lg shadow-md">
@@ -197,7 +225,7 @@ export default function MatrixForm({ onClose }) {
               <div className="col-span-2 w-full">
                 <Label
                   htmlFor={`term-${index}`}
-                  value={t("matrixForm.term")}
+                  value={t("legislationForm.term")}
                   className="text-lg md:text-xl font-semibold"
                 />
                 <TextInput
@@ -216,7 +244,7 @@ export default function MatrixForm({ onClose }) {
               <div className="col-span-2 w-full">
                 <Label
                   htmlFor={`interpretation-${index}`}
-                  value={t("matrixForm.interpretation")}
+                  value={t("legislationForm.interpretation")}
                   className="text-lg md:text-xl font-semibold"
                 />
                 <Textarea
@@ -240,7 +268,7 @@ export default function MatrixForm({ onClose }) {
           {/* زر لإضافة تعريف جديد */}
           <div className="mt-4 " dir={direction}>
             <Button onClick={handleAddDefinition} className="bg-gray-700">
-              {t("matrixForm.addNewDef")}
+              {t("legislationForm.addNewDef")}
             </Button>
           </div>
         </div>
@@ -252,14 +280,14 @@ export default function MatrixForm({ onClose }) {
             className={`aux-button aux-curve aux-gold flex items-center justify-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300 `}
           >
             <span className="flex items-center space-x-4 aux-text">
-              {t("matrixForm.save")}
+              {t("legislationForm.save")}
             </span>
           </div>
         </div>
         {isPopupVisible && (
           <div style={popupStyles}>
             <div style={popupContentStyles}>
-              <p>{t("matrixForm.alert")}</p>
+              <p>{t("legislationForm.alert")}</p>
               <button
                 onClick={() => {
                   setIsPopupVisible(false);

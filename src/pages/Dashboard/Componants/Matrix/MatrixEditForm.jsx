@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, Label, TextInput, Textarea } from "flowbite-react";
+import { Button, Label, Select, TextInput, Textarea } from "flowbite-react";
 import { doc, updateDoc } from "firebase/firestore";
 import db from "../../../../config/firebase";
 import { useTranslation } from "react-i18next";
@@ -23,6 +23,7 @@ export default function MatrixEditForm() {
     companyName: matrix.companyName || "",
     updateDate: matrix.updateDate || "",
     releaseDate: matrix.releaseDate || "",
+    category: matrix.category || "",
     intro: matrix.intro || "",
     notes: matrix.notes || "",
     definitions: matrix.definitions || [{ term: "", interpretation: "" }],
@@ -101,6 +102,30 @@ export default function MatrixEditForm() {
                   />
                 </div>
               ))}
+              <div className="col-span-2 w-full">
+                <Label
+                  htmlFor="category"
+                  value={t("legislationForm.category")}
+                  className="text-lg md:text-xl font-semibold"
+                />
+                <Select
+                  id="category"
+                  className="mt-2 w-full"
+                  value={matrixData.category}
+                  onChange={handleInputChange}
+                >
+                  <option disabled value="">
+                    اختر التصنيف
+                  </option>
+                  <option value="قانون">قانون</option>
+                  <option value="النظام">النظام </option>
+                  <option value="اللائحة التنفيذية">اللائحة التنفيذية</option>
+                  <option value="لائحة">لائحة </option>
+                  <option value="سياسة">سياسة </option>
+                  <option value="قرارات">قرارات </option>
+                  <option value="تعليمات">تعليمات </option>
+                </Select>
+              </div>
               <div className="col-span-2">
                 <Label
                   htmlFor="intro"
