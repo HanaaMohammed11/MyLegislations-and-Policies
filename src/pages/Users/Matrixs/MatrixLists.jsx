@@ -26,8 +26,29 @@ export default function MatrixLists() {
   const [matrix, setMatrix] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState([]); // Category selection state
+  const [user, setUser] = useState("");
 
-  // Define categories for filtering
+  useEffect(() => {
+    const fetchUserAndBanner = async () => {
+      try {
+        const q = query(
+          collection(db, "users"),
+          where("ID", "==", localStorage.getItem("id"))
+        );
+        const querySnapshot = await getDocs(q);
+        const userData = querySnapshot.docs.map((doc) => doc.data());
+        
+        if (userData.length > 0) {
+          setUser(userData[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching user or banner data: ", error);
+      }
+    };
+
+    fetchUserAndBanner();
+  }, []);
+
   const categories = [
     "قانون",
     "النظام",
@@ -86,42 +107,50 @@ export default function MatrixLists() {
 
   const handleSearch = async () => {
     let results = [...matrix];
-
-    if (searchBy === "subjectContent" && searchQuery) {
-      try {
-        const subjectTitles = await searchSubjectContent(searchQuery);
-        if (subjectTitles.length > 0) {
+    
+    if (user.accountType === "employee") {
+      if (searchQuery) {
+        if (searchBy === "subjectContent") {
+          try {
+            const subjectTitles = await searchSubjectContent(searchQuery);
+            if (subjectTitles.length > 0) {
+              results = results.filter((matrixItem) => {
+                const matrixSubjects = matrixItem.subjects || [];
+                return matrixSubjects.some((subjectTitle) =>
+                  subjectTitles.includes(subjectTitle)
+                );
+              });
+            } else {
+              results = [];
+            }
+          } catch (error) {
+            console.error("Error fetching subjects:", error);
+            results = []; 
+          }
+        } else if (searchBy) {
           results = results.filter((matrixItem) => {
-            const matrixSubjects = matrixItem.subjects || [];
-            return matrixSubjects.some((subjectTitle) =>
-              subjectTitles.includes(subjectTitle)
-            );
+            const value = matrixItem[searchBy];
+            if (Array.isArray(value)) {
+              return value.some((item) =>
+                item.toLowerCase().includes(searchQuery.toLowerCase())
+              );
+            } else if (typeof value === "string") {
+              return value.toLowerCase().includes(searchQuery.toLowerCase());
+            }
+            return false;
           });
-          setFilteredMatrices(results);
-        } else {
-          setFilteredMatrices([]);
         }
-      } catch (error) {
-        console.error("Error fetching subjects:", error);
-        setFilteredMatrices([]);
+      } else {
+        results = []; 
       }
-    } else if (searchBy && searchQuery) {
-      results = results.filter((matrixItem) => {
-        const value = matrixItem[searchBy];
+    } else {
 
-        if (Array.isArray(value)) {
-          return value.some((item) =>
-            item.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-        } else if (typeof value === "string") {
-          return value.toLowerCase().includes(searchQuery.toLowerCase());
-        }
-        return false;
-      });
+      results = [...matrix];
     }
 
     setFilteredMatrices(results);
   };
+
   const handleSearchByChange = (e) => {
     setSearchBy(e.target.value);
   };
@@ -129,47 +158,41 @@ export default function MatrixLists() {
   const handleClearFilters = () => {
     setSearchQuery("");
     setSearchBy("");
-    setSelectedCategories([]); // Clear category selection
-    setFilteredMatrices(matrix); // Reset matrices to the full list
+    setSelectedCategories([]);
+    setFilteredMatrices(matrix);
   };
 
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
 
-    // Update selected categories based on checkbox interaction
     const updatedCategories = checked
       ? [...selectedCategories, value]
       : selectedCategories.filter((category) => category !== value);
 
     setSelectedCategories(updatedCategories);
 
-    // Immediately apply filtering based on the updated category selection
     filterByCategory(updatedCategories);
   };
 
   const filterByCategory = (updatedCategories) => {
     let results = [...matrix];
 
-    // Filter by selected categories
     if (updatedCategories.length > 0) {
       results = results.filter((matrixItem) => {
-        // Assuming the category is a string
         if (typeof matrixItem.category === "string") {
           return updatedCategories.includes(matrixItem.category);
         }
-        // If it's an array, make sure to check each item in the array
         if (Array.isArray(matrixItem.category)) {
           return matrixItem.category.some((cat) =>
             updatedCategories.includes(cat)
           );
         }
-        return false; // Default case
+        return false;
       });
     }
 
-    setFilteredMatrices(results); // Update the filtered matrices
+    setFilteredMatrices(results);
   };
-
   return (
     <div
       className="flex flex-col"
@@ -178,10 +201,9 @@ export default function MatrixLists() {
       <div className="relative flex justify-center items-center text-center">
         <Topbanner />
       </div>
-
+  
       {/* Input search section */}
       <div className="search flex xs:flex-col md:flex-row xs:items-center xs:gap-y-4 md:gap-y-0 justify-center mt-9">
-        {/* Select what to search by */}
         <select
           value={searchBy}
           onChange={handleSearchByChange}
@@ -197,7 +219,7 @@ export default function MatrixLists() {
             {t("matrix.searchBySubjectContent")}
           </option>
         </select>
-
+  
         <input
           type="text"
           placeholder={t("matrix.searchButton")}
@@ -220,7 +242,7 @@ export default function MatrixLists() {
           {t("matrix.clearFilters")}
         </button>
       </div>
-
+  
       {/* Category filter section */}
       <div className="flex justify-center mt-4">
         {categories.map((category, index) => (
@@ -236,19 +258,39 @@ export default function MatrixLists() {
           </div>
         ))}
       </div>
-
+  
       {loading ? (
         <div className="flex justify-center items-center m-44">
           <Loader />
         </div>
       ) : (
         <div className="flex-grow">
-          <MatrixTable matrices={filteredMatrices} />
+          {user.accountType === "employee" ? (
+            searchQuery && filteredMatrices.length > 0 ? ( 
+              // عرض نتائج البحث فقط إذا كانت هناك نتائج
+              <MatrixTable matrices={filteredMatrices} />
+            ) : searchQuery ? ( 
+              // عرض رسالة إذا لم يتم العثور على نتائج
+              <div className="flex justify-center items-center m-44">
+                <p>{t("matrix.noSearchResults")}</p>
+              </div>
+            ) : (
+              // عرض رسالة إذا لم يتم إدخال أي استعلام بحث
+              <div className="flex justify-center items-center m-44">
+                <p>{t("matrix.enterSearchQuery")}</p> 
+              </div>
+            )
+          ) : (
+            // عرض جميع الجداول للمستخدمين غير الموظفين
+            <MatrixTable matrices={matrix} />
+          )}
         </div>
       )}
+  
       <div className="mt-auto">
         <Bottombanner />
       </div>
     </div>
   );
+  
 }

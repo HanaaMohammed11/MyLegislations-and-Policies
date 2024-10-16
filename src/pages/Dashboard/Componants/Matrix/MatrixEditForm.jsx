@@ -115,15 +115,14 @@ export default function MatrixEditForm() {
                   onChange={handleInputChange}
                 >
                   <option disabled value="">
-                    اختر التصنيف
+                  {t("legislationForm.choose")}
                   </option>
-                  <option value="قانون">قانون</option>
-                  <option value="النظام">النظام </option>
-                  <option value="اللائحة التنفيذية">اللائحة التنفيذية</option>
-                  <option value="لائحة">لائحة </option>
-                  <option value="سياسة">سياسة </option>
-                  <option value="قرارات">قرارات </option>
-                  <option value="تعليمات">تعليمات </option>
+                  <option value="قانون">{t("select.law")}</option>
+                <option value="النظام">{t("select.system")}</option>
+                <option value="اللائحة التنفيذية">{t("select.executiveRegulations")}</option>
+           
+                <option value="قرارات ">{t("select.decisions")}</option>
+                <option value="تعليمات">{t("select.instructions")}</option>
                 </Select>
               </div>
               <div className="col-span-2">

@@ -42,7 +42,6 @@ export default function SubjectForm({ onClose }) {
       subjectContent,
       relatedLegislation,
       notes,
-      negotiationLimit,
     };
 
     try {
@@ -171,22 +170,7 @@ export default function SubjectForm({ onClose }) {
               />
             </div>
 
-            {/* Negotiation Limit */}
-            <div className="col-span-2 pt-8">
-              <Label
-                htmlFor="negotiationLimit"
-                value={t("subjectEditForm.negotiationLimit")}
-                className="text-xl font-semibold"
-              />
-              <TextInput
-                id="negotiationLimit"
-                type="text"
-                sizing="sm"
-                className="mt-2"
-                value={negotiationLimit}
-                onChange={(e) => setNegotiationLimit(e.target.value)}
-              />
-            </div>
+     
           </div>
 
           <div className="grid grid-cols-1 gap-6" dir={direction}>

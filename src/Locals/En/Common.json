@@ -250,5 +250,11 @@
       "minLength": "Password must be at least 6 characters",
       "required": "Password is required"
     }
+  },  "select":{
+    "law": "Law",
+    "system": "System",
+    "executiveRegulations": "Executive Regulations",
+    "decisions": "Decisions",
+    "instructions": "Instructions"
   }
 }

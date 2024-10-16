@@ -94,7 +94,7 @@ export default function MatrixForm({ onClose }) {
               />
             </div>
 
-            {/* اسم المصفوفة */}
+            {/*اسم التشريع*/}
             <div className="xs:col-span-2 md:col-span-1 w-full">
               <Label
                 htmlFor="matrix-name"
@@ -159,13 +159,12 @@ export default function MatrixForm({ onClose }) {
                 <option disabled value="">
         {t("legislationForm.choose")}
                 </option>
-                <option value="قانون">قانون</option>
-                <option value="النظام">النظام </option>
-                <option value="اللائحة التنفيذية">اللائحة التنفيذية </option>
-                <option value="لائحة">لائحة </option>
-                <option value="سياسة">سياسة </option>
-                <option value="قرارات ">قرارات </option>
-                <option value="تعليمات">تعليمات </option>
+                <option value="قانون">{t("select.law")}</option>
+                <option value="النظام">{t("select.system")}</option>
+                <option value="اللائحة التنفيذية">{t("select.executiveRegulations")}</option>
+           
+                <option value="قرارات ">{t("select.decisions")}</option>
+                <option value="تعليمات">{t("select.instructions")}</option>
               </Select>
             </div>
             {/* المقدمة */}

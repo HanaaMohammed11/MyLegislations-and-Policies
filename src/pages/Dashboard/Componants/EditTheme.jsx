@@ -420,7 +420,7 @@ const EditTheme = () => {
           className={`-mt-6 aux-button aux-curve aux-gold flex items-center justify-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300 `}
         >
           <span className="flex items-center space-x-4 aux-text">
-            {t("matrixForm.save")}
+          {t("legislationForm.save")}
           </span>
         </button>
       </div>

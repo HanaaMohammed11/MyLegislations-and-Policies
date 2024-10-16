@@ -41,7 +41,7 @@ export default function SubjectList() {
             <input
               type="text"
               className="rounded-full text-right h-9 px-4"
-              placeholder={t("matrixForm.search")}
+              placeholder={t("legislationForm.search")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />

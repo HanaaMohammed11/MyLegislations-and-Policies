@@ -249,4 +249,12 @@
       "required": "الرمز السري مطلوب"
     }
   }
+,
+  "select":{
+    "law": "قانون",
+    "system": "نظام",
+    "executiveRegulations": "اللائحة التنفيذية",
+    "decisions": "قرارات",
+    "instructions": "تعليمات"
+  }
 }

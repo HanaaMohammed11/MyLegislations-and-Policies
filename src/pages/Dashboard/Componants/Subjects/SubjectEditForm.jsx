@@ -37,7 +37,6 @@ export default function SubjectEditForm() {
     subjectContent: subject.subjectContent || "",
     relatedLegislation: subject.relatedLegislation || "",
     notes: subject.notes || "",
-    negotiationLimit: subject.negotiationLimit || "",
   });
 
   // Handle form input change for subject data
@@ -216,21 +215,7 @@ export default function SubjectEditForm() {
                 />
               </div>
 
-              {/* Negotiation Limit */}
-              <div className="col-span-2">
-                <Label
-                  htmlFor="negotiationLimit"
-                  value={t("subjectEditForm.negotiationLimit")}
-                  className="text-xl font-semibold"
-                />
-                <TextInput
-                  id="negotiationLimit"
-                  type="text"
-                  className="mt-2"
-                  value={subjectData.negotiationLimit}
-                  onChange={handleInputChange}
-                />
-              </div>
+        
             </div>
 
             {/* Related Matrix */}
