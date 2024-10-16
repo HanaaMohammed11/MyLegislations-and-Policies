@@ -245,8 +245,9 @@ export default function MatrixLists() {
       <div className="flex justify-center mt-4">
         {categories.map((category, index) => (
           <div key={index} className="mx-2">
-            <label className="flex items-center space-x-2">
+            <label className="flex items-center space-x-2 " dir={direction}>
               <Checkbox
+              className="ml-2"
                 value={category}
                 checked={selectedCategories.includes(category)}
                 onChange={handleCategoryChange}

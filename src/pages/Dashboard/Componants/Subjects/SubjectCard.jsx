@@ -154,7 +154,7 @@ export default function SubjctCard({ searchTerm }) {
         </div>
       ) : (
         <div className="p-4 text-center text-neutral-600">
-          {t("subjectCardDashboard.nosubjects")}
+          {t("subjectInfo.noRelatedSubjects")}
         </div>
       )}
 
