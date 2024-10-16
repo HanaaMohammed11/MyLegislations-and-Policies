@@ -157,7 +157,7 @@ export default function MatrixForm({ onClose }) {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option disabled value="">
-                  اختر التصنيف
+        {t("legislationForm.choose")}
                 </option>
                 <option value="قانون">قانون</option>
                 <option value="النظام">النظام </option>

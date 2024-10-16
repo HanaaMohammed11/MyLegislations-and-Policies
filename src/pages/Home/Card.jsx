@@ -57,21 +57,7 @@ export default function Cards() {
       <div className="flex gap-4 items-center sm:p-4 flex-wrap justify-center">
         
         {/* Card 1 */}
-        <div className="p-4 text-center relative bg-transparent w-64 card-container card-1"> 
-          <img
-            src={bannerUrl }  
-            alt="Banner"
-            className="inset-0 w-full h-full object-contain"
-          />
-          <button
-            className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase "
-            onClick={() => navigate("/users")}
-          >
-            <h1 className="aux-text">
-              {t("text.Employees")}
-            </h1>
-          </button>
-        </div>
+
 
         {/* Card 2 */}
         <div className="p-4 text-center relative bg-transparent w-64 card-container card-2"> 

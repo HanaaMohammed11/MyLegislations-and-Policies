@@ -3,8 +3,8 @@ import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import emailjs from "emailjs-com";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore"; // Import deleteDoc and doc from firestore
-import { deleteUser } from "firebase/auth";
+import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore"; // Import deleteDoc and doc from firestore
+import { deleteUser, updatePassword } from "firebase/auth";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import db from "../../../config/firebase";
 import axios from "axios";
@@ -202,7 +202,7 @@ export default function AddAccounts() {
       firstname: selectedEmployee.firstname,
       lastname: selectedEmployee.lastname,
       accountType: selectedEmployee.accountType,
-      docId: selectedEmployee.docId, 
+      docId: selectedEmployee.docId, // Assuming docId is a part of the employee data
     });
     setOpenEditModal(true);
   };
@@ -230,6 +230,60 @@ export default function AddAccounts() {
       accountType: values.accountType,
     }));
     await updateAcc(); // Call update function
+  };
+  const fetchOldPassword = async (userId) => {
+    try {
+      const userDoc = await getDoc(doc(db, "users", userId));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        return userData.password; // كلمة المرور القديمة
+      } else {
+        console.error("User document not found");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching old password:", error);
+      return null;
+    }
+  };
+
+  // دالة لتحديث كلمة المرور في Firebase
+  async function updatePasswordFunction({ values, oldPasswordFromDB }) {
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        // تحقق من أن كلمة المرور القديمة المدخلة تطابق كلمة المرور المحفوظة في قاعدة البيانات
+        if (values.oldpass !== oldPasswordFromDB) {
+          throw new Error("The old password is incorrect");
+        }
+
+        // تحديث كلمة المرور في Firebase Authentication
+        await updatePassword(user, values.newpass);
+        console.log("Password updated successfully!");
+      } catch (error) {
+        console.error("Error updating password: ", error);
+        setError(error.message || "Error updating password");
+      }
+    } else {
+      throw new Error("User not found");
+    }
+  }
+
+  // دالة عند إرسال النموذج (Submit) لتغيير كلمة المرور
+  const handlePasswordChange = async (values) => {
+    try {
+      const oldPasswordFromDB = await fetchOldPassword(localStorage.getItem("id")); // استرجاع كلمة المرور القديمة من Firestore
+
+      if (!oldPasswordFromDB) {
+        throw new Error("Failed to retrieve old password");
+      }
+
+      await updatePasswordFunction({ values, oldPasswordFromDB });
+      console.log("Password change successful");
+    } catch (error) {
+      console.error("Password change error:", error);
+      setError(error.message || "Error changing password");
+    }
   };
   return (
     <div className=" ">
@@ -435,7 +489,7 @@ export default function AddAccounts() {
                     <td className="px-2 md:px-4 py-2">
                       {employee.accountType}
                     </td>
-                    {user[0].accountType === "superAdmin" && (
+             
                       <td className="px-2 md:px-4 py-2 flex justify-center space-x-2">
                         <AiFillDelete
                           className="text-red-500 cursor-pointer me-3"
@@ -449,133 +503,61 @@ export default function AddAccounts() {
                           </button>
                         </td>
                         <Modal
-                          className="pt-[30%] pb-[50%]"
-                          show={openEditModal}
-                          size="md"
-                          popup
-                          onClose={() => setOpenEditModal(false)}
-                        >
-                          <Modal.Header title={t("addAccount.update")} />
-                          <Modal.Body>
-                            <Formik
-                              initialValues={{
-                                firstname: employeeData.firstname,
-                                lastname: employeeData.lastname,
-                                accountType: employeeData.accountType,
-                              }}
-                              validationSchema={Yup.object().shape({
-                                firstname: Yup.string().required(
-                                  t("validation.firstName.required")
-                                ),
-                                lastname: Yup.string().required(
-                                  t("validation.lastName.required")
-                                ),
-                                accountType: Yup.string().required(
-                                  t("validation.accountType.required")
-                                ),
-                              })}
-                              onSubmit={async (values, { setSubmitting }) => {
-                                await updateAcc(employeeData.docId, values);
-                                setSubmitting(false);
-                                setOpenEditModal(false);
-                                setRefresh(true); // Refresh to get the updated list
-                              }}
-                            >
-                              {({ isSubmitting }) => (
-                                <Form>
-                                  <div className="space-y-6">
-                                    <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                                      {t("addaccount.update")}
-                                    </h3>
-
-                                    <div>
-                                      <Label
-                                        htmlFor="firstname"
-                                        value={t("addaccount.firstName")}
-                                      />
-                                      <Field
-                                        name="firstname"
-                                        type="text"
-                                        as={TextInput}
-                                        id="firstname"
-                                        placeholder={t("addaccount.firstName")}
-                                      />
-                                      <ErrorMessage
-                                        name="firstname"
-                                        component="div"
-                                        className="text-red-500 text-sm"
-                                      />
-                                    </div>
-
-                                    <div>
-                                      <Label
-                                        htmlFor="lastname"
-                                        value={t("addaccount.lastName")}
-                                      />
-                                      <Field
-                                        name="lastname"
-                                        type="text"
-                                        as={TextInput}
-                                        id="lastname"
-                                        placeholder={t("addaccount.lastName")}
-                                      />
-                                      <ErrorMessage
-                                        name="lastname"
-                                        component="div"
-                                        className="text-red-500 text-sm"
-                                      />
-                                    </div>
-
-                                    <div>
-                                      <Label
-                                        htmlFor="accountType"
-                                        value={t("addaccount.accType")}
-                                      />
-                                      <Field
-                                        as="select"
-                                        name="accountType"
-                                        id="accountType"
-                                        className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                      >
-                                        <option value="admin">
-                                          {t("addaccount.admin")}
-                                        </option>
-                                        <option value="employee">
-                                          {t("addaccount.emp")}
-                                        </option>
-                                        {user.length > 0 &&
-                                          user[0].accountType ===
-                                            "superAdmin" && (
-                                            <option value="admin">
-                                              {t("addaccount.superAdmin")}
-                                            </option>
-                                          )}
-                                      </Field>
-                                      <ErrorMessage
-                                        name="accountType"
-                                        component="div"
-                                        className="text-red-500 text-sm"
-                                      />
-                                    </div>
-
-                                    <div className="w-full">
-                                      <Button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                      >
-                                        {isSubmitting
-                                          ? t("addaccount.update")
-                                          : t("addaccount.update")}
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </Form>
-                              )}
-                            </Formik>
-                          </Modal.Body>
-                        </Modal>
+        show={openEditModal}
+        onClose={() => setOpenEditModal(false)}
+        title="Change Password"
+      >
+        <Formik
+          initialValues={{
+            oldpass: "",
+            newpass: "",
+            confirmNewPass: "",
+          }}
+          validationSchema={Yup.object().shape({
+            oldpass: Yup.string().required("Old password is required"),
+            newpass: Yup.string().required("New password is required"),
+            confirmNewPass: Yup.string()
+              .oneOf([Yup.ref("newpass"), null], "Passwords must match")
+              .required("Confirm new password is required"),
+          })}
+          onSubmit={handlePasswordChange}
+        >
+          {({ values, handleChange, handleSubmit, errors }) => (
+            <form onSubmit={handleSubmit}>
+              <input
+                type="password"
+                name="oldpass"
+                placeholder="Old Password"
+                value={values.oldpass}
+                onChange={handleChange}
+              />
+              {errors.oldpass && <div>{errors.oldpass}</div>}
+              
+              <input
+                type="password"
+                name="newpass"
+                placeholder="New Password"
+                value={values.newpass}
+                onChange={handleChange}
+              />
+              {errors.newpass && <div>{errors.newpass}</div>}
+              
+              <input
+                type="password"
+                name="confirmNewPass"
+                placeholder="Confirm New Password"
+                value={values.confirmNewPass}
+                onChange={handleChange}
+              />
+              {errors.confirmNewPass && <div>{errors.confirmNewPass}</div>}
+              
+              <button type="submit">Change Password</button>
+            </form>
+          )}
+        </Formik>
+      </Modal>
                       </td>
-                    )}
+           
                   </tr>
                 ))
               ) : (

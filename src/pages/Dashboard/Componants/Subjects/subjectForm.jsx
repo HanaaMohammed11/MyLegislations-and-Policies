@@ -214,7 +214,7 @@ export default function SubjectForm({ onClose }) {
                 }}
               >
                 <option value="" disabled>
-                  Select a Matrix
+      {t("legislationForm.choose")}
                 </option>
                 {legislation?.length > 0 &&
                   legislation.map((item) => (

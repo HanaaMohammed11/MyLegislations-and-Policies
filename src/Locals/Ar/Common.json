@@ -80,13 +80,13 @@
   "matrix": {
     "title": "المصفوفات",
     "selectSearchCriterion": "اختر معيار البحث",
-    "searchByMatrix": "البحث عن طريق المصفوفة",
+    "searchByMatrix": "البحث عن طريق  التشريع",
     "searchByCompany": "البحث عن طريق الجهة",
-    "searchBySubjects": "البحث عن طريق الصلاحيات",
+    "searchBySubjects": "البحث عن طريق المواد",
     "searchByEmployee": "البحث عن طريق اسم الموظف",
     "searchByJobTitle": "البحث عن طريق المسمى الوظيفي",
     "searchBySubjectContent": "البحث عن طريق نص المادة",
-    "searchPlaceholder": "بحث عن مصفوفة",
+    "searchPlaceholder": "بحث ",
     "searchButton": "بحث",
     "clearFilters": "مسح الفلاتر",
     "searchByLabel": "بحث عن طريق",
@@ -188,6 +188,8 @@
   },
   "legislationForm": {
     "alert": "تم حفظ البيانات بنجاح",
+    "choose":"اختر",
+
     "addNewLegislations": "إضافة تشريع جديد",
     "companyName": "الجهة المُنشئة",
     "legislationsName": "اسم التشريع",
