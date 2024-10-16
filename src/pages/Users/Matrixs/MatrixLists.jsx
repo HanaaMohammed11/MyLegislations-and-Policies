@@ -51,13 +51,11 @@ export default function MatrixLists() {
   }, []);
 
   const categories = [
-    "قانون",
-    "النظام",
-    "اللائحة التنفيذية",
-    "لائحة",
-    "سياسة",
-    "قرارات",
-    "تعليمات",
+    t("select.instructions"),
+    t("select.decisions"),
+    t("select.executiveRegulations"),
+    t("select.system"),
+    t("select.law")
   ];
 
   useEffect(() => {
