@@ -58,26 +58,11 @@ export default function SubjctCard({ searchTerm }) {
   const filteredSubjects = subjects.filter((subject) => {
     const searchText = searchTerm.toLowerCase().replace(/\s+/g, "");
     return (
-      subject.subjectTitle
-        .toLowerCase()
-        .replace(/\s+/g, "")
-        .includes(searchText) ||
-      subject.subjectNum
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, "")
-        .includes(searchText) ||
-      subject.subjectContent
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, "")
-        .includes(searchText) ||
-      subject.subjectField
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, "")
-        .includes(searchText) ||
-      subject.ownerAdmin.toLowerCase().replace(/\s+/g, "").includes(searchText)
+      (subject.subjectTitle?.toLowerCase().replace(/\s+/g, "").includes(searchText)) || 
+      (subject.subjectNum?.toString().toLowerCase().replace(/\s+/g, "").includes(searchText)) ||
+      (subject.subjectContent?.toString().toLowerCase().replace(/\s+/g, "").includes(searchText)) ||
+      (subject.subjectField?.toString().toLowerCase().replace(/\s+/g, "").includes(searchText)) ||
+      (subject.ownerAdmin?.toLowerCase().replace(/\s+/g, "").includes(searchText))
     );
   });
 
