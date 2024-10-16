@@ -399,7 +399,7 @@ const EditTheme = () => {
         {isPopupVisible && (
           <div style={popupStyles}>
             <div style={popupContentStyles}>
-              <p>{t("matrixForm.alert")}</p>
+              <p>{t("legislationForm.alert")}</p>
               <button
                 onClick={() => {
                   setIsPopupVisible(false);
