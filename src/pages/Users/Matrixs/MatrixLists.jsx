@@ -289,7 +289,7 @@ export default function MatrixLists() {
             ) : searchQuery ? (
               // عرض رسالة إذا لم يتم العثور على نتائج
               <div className="flex justify-center items-center m-44">
-                <p>{t("matrix.noSearchResults")}</p>
+                <p>{t("matrixCardDashboard.noMatrix")}</p>
               </div>
             ) : (
               // عرض رسالة إذا لم يتم إدخال أي استعلام بحث
