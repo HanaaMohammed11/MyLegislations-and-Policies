@@ -294,7 +294,7 @@ export default function MatrixLists() {
             ) : (
               // عرض رسالة إذا لم يتم إدخال أي استعلام بحث
               <div className="flex justify-center items-center m-44">
-                <p>{t("matrix.enterSearchQuery")}</p>
+                <p>{t("matrixCardDashboard.noMatrix")}</p>
               </div>
             )
           ) : (
