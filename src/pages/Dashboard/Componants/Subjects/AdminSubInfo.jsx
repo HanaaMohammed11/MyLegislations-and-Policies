@@ -88,14 +88,14 @@ export default function AdminSubjectInfo() {
       <Topbanner />
       <div dir={direction}>
         <button
-          style={{ marginTop: "400px" }}
-          className="text-center bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
+       
+          className="text-center fixed bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
         >
           <IoArrowBack className="mt-1 mr-3" /> {t("text.back")}
         </button>
       </div>
-      <div className="mt-28 justify-center mb-[30%] flex subjects-center">
+      <div className="mt-[400px] justify-center mb-[30%] flex subjects-center">
         <Card className="w-[1200px]">
           <div className="flex justify-end px-4 pt-4"></div>
           <div className="flex flex-col subjects-center pb-10">
@@ -159,14 +159,7 @@ export default function AdminSubjectInfo() {
                     </td>
                   </tr>
 
-                  <tr className="bg-[#fce8ca]">
-                    <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectEditForm.negotiationLimit")}
-                    </td>
-                    <td className="px-4 py-2 break-words w-1/2">
-                      {subject.negotiationLimit}
-                    </td>
-                  </tr>
+            
                   <tr>
                     <td className="px-4 py-2 font-bold w-1/2">
                       {t("subjectInfo.notes")}

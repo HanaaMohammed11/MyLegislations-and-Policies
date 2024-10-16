@@ -167,14 +167,7 @@ export default function SubjectInfo() {
                     </td>
                   </tr>
 
-                  <tr className="bg-[#fce8ca]">
-                    <td className="px-4 py-2 font-bold w-1/2">
-                      {t("subjectEditForm.negotiationLimit")}
-                    </td>
-                    <td className="px-4 py-2 break-words w-1/2">
-                      {clickedSubject.negotiationLimit}
-                    </td>
-                  </tr>
+               
                   <tr>
                     <td className="px-4 py-2 font-bold w-1/2">
                       {t("subjectInfo.notes")}
