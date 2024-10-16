@@ -21,6 +21,7 @@ export default function MatrixLists() {
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [tempSearchQuery, setTempSearchQuery] = useState("");
   const [searchBy, setSearchBy] = useState("");
   const [filteredMatrices, setFilteredMatrices] = useState([]);
   const [matrix, setMatrix] = useState([]);
@@ -37,7 +38,7 @@ export default function MatrixLists() {
         );
         const querySnapshot = await getDocs(q);
         const userData = querySnapshot.docs.map((doc) => doc.data());
-        
+
         if (userData.length > 0) {
           setUser(userData[0]);
         }
@@ -106,46 +107,59 @@ export default function MatrixLists() {
   };
 
   const handleSearch = async () => {
-    let results = [...matrix];
-    
-    if (user.accountType === "employee") {
-      if (searchQuery) {
-        if (searchBy === "subjectContent") {
-          try {
-            const subjectTitles = await searchSubjectContent(searchQuery);
-            if (subjectTitles.length > 0) {
-              results = results.filter((matrixItem) => {
-                const matrixSubjects = matrixItem.subjects || [];
-                return matrixSubjects.some((subjectTitle) =>
-                  subjectTitles.includes(subjectTitle)
-                );
-              });
-            } else {
-              results = [];
-            }
-          } catch (error) {
-            console.error("Error fetching subjects:", error);
-            results = []; 
-          }
-        } else if (searchBy) {
-          results = results.filter((matrixItem) => {
-            const value = matrixItem[searchBy];
-            if (Array.isArray(value)) {
-              return value.some((item) =>
-                item.toLowerCase().includes(searchQuery.toLowerCase())
-              );
-            } else if (typeof value === "string") {
-              return value.toLowerCase().includes(searchQuery.toLowerCase());
-            }
-            return false;
-          });
-        }
-      } else {
-        results = []; 
-      }
-    } else {
+    let results = [];
 
-      results = [...matrix];
+    // Force category selection before searching
+    if (selectedCategories.length === 0) {
+      setFilteredMatrices([]); // Return an empty result if no categories are selected
+      return;
+    }
+
+    // Filter by selected categories
+    results = [...matrix].filter((matrixItem) => {
+      if (typeof matrixItem.category === "string") {
+        return selectedCategories.includes(matrixItem.category);
+      }
+      if (Array.isArray(matrixItem.category)) {
+        return matrixItem.category.some((cat) =>
+          selectedCategories.includes(cat)
+        );
+      }
+      return false;
+    });
+
+    // Apply search query if present
+    if (tempSearchQuery) {
+      if (searchBy === "subjectContent") {
+        try {
+          const subjectTitles = await searchSubjectContent(tempSearchQuery);
+          if (subjectTitles.length > 0) {
+            results = results.filter((matrixItem) => {
+              const matrixSubjects = matrixItem.subjects || [];
+              return matrixSubjects.some((subjectTitle) =>
+                subjectTitles.includes(subjectTitle)
+              );
+            });
+          } else {
+            results = [];
+          }
+        } catch (error) {
+          console.error("Error fetching subjects:", error);
+          results = [];
+        }
+      } else if (searchBy) {
+        results = results.filter((matrixItem) => {
+          const value = matrixItem[searchBy];
+          if (Array.isArray(value)) {
+            return value.some((item) =>
+              item.toLowerCase().includes(tempSearchQuery.toLowerCase())
+            );
+          } else if (typeof value === "string") {
+            return value.toLowerCase().includes(tempSearchQuery.toLowerCase());
+          }
+          return false;
+        });
+      }
     }
 
     setFilteredMatrices(results);
@@ -157,6 +171,7 @@ export default function MatrixLists() {
 
   const handleClearFilters = () => {
     setSearchQuery("");
+    setTempSearchQuery("");
     setSearchBy("");
     setSelectedCategories([]);
     setFilteredMatrices(matrix);
@@ -201,7 +216,7 @@ export default function MatrixLists() {
       <div className="relative flex justify-center items-center text-center">
         <Topbanner />
       </div>
-  
+
       {/* Input search section */}
       <div className="search flex xs:flex-col md:flex-row xs:items-center xs:gap-y-4 md:gap-y-0 justify-center mt-9">
         <select
@@ -219,18 +234,21 @@ export default function MatrixLists() {
             {t("matrix.searchBySubjectContent")}
           </option>
         </select>
-  
+
         <input
           type="text"
           placeholder={t("matrix.searchButton")}
           className="xs:w-72 sm:w-96 rounded-full ml-4"
           dir={direction}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={tempSearchQuery}
+          onChange={(e) => setTempSearchQuery(e.target.value)}
           disabled={!searchBy}
         />
         <button
-          onClick={handleSearch}
+          onClick={() => {
+            setSearchQuery(tempSearchQuery);
+            handleSearch();
+          }}
           className="ml-2 px-4 py-2 rounded-full bg-[#CDA03D] text-white"
         >
           {t("matrix.searchButton")}
@@ -242,7 +260,7 @@ export default function MatrixLists() {
           {t("matrix.clearFilters")}
         </button>
       </div>
-  
+
       {/* Category filter section */}
       <div className="flex justify-center mt-4">
         {categories.map((category, index) => (
@@ -258,7 +276,7 @@ export default function MatrixLists() {
           </div>
         ))}
       </div>
-  
+
       {loading ? (
         <div className="flex justify-center items-center m-44">
           <Loader />
@@ -266,10 +284,10 @@ export default function MatrixLists() {
       ) : (
         <div className="flex-grow">
           {user.accountType === "employee" ? (
-            searchQuery && filteredMatrices.length > 0 ? ( 
+            searchQuery && filteredMatrices.length > 0 ? (
               // عرض نتائج البحث فقط إذا كانت هناك نتائج
               <MatrixTable matrices={filteredMatrices} />
-            ) : searchQuery ? ( 
+            ) : searchQuery ? (
               // عرض رسالة إذا لم يتم العثور على نتائج
               <div className="flex justify-center items-center m-44">
                 <p>{t("matrix.noSearchResults")}</p>
@@ -277,20 +295,19 @@ export default function MatrixLists() {
             ) : (
               // عرض رسالة إذا لم يتم إدخال أي استعلام بحث
               <div className="flex justify-center items-center m-44">
-                <p>{t("matrix.enterSearchQuery")}</p> 
+                <p>{t("matrix.enterSearchQuery")}</p>
               </div>
             )
           ) : (
             // عرض جميع الجداول للمستخدمين غير الموظفين
-            <MatrixTable matrices={matrix} />
+            <MatrixTable matrices={filteredMatrices} />
           )}
         </div>
       )}
-  
+
       <div className="mt-auto">
         <Bottombanner />
       </div>
     </div>
   );
-  
 }
