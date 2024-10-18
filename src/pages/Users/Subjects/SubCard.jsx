@@ -61,7 +61,7 @@ export default function SubTable({ searchTerm }) {
       <div
         className={`flex justify-center mt-44 items-center h-full ${direction}`}
       >
-        <p className="text-xl font-semibold">{t("articels.noResults")}</p>
+        <p className="text-gray-700">{t("articels.noResults")}</p>
       </div>
     );
   }

@@ -14,6 +14,7 @@ import db from "../../../config/firebase";
 import { useTranslation } from "react-i18next";
 import Loader from "../../Login/loader";
 import { Checkbox } from "flowbite-react"; // Import Flowbite Checkbox
+import { CiSearch } from "react-icons/ci";
 
 export default function MatrixLists() {
   const { t, i18n } = useTranslation("global");
@@ -294,8 +295,8 @@ export default function MatrixLists() {
             ) : (
               // عرض رسالة إذا لم يتم إدخال أي استعلام بحث
               <div className="flex justify-center items-center m-44">
-                <p>{t("matrixCardDashboard.noMatrix")}</p>
-              </div>
+<CiSearch  size={30} color="gray"/>
+</div>
             )
           ) : (
             // عرض جميع الجداول للمستخدمين غير الموظفين

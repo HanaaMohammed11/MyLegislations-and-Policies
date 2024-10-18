@@ -10,7 +10,7 @@ export default function MatrixTable(props) {
 
   if (props.matrices.length === 0) {
     return (
-      <div className="text-center text-xl font-semibold mt-44">
+      <div className="text-center text-gray-700 mt-44">
         {t("matrixCardDashboard.noMatrix")}
       </div>
     );
