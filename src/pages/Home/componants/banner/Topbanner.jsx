@@ -28,36 +28,44 @@ export default function Topbanner() {
     localStorage.getItem("lang") || "ar"
   );
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const q = query(
-          collection(db, "users"),
-          where("ID", "==", localStorage.getItem("id"))
-        );
-        const querySnapshot = await getDocs(q);
-        const userData = querySnapshot.docs.map((doc) => doc.data());
-        if (userData.length > 0) {
-          setUser(userData[0]);
-        } else {
-          console.log("No matching user found");
-        }
-      } catch (error) {
-        console.error("Error fetching user data: ", error);
+    const userId = localStorage.getItem("id");
+    if (!userId) {
+      navigate("/login");
+    } else {
+      fetchUser(userId); 
+    }
+  }, [navigate]);
+
+  const fetchUser = async (userId) => {
+    try {
+      const q = query(
+        collection(db, "users"),
+        where("ID", "==", userId)
+      );
+      const querySnapshot = await getDocs(q);
+      const userData = querySnapshot.docs.map((doc) => doc.data());
+      if (userData.length > 0) {
+        setUser(userData[0]); 
+      } else {
+        console.log("No matching user found");
+        handleLogout();
       }
-    };
-
-    fetchUser();
-  }, []);
-
-  const dropdownRef = useRef(null);
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+    }
+  };
 
   useEffect(() => {
-
-    const unsubscribeTopBanner = onSnapshot(doc(db, "banners", "topBanner"), (doc) => {
-      if (doc.exists()) {
-        setTopBannerUrl(doc.data().imageUrl);
+    const unsubscribeTopBanner = onSnapshot(
+      doc(db, "banners", "topBanner"),
+      (doc) => {
+        if (doc.exists()) {
+          setTopBannerUrl(doc.data().imageUrl);
+        }
       }
-    });   const unsubscribeLogo = onSnapshot(doc(db, "banners", "logo"), (doc) => {
+    );
+
+    const unsubscribeLogo = onSnapshot(doc(db, "banners", "logo"), (doc) => {
       if (doc.exists()) {
         setLogoUrl(doc.data().imageUrl);
       }
@@ -69,7 +77,6 @@ export default function Topbanner() {
     };
   }, []);
 
-
   const handleLanguageSelect = (lang) => {
     setSelectedLanguage(lang);
     handleChangeLanguage(lang);
@@ -79,21 +86,21 @@ export default function Topbanner() {
 
   const handleLogout = async () => {
     try {
-      localStorage.removeItem("id");
-      await signOut(auth);
-      navigate("/login", { replace: true });
+      localStorage.removeItem("id"); 
+      await signOut(auth); 
+      navigate("/login", { replace: true }); 
     } catch (error) {
       console.error("Error logging out: ", error);
     }
   };
 
+  const dropdownRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
