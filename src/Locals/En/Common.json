@@ -137,7 +137,7 @@
     "register": "Register",
     "update": "Update",
     "accType": "Account type",
-    "emp": "Employee",
+    "emp": "User",
     "admin": "Admin",
     "superAdmin": "Super Admin",
     "noUsers": "No users available"

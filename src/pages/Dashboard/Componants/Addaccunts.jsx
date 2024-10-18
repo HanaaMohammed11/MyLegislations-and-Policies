@@ -250,8 +250,7 @@ export default function AddAccounts() {
           <input
             type="text"
             className="rounded-full text-right h-9 px-4"
-            placeholder={t("matrixForm.search")}
-            value={searchQuery}
+        placeholder={t("search.searchEmployees")}            value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
@@ -379,7 +378,7 @@ export default function AddAccounts() {
                           </option>
                         )}
                       <option value="admin">{t("addaccount.admin")}</option>
-                      <option value="employee">{t("addaccount.emp")}</option>
+                      <option value="user">{t("addaccount.emp")}</option>
                     </Field>
                     <ErrorMessage
                       name="accountType"
@@ -540,16 +539,10 @@ export default function AddAccounts() {
                                         <option value="admin">
                                           {t("addaccount.admin")}
                                         </option>
-                                        <option value="employee">
+                                        <option value="user">
                                           {t("addaccount.emp")}
                                         </option>
-                                        {user.length > 0 &&
-                                          user[0].accountType ===
-                                            "superAdmin" && (
-                                            <option value="admin">
-                                              {t("addaccount.superAdmin")}
-                                            </option>
-                                          )}
+                                      
                                       </Field>
                                       <ErrorMessage
                                         name="accountType"

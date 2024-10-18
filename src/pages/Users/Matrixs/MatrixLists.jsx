@@ -283,7 +283,7 @@ export default function MatrixLists() {
         </div>
       ) : (
         <div className="flex-grow">
-          {user.accountType === "employee" ? (
+          {user.accountType === "user" ? (
             searchQuery && filteredMatrices.length > 0 ? (
               // عرض نتائج البحث فقط إذا كانت هناك نتائج
               <MatrixTable matrices={filteredMatrices} />

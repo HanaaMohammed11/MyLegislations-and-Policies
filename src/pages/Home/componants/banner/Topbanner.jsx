@@ -180,7 +180,7 @@ export default function Topbanner() {
 
         {/* Navbar Items */}
         <Navbar.Collapse>
-          {user.accountType !== "employee" && (
+          {user.accountType !== "user" && (
             <div
               className="relative cursor-pointer text-xl  rounded-full transition-all duration-300 group bg-slate-950 hover:bg-[#CDA03D] px-9 "
               onClick={() => navigate("/dashboard")}
