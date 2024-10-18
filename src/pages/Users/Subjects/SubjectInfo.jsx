@@ -91,9 +91,9 @@ export default function SubjectInfo() {
   return (
     <div>
       <Topbanner />
-      <div dir={direction} style={{ marginTop: "400px", marginLeft: 20 }}>
+      <div dir={direction} style={{ marginLeft: 20 }}>
         <button
-          className="text-center bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
+          className="text-center bg-[#CDA03D] fixed py-2 px-9 shadow-xl m-9 rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
           dir={direction}
         >
@@ -101,7 +101,7 @@ export default function SubjectInfo() {
         </button>
       </div>
       <div
-        className=" justify-center flex items-center"
+        className="mt-[400px] justify-center flex items-center"
         style={{ paddingTop: "2px", paddingBottom: "440px" }}
       >
         <Card className="w-[1200px] ">
