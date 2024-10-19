@@ -71,14 +71,13 @@ export default function MatrixEditForm() {
       <Topbanner />
       <div dir={direction}>
         <button
-          style={{ marginTop: "400px" }}
-          className="text-center bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
+          className="text-center fixed bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
         >
           <IoArrowBack className="mt-1 mr-3" /> {t("text.back")}
         </button>
         <div
-          className="mx-auto p-8 w-full max-w-5xl"
+          className="mx-auto p-8 w-full max-w-5xl mt-[400px]"
           style={{ paddingBottom: "400px" }}
         >
           <h1 className="text-3xl font-semibold text-white bg-[#CDA03D] p-5 rounded-t-xl">

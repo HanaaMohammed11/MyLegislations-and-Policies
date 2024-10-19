@@ -232,7 +232,7 @@ export default function AddAccounts() {
           <input
             type="text"
             className="rounded-full text-right h-9 px-4"
-            placeholder={t("matrixForm.search")}
+            placeholder={t("addaccount.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -361,7 +361,7 @@ export default function AddAccounts() {
                           </option>
                         )}
                       <option value="admin">{t("addaccount.admin")}</option>
-                      <option value="employee">{t("addaccount.emp")}</option>
+                      <option value="user">{t("addaccount.emp")}</option>
                     </Field>
                     <ErrorMessage
                       name="accountType"
@@ -389,7 +389,7 @@ export default function AddAccounts() {
           dir={direction}
           className="overflow-x-auto w-full p-4 rounded-lg shadow-lg mt-10"
         >
-          <table className="table-auto w-full min-w-[300px] bg-[#D3A17A] text-sm md:text-base lg:mt-9 md:mt-9 mt-16 sm:mt-14 ">
+          <table className="table-auto overflow-x-auto w-full min-w-[300px] bg-[#D3A17A] text-sm md:text-base lg:mt-9 md:mt-9 mt-16 sm:mt-14 ">
             <thead dir={direction}>
               <tr dir={direction} className="bg-[#D3A17A] text-white">
                 <th className="px-2 md:px-4 py-2">
@@ -415,7 +415,7 @@ export default function AddAccounts() {
                     <td className="px-2 md:px-4 py-2">
   {employee.accountType === "superAdmin" && t("addaccount.superAdmin")}
   {employee.accountType === "admin" && t("addaccount.admin")}
-  {employee.accountType === "employee" && t("addaccount.emp")}
+  {employee.accountType === "user" && t("addaccount.emp")}
 </td>
 
                     {user[0].accountType === "superAdmin" || user[0].accountType === "admin" &&(
@@ -523,7 +523,7 @@ export default function AddAccounts() {
                                         <option value="admin">
                                           {t("addaccount.admin")}
                                         </option>
-                                        <option value="employee">
+                                        <option value="user">
                                           {t("addaccount.emp")}
                                         </option>
                                         {user.length > 0 &&

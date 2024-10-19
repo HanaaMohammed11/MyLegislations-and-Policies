@@ -114,7 +114,7 @@ export default function Topbanner() {
       <Navbar
         fluid={true}
         rounded={true}
-        className="bg-gray-500 text-white "
+        className="bg-[#771D1D] text-white "
       >
         <Navbar.Toggle className="bg-red text-yellow-50" />
 
@@ -177,7 +177,7 @@ export default function Topbanner() {
         <Navbar.Collapse>
         {(localStorage.getItem("accountType") === "admin" || localStorage.getItem("accountType") === "superAdmin") && (
             <div
-              className="relative cursor-pointer text-xl  rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+              className="relative cursor-pointer text-xl  rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
               onClick={() => navigate("/dashboard")}
             >
 
@@ -192,7 +192,7 @@ export default function Topbanner() {
        
 
           <div
-            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
             onClick={() => navigate("/subjects")}
           >
            
@@ -201,7 +201,7 @@ export default function Topbanner() {
           </div>
 
           <div
-            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
             onClick={() => navigate("/Matrix")}
           >
            
@@ -210,7 +210,7 @@ export default function Topbanner() {
           </div>
 
           <div
-            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
             onClick={() => navigate("/")}
           >
            

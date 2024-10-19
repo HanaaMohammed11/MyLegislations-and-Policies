@@ -28,7 +28,11 @@
     "noEmp": "لا يوجد موظفين"
   },
   "search": {
-    "searchEmployees": "بحث  "
+    "searchEmployees": "بحث  ",
+    "subjectTitle" :"عنوان المادة ",
+    "subjectNum":"رقم المادة",
+    "subjectContent":"نص المادة",
+    "subsearch": "بحث عن مادة  "
   },
   "employees": {
     "title": "الموظفين"
@@ -253,7 +257,7 @@
   "select":{
     "law": "قانون",
     "system": "نظام",
-    "executiveRegulations": "تنفيذية لائحة ",
+    "executiveRegulations": "لائحة تنفيذية ",
     "decisions": "قرارات",
     "instructions": "تعليمات"
   }

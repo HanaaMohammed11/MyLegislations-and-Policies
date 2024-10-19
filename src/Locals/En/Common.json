@@ -29,7 +29,11 @@
     "noEmp": "No Employees found"
   },
   "search": {
-    "searchEmployees": "Search "
+    "searchEmployees": "search  ",
+    "subjectTitle" :" Article Title ",
+    "subjectNum":"Article Number",
+    "subjectContent":" Article Content",
+    "subsearch": "search for Article "
   },
   "employees": {
     "title": "Employees"
