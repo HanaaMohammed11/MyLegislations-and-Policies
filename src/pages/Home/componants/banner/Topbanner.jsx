@@ -40,15 +40,19 @@ export default function Topbanner() {
           setUser(userData[0]);
           localStorage.setItem("accountType", userData[0].accountType);
         } else {
+          navigate("/login", { replace: true });
+
           console.log("No matching user found");
         }
       } catch (error) {
+        navigate("/login", { replace: true });
+
         console.error("Error fetching user data: ", error);
       }
     };
   
     fetchUser();
-  }, []);
+  }, [navigate]);
   
 
   const dropdownRef = useRef(null);
