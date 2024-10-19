@@ -144,7 +144,9 @@ export default function MatrixInfo() {
                       <td className="px-4 py-2 font-bold">
                         {t("legislationsinfo.category")}
                       </td>
-                      <td className="px-4 py-2 break-words w-1/2 overflow-hidden">{categories[matrix.category]} </td>
+                      <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
+    {categories[matrix.category]}
+  </td>
 
                     </tr>
                     <tr>

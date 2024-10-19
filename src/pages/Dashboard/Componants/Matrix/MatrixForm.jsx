@@ -26,10 +26,10 @@ export default function MatrixForm({ onClose }) {
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const navigation = useNavigate();
   const categories = {
-    قانون: t("select.law"),
-    نظام: t("select.system"),
-    "لائحة التنفيذية": t("select.executiveRegulations"),
+    قانون: t("select.law"), 
     تعليمات: t("select.instructions"),
+    "لائحة تنفيذية": t("select.executiveRegulations"),
+    نظام: t("select.system"),
   };
   const handleSave = async () => {
     const data = {

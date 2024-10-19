@@ -18,10 +18,10 @@ export default function MatrixEditForm() {
 
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const categories = {
-    قانون: t("select.law"),
-    نظام: t("select.system"),
-    "لائحة التنفيذية": t("select.executiveRegulations"),
+    قانون: t("select.law"), 
     تعليمات: t("select.instructions"),
+    "لائحة تنفيذية": t("select.executiveRegulations"),
+    نظام: t("select.system"),
   };
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [matrixData, setMatrixData] = useState({
