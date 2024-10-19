@@ -42,8 +42,14 @@ export default function MatrixInfo() {
   const navigate = useNavigate();
   const [relatedsubjects, setRelatedsubjectss] = useState([]);
   const matrix = location.state.item || location.state.matrix;
-  console.log(matrix);
 
+  const categories = {
+    قانون: t("select.law"), 
+    تعليمات: t("select.instructions"),
+    "لائحة تنفيذية": t("select.executiveRegulations"),
+    نظام: t("select.system"),
+  };
+  
   useEffect(() => {
     const usersCollectionRef = collection(db, "subjects");
 
@@ -138,9 +144,8 @@ export default function MatrixInfo() {
                       <td className="px-4 py-2 font-bold">
                         {t("legislationsinfo.category")}
                       </td>
-                      <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {matrix.category}
-                      </td>
+                      <td className="px-4 py-2 break-words w-1/2 overflow-hidden">{categories[matrix.category]} </td>
+
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-bold">

@@ -51,13 +51,12 @@ export default function MatrixLists() {
     fetchUserAndBanner();
   }, []);
 
-  const categories = [
-    t("select.instructions"),
-    t("select.decisions"),
-    t("select.executiveRegulations"),
-    t("select.system"),
-    t("select.law")
-  ];
+  const categories = {
+    قانون: t("select.law"), 
+    تعليمات: t("select.instructions"),
+    "لائحة تنفيذية": t("select.executiveRegulations"),
+    نظام: t("select.system"),
+  };
 
   useEffect(() => {
     const qmatrix = query(
@@ -262,19 +261,19 @@ export default function MatrixLists() {
 
       {/* Category filter section */}
       <div className="flex justify-center mt-4">
-        {categories.map((category, index) => (
-          <div key={index} className="mx-2">
-            <label className="flex items-center space-x-2 " dir={direction}>
-              <Checkbox
+      {Object.entries(categories).map(([key, value]) => (
+        <div key={key} className="mx-2">
+          <label className="flex items-center space-x-2" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+            <Checkbox
               className="ml-2"
-                value={category}
-                checked={selectedCategories.includes(category)}
-                onChange={handleCategoryChange}
-              />
-              <span>{category}</span>
-            </label>
-          </div>
-        ))}
+              value={key} 
+              checked={selectedCategories.includes(key)}
+              onChange={handleCategoryChange}
+            />
+            <span>{value}</span>
+          </label>
+        </div>
+      ))}
       </div>
 
       {loading ? (
@@ -283,25 +282,9 @@ export default function MatrixLists() {
         </div>
       ) : (
         <div className="flex-grow">
-          {user.accountType === "user" ? (
-            searchQuery && filteredMatrices.length > 0 ? (
-              // عرض نتائج البحث فقط إذا كانت هناك نتائج
-              <MatrixTable matrices={filteredMatrices} />
-            ) : searchQuery ? (
-              // عرض رسالة إذا لم يتم العثور على نتائج
-              <div className="flex justify-center items-center m-44">
-                <p>{t("matrixCardDashboard.noMatrix")}</p>
-              </div>
-            ) : (
-              // عرض رسالة إذا لم يتم إدخال أي استعلام بحث
-              <div className="flex justify-center items-center m-44">
-<CiSearch  size={30} color="gray"/>
-</div>
-            )
-          ) : (
-            // عرض جميع الجداول للمستخدمين غير الموظفين
+         
             <MatrixTable matrices={filteredMatrices} />
-          )}
+        
         </div>
       )}
 

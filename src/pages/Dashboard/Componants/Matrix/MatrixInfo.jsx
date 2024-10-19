@@ -15,7 +15,17 @@ import jsPDF from "jspdf";
 import { IoArrowBack } from "react-icons/io5";
 export default function AdminMatrixInfo() {
   const pdfRef = useRef();
+  const { t, i18n } = useTranslation("global");
 
+  const direction = i18n.language === "ar" ? "rtl" : "ltr";
+
+  const categories = {
+    قانون: t("select.law"), 
+    تعليمات: t("select.instructions"),
+    "لائحة تنفيذية": t("select.executiveRegulations"),
+    نظام: t("select.system"),
+  };
+  
   const downloadPDF = () => {
     const input = pdfRef.current;
     html2canvas(input, { scale: 2 }).then((canvas) => {
@@ -37,9 +47,7 @@ export default function AdminMatrixInfo() {
       doc.save("table.pdf");
     });
   };
-  const { t, i18n } = useTranslation("global");
   const [loading, setLoading] = useState(true);
-  const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const location = useLocation();
   const legislation = location.state.Legislation;
   const navigate = useNavigate();
@@ -136,13 +144,10 @@ export default function AdminMatrixInfo() {
                     </tr>
                     <tr className="bg-[#fce8ca]">
                       <td className="px-4 py-2 font-bold">
-                        {t("legislationsinfo.category")}
+                        {t("legislationsinfo.category")} :
                       </td>
-                      <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                        {legislation.category}
-                      </td>
-                    </tr>
-                    <tr>
+                      <td className="px-4 py-2 break-words w-1/2 overflow-hidden">{categories[legislation.category]} </td>
+                   </tr> <tr>
                       <td className="px-4 py-2 font-bold">
                         {t("legislationsinfo.publisher")}
                       </td>

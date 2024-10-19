@@ -17,6 +17,12 @@ export default function MatrixEditForm() {
   const { t, i18n } = useTranslation("global");
 
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
+  const categories = {
+    قانون: t("select.law"),
+    نظام: t("select.system"),
+    "لائحة التنفيذية": t("select.executiveRegulations"),
+    تعليمات: t("select.instructions"),
+  };
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [matrixData, setMatrixData] = useState({
     title: matrix.title || "",
@@ -113,15 +119,15 @@ export default function MatrixEditForm() {
                   value={matrixData.category}
                   onChange={handleInputChange}
                 >
+                
                   <option disabled value="">
-                  {t("legislationForm.choose")}
-                  </option>
-                  <option value="قانون">{t("select.law")}</option>
-                <option value="النظام">{t("select.system")}</option>
-                <option value="لائحة التنفيذية">{t("select.executiveRegulations")}</option>
-           
-                <option value="قرارات ">{t("select.decisions")}</option>
-                <option value="تعليمات">{t("select.instructions")}</option>
+        {t("legislationForm.choose")}
+      </option>
+      {Object.entries(categories).map(([key, value]) => (
+        <option key={key} value={key}> 
+          {value}
+        </option>
+      ))}
                 </Select>
               </div>
               <div className="col-span-2">

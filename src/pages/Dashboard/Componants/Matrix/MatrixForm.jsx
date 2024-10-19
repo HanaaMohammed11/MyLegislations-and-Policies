@@ -25,7 +25,12 @@ export default function MatrixForm({ onClose }) {
 
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const navigation = useNavigate();
-
+  const categories = {
+    قانون: t("select.law"),
+    نظام: t("select.system"),
+    "لائحة التنفيذية": t("select.executiveRegulations"),
+    تعليمات: t("select.instructions"),
+  };
   const handleSave = async () => {
     const data = {
       // ownerAdmin: localStorage.getItem("id"),
@@ -158,13 +163,12 @@ export default function MatrixForm({ onClose }) {
               >
                 <option disabled value="">
         {t("legislationForm.choose")}
-                </option>
-                <option value="قانون">{t("select.law")}</option>
-                <option value="النظام">{t("select.system")}</option>
-                <option value="لائحة التنفيذية">{t("select.executiveRegulations")}</option>
-           
-                <option value="قرارات ">{t("select.decisions")}</option>
-                <option value="تعليمات">{t("select.instructions")}</option>
+      </option>
+      {Object.entries(categories).map(([key, value]) => (
+        <option key={key} value={key}> 
+          {value}
+        </option>
+      ))}
               </Select>
             </div>
             {/* المقدمة */}
