@@ -51,11 +51,11 @@ export default function Topbanner() {
           localStorage.setItem("accountType", userData[0].accountType);
         } else {
           console.log("No matching user found");
-          navigate("/login", { replace: true }); 
+          navigate("/login"); 
         }
       } catch (error) {
         console.error("Error fetching user data: ", error);
-        navigate("/login", { replace: true }); 
+        navigate("/login"); 
       }
     };
 
