@@ -75,7 +75,9 @@ export default function AddAccounts() {
       const user = userCredential.user;
 
       const docRef = await addDoc(usersCollection, {
-        ownerAdmin: localStorage.getItem("id"),
+        ...(accountType === "employee" && {
+          ownerAdmin: localStorage.getItem("id"),
+        }),
         firstname: firstName,
         lastname: lastName,
         email: email,
@@ -144,29 +146,11 @@ export default function AddAccounts() {
       (employee?.email && employee.email.includes(searchQuery))
   );
 
-  // async function deleteUserByUid(uid) {
-  //   setRefresh(true)
-  //   try {
-  //     const response = await axios.delete(`https://delete-user-node-js.vercel.app/delete-user/${uid}`);
-  //
-
-  //     if (response.status == 200) {
-  //       console.log(response.data.message);
-  //     } else {
-  //       console.log(response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }finally{
-  //     setRefresh(false)
-  //   }
-  // }
-
   async function deleteUserByUid(uid, employeeId) {
     setRefresh(true);
     try {
       const response = await axios.delete(
-        `https://delete-user-node-js.vercel.app/delete-user/${uid}`
+        `https://delet-my-legislations-and-policies-user.vercel.app/delete-user/${uid}`
       );
 
       try {
@@ -195,14 +179,14 @@ export default function AddAccounts() {
     firstname: "",
     lastname: "",
     accountType: "",
-    docId: "", // Assuming you also need the document ID to update it
+    docId: "",
   });
   const handleEditClick = (selectedEmployee) => {
     setEmployeeData({
       firstname: selectedEmployee.firstname,
       lastname: selectedEmployee.lastname,
       accountType: selectedEmployee.accountType,
-      docId: selectedEmployee.docId, // Assuming docId is a part of the employee data
+      docId: selectedEmployee.docId, 
     });
     setOpenEditModal(true);
   };
@@ -214,7 +198,6 @@ export default function AddAccounts() {
         accountType: values.accountType,
       });
       console.log("Account updated successfully!");
-      // Optionally handle success, e.g., show a success message
     } catch (error) {
       console.error("Error updating account: ", error);
       setError("Failed to update account");
@@ -222,7 +205,6 @@ export default function AddAccounts() {
   };
 
   const handleEditSubmit = async (values) => {
-    // Update the employee data based on the form input
     setEmployeeData((prev) => ({
       ...prev,
       firstname: values.firstName,
@@ -250,7 +232,8 @@ export default function AddAccounts() {
           <input
             type="text"
             className="rounded-full text-right h-9 px-4"
-        placeholder={t("search.searchEmployees")}            value={searchQuery}
+            placeholder={t("matrixForm.search")}
+            value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
@@ -378,7 +361,7 @@ export default function AddAccounts() {
                           </option>
                         )}
                       <option value="admin">{t("addaccount.admin")}</option>
-                      <option value="user">{t("addaccount.emp")}</option>
+                      <option value="employee">{t("addaccount.emp")}</option>
                     </Field>
                     <ErrorMessage
                       name="accountType"
@@ -401,14 +384,12 @@ export default function AddAccounts() {
       </Modal>
 
       {/* Employees Table */}
-      <div className="overflow-x-auto flex flex-col items-center w-full " >
+      <div className="overflow-x-auto flex flex-col items-center w-full ">
         <div
           dir={direction}
           className="overflow-x-auto w-full p-4 rounded-lg shadow-lg mt-10"
         >
-          <table
-            className="table-auto w-full min-w-[300px] bg-[#D3A17A] text-sm md:text-base lg:mt-9 md:mt-9 mt-16 sm:mt-14 "
-          >
+          <table className="table-auto w-full min-w-[300px] bg-[#D3A17A] text-sm md:text-base lg:mt-9 md:mt-9 mt-16 sm:mt-14 ">
             <thead dir={direction}>
               <tr dir={direction} className="bg-[#D3A17A] text-white">
                 <th className="px-2 md:px-4 py-2">
@@ -432,9 +413,12 @@ export default function AddAccounts() {
                     <td className="px-2 md:px-4 py-2">{employee.email}</td>
                     <td className="px-2 md:px-4 py-2">{employee.password}</td>
                     <td className="px-2 md:px-4 py-2">
-                      {employee.accountType}
-                    </td>
-          
+  {employee.accountType === "superAdmin" && t("addaccount.superAdmin")}
+  {employee.accountType === "admin" && t("addaccount.admin")}
+  {employee.accountType === "employee" && t("addaccount.emp")}
+</td>
+
+                    {user[0].accountType === "superAdmin" || user[0].accountType === "admin" &&(
                       <td className="px-2 md:px-4 py-2 flex justify-center space-x-2">
                         <AiFillDelete
                           className="text-red-500 cursor-pointer me-3"
@@ -477,7 +461,7 @@ export default function AddAccounts() {
                                 await updateAcc(employeeData.docId, values);
                                 setSubmitting(false);
                                 setOpenEditModal(false);
-                                setRefresh(true); // Refresh to get the updated list
+                                setRefresh(true); 
                               }}
                             >
                               {({ isSubmitting }) => (
@@ -539,10 +523,16 @@ export default function AddAccounts() {
                                         <option value="admin">
                                           {t("addaccount.admin")}
                                         </option>
-                                        <option value="user">
+                                        <option value="employee">
                                           {t("addaccount.emp")}
                                         </option>
-                                      
+                                        {user.length > 0 &&
+                                          user[0].accountType ===
+                                            "superAdmin" && (
+                                            <option value="superAdmin">
+                                              {t("addaccount.superAdmin")}
+                                            </option>
+                                          )}
                                       </Field>
                                       <ErrorMessage
                                         name="accountType"
@@ -568,7 +558,7 @@ export default function AddAccounts() {
                           </Modal.Body>
                         </Modal>
                       </td>
-            
+                    )}
                   </tr>
                 ))
               ) : (

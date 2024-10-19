@@ -253,7 +253,7 @@
   "select":{
     "law": "قانون",
     "system": "نظام",
-    "executiveRegulations": "اللائحة التنفيذية",
+    "executiveRegulations": "تنفيذية لائحة ",
     "decisions": "قرارات",
     "instructions": "تعليمات"
   }
