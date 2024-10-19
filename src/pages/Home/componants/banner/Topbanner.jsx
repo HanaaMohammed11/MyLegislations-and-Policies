@@ -29,33 +29,26 @@ export default function Topbanner() {
   );
   useEffect(() => {
     const fetchUser = async () => {
-      const userId = localStorage.getItem("id");
-      if (userId) {
-        try {
-          const q = query(
-            collection(db, "users"),
-            where("ID", "==", userId)
-          );
-          const querySnapshot = await getDocs(q);
-          const userData = querySnapshot.docs.map((doc) => doc.data());
-          if (userData.length > 0) {
-            setUser(userData[0]);
-            localStorage.setItem("accountType", userData[0].accountType);
-          } else {
-            console.log("No matching user found");
-            navigate("/login", { replace: true });
-          }
-        } catch (error) {
-          console.error("Error fetching user data: ", error);
+      try {
+        const q = query(
+          collection(db, "users"),
+          where("ID", "==", localStorage.getItem("id"))
+        );
+        const querySnapshot = await getDocs(q);
+        const userData = querySnapshot.docs.map((doc) => doc.data());
+        if (userData.length > 0) {
+          setUser(userData[0]);
+          localStorage.setItem("accountType", userData[0].accountType);
+        } else {
+          console.log("No matching user found");
         }
-      } else {
-        console.log("User ID not found in localStorage");
-        navigate("/login", { replace: true });
+      } catch (error) {
+        console.error("Error fetching user data: ", error);
       }
     };
-
+  
     fetchUser();
-  }, [navigate]);
+  }, []);
   
 
   const dropdownRef = useRef(null);
