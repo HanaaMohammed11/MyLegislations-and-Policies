@@ -30,10 +30,10 @@ export default function Topbanner() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userId = localStorage.getItem("id"); // الحصول على معرف المستخدم من localStorage
+        const userId = localStorage.getItem("id"); 
         if (!userId) {
           console.log("User ID not found in localStorage");
-          navigate("/login", { replace: true }); // توجيه المستخدم إذا لم يكن هناك معرف
+          navigate("/login", { replace: true }); 
           return;
         }
 
@@ -51,11 +51,11 @@ export default function Topbanner() {
           localStorage.setItem("accountType", userData[0].accountType);
         } else {
           console.log("No matching user found");
-          navigate("/login", { replace: true }); // توجيه المستخدم إذا لم يتم العثور على بيانات
+          navigate("/login", { replace: true }); 
         }
       } catch (error) {
         console.error("Error fetching user data: ", error);
-        navigate("/login", { replace: true }); // توجيه المستخدم في حالة حدوث خطأ
+        navigate("/login", { replace: true }); 
       }
     };
 

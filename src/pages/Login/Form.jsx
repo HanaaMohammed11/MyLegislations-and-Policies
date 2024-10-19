@@ -56,10 +56,12 @@ export default function Form() {
   };
 
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
+console.log("hiiiiii");
 
   return (
     <div className="form">
       <div className="pt-4 flex justify-end p-9 ">
+
         <select
           onChange={(e) => handleChangeLanguage(e.target.value)}
           className="p-2 rounded-md bg-slate-400"
