@@ -17,7 +17,7 @@ export default function MatrixTable(props) {
   }
 
   return (
-    <div className={`overflow-x-auto mx-14 shadow-2xl  mb-9 mt-9 ${direction}`}>
+    <div className={`overflow-x-auto mx-14 shadow-2xl mb-36 mt-9 ${direction}`}>
       <table className="w-full text-center   shadow-lg" dir={direction}>
         <thead className=" text-xl font-semibold uppercase bg-gray-50 ">
           <tr>

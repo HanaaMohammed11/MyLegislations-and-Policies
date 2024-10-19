@@ -54,7 +54,7 @@ export default function SubTable({ searchTerm, searchType }) {
   }
 
   return (
-    <div className={`p-4 overflow-x-auto mx-14 mt-9 ${direction}`}>
+    <div className={`p-4 mb-36 overflow-x-auto mx-14 mt-9 ${direction}`}>
       <table className="table-auto w-full text-sm text-center dark:text-gray-400 shadow-lg rounded-xl mb-44" dir={direction}>
         <thead className="text-center text-xl font-semibold uppercase bg-gray-50">
           <tr className="text-center ml-9">

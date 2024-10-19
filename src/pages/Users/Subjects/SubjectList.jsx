@@ -88,7 +88,7 @@ export default function SubjectsLists() {
 )}
 
 {accountType === "admin" && (
-  <div className="flex-grow">
+  <div className="flex-grow mb-36">
     <SubTable searchTerm={searchTerm} searchType={searchType} />
   </div>
 )}

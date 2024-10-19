@@ -281,7 +281,7 @@ export default function MatrixLists() {
           <Loader />
         </div>
       ) : (
-        <div className="flex-grow">
+        <div className="flex-grow mb-36">
          
             <MatrixTable matrices={filteredMatrices} />
         
