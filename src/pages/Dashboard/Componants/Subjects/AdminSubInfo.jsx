@@ -88,7 +88,6 @@ export default function AdminSubjectInfo() {
       <Topbanner />
       <div dir={direction}>
         <button
-       
           className="text-center fixed bg-[#CDA03D] py-2 px-9 shadow-xl m-9 rounded-full text-white flex text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
           onClick={handleBack}
         >
@@ -142,7 +141,8 @@ export default function AdminSubjectInfo() {
                     className="cursor-pointer hover:bg-[#fce8ca]"
                     onClick={() => {
                       const matrix = matrices.find(
-                        (item) => item.title === subject.relatedMatrix.title
+                        (item) =>
+                          item.title === subject.relatedLegislation.title
                       );
                       console.log(matrix);
 
@@ -159,7 +159,6 @@ export default function AdminSubjectInfo() {
                     </td>
                   </tr>
 
-            
                   <tr>
                     <td className="px-4 py-2 font-bold w-1/2">
                       {t("subjectInfo.notes")}

@@ -87,6 +87,7 @@ export default function SubjectInfo() {
   const handleBack = () => {
     navigate(-1);
   };
+  console.log(clickedSubject.relatedLegislation.title);
 
   return (
     <div>
@@ -167,7 +168,6 @@ export default function SubjectInfo() {
                     </td>
                   </tr>
 
-               
                   <tr>
                     <td className="px-4 py-2 font-bold w-1/2">
                       {t("subjectInfo.notes")}

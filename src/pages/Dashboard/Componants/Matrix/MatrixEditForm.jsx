@@ -2,7 +2,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button, Label, Select, TextInput, Textarea } from "flowbite-react";
-import { doc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import db from "../../../../config/firebase";
 import { useTranslation } from "react-i18next";
 import { IoArrowBack } from "react-icons/io5";
@@ -18,7 +18,7 @@ export default function MatrixEditForm() {
 
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const categories = {
-    قانون: t("select.law"), 
+    قانون: t("select.law"),
     تعليمات: t("select.instructions"),
     "لائحة تنفيذية": t("select.executiveRegulations"),
     نظام: t("select.system"),
@@ -62,13 +62,64 @@ export default function MatrixEditForm() {
   };
 
   const handleSave = async () => {
-    const matrixRef = doc(db, "legislations", matrix.id);
+    console.log(matrix);
+
+    const matrixRef = doc(db, "legislations", matrix.id); // Reference to the legislation being updated
+    const subjectsRef = collection(db, "subjects"); // Reference to the subjects collection
+
     try {
+      // 1. Update the legislation in the 'legislations' collection
       await updateDoc(matrixRef, matrixData);
+
+      // 2. Fetch all subject documents that might have this legislation in their relatedLegislation field
+      const subjectsSnapshot = await getDocs(subjectsRef);
+      subjectsSnapshot.forEach(async (subjectDoc) => {
+        const subjectData = subjectDoc.data();
+        let relatedLegislation = subjectData.relatedLegislation || [];
+
+        // Ensure relatedLegislation is an array before proceeding
+        if (!Array.isArray(relatedLegislation)) {
+          relatedLegislation = [];
+        }
+
+        // Check if the relatedLegislation array contains the old legislation
+        const oldLegislationIndex = relatedLegislation.findIndex(
+          (legislation) => legislation.id === matrix.id
+        );
+        console.log(oldLegislationIndex);
+
+        if (oldLegislationIndex !== -1) {
+          console.log(`Legislation found in subject with ID: ${subjectDoc.id}`);
+
+          // 3. Remove the old legislation object
+          relatedLegislation.splice(oldLegislationIndex, 1);
+
+          // 4. Add the updated legislation object (update fields as necessary)
+          relatedLegislation.push({
+            id: matrix.id,
+            title: matrixData.title, // Assuming you want to update the title
+            companyName: matrixData.companyName, // Update other necessary fields
+          });
+
+          // 5. Update the subject document with the new relatedLegislation array
+          await updateDoc(doc(db, "subjects", subjectDoc.id), {
+            relatedLegislation: relatedLegislation,
+          });
+          console.log(
+            `Updated relatedLegislation in subject with ID: ${subjectDoc.id}`
+          );
+        } else {
+          console.log(
+            `No related legislation found in subject with ID: ${subjectDoc.id}`
+          );
+        }
+      });
+
+      // Show success popup
       setIsPopupVisible(true);
     } catch (error) {
-      console.error("Error updating matrix:", error);
-      alert(t("legislationEditForm.errorUpdating")); // Inform the user about the error
+      console.error("Error updating matrix or related legislation:", error);
+      alert(t("legislationEditForm.errorUpdating"));
     }
   };
 
@@ -119,15 +170,14 @@ export default function MatrixEditForm() {
                   value={matrixData.category}
                   onChange={handleInputChange}
                 >
-                
                   <option disabled value="">
-        {t("legislationForm.choose")}
-      </option>
-      {Object.entries(categories).map(([key, value]) => (
-        <option key={key} value={key}> 
-          {value}
-        </option>
-      ))}
+                    {t("legislationForm.choose")}
+                  </option>
+                  {Object.entries(categories).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}
                 </Select>
               </div>
               <div className="col-span-2">
