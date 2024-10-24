@@ -369,7 +369,7 @@ className={`flex flex-col justify-center  w-full  items-center gap-4 md:gap-9 z-
                     />
                   </div>
                   <div className="w-full">
-                    <Button type="submit" disabled={isSubmitting}>
+                    <Button type="submit" className="bg-[#C69221]" disabled={isSubmitting}>
                       {isSubmitting
                         ? t("addaccount.registering")
                         : t("addaccount.register")}
@@ -543,6 +543,7 @@ className={`flex flex-col justify-center  w-full  items-center gap-4 md:gap-9 z-
                                     <div className="w-full">
                                       <Button
                                         type="submit"
+                                        className="bg-[#C69221]"
                                         disabled={isSubmitting}
                                       >
                                         {isSubmitting
