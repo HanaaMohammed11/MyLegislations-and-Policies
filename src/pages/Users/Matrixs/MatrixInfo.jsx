@@ -11,7 +11,7 @@ import Loader from "../../Login/loader";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { IoArrowBack } from "react-icons/io5";
-export default function MatrixInfo() {
+export default function MatrixInfo({ matrix, onBack, onSubjectClick }) {
   const pdfRef = useRef();
 
   const downloadPDF = () => {
@@ -41,7 +41,7 @@ export default function MatrixInfo() {
   const location = useLocation();
   const navigate = useNavigate();
   const [relatedsubjects, setRelatedsubjectss] = useState([]);
-  const matrix = location.state.item || location.state.matrix;
+  // const matrix = location.state.item || location.state.matrix;
 
   const categories = {
     قانون: t("select.law"), 
@@ -75,31 +75,31 @@ export default function MatrixInfo() {
       setLoading(false);
     }
   }, [matrix]);
+
   const handleBack = () => {
     navigate(-1);
   };
 
   return (
     <div>
-      <Topbanner />
-      <div dir={direction} style={{  marginRight: "15px" }}>
+      <div dir={direction} >
         <button
-          className="text-center fixed mr-14 ml-14 bg-[#CDA03D] py-2 px-9 shadow-xl  rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
-          onClick={handleBack}
+          className="text-center fixed  bg-[#CDA03D] py-2 px-3 shadow-xl  rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
+          onClick={onBack}
           dir={direction}
         >
-          <IoArrowBack className="mt-1 mr-3" /> {t("text.back")}
+          <IoArrowBack className="" />
         </button>
       </div>
       <div
-        className="  justify-center flex items-center mt-[400px]"
+        className="  justify-center flex items-center mt-[50px]"
         style={{ paddingTop: "2px", paddingBottom: "440px" }}
         dir={direction}
       >
         {loading ? (
           <Loader />
         ) : (
-          <Card className="w-[900px] h-auto ">
+          <Card className="w-[1200px] h-auto ">
             <div className="flex justify-end px-4 pt-4 "></div>
             <div className="flex flex-col items-center pb-10 ">
               <div className="mt-4 w-full">
@@ -197,7 +197,9 @@ export default function MatrixInfo() {
                         <tr
                           className="border cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            navigate("/subjectInfo", { state: { subject } });
+                            onSubjectClick(subject);
+
+                            // navigate("/subjectInfo", { state: { subject } });
                           }}
                           key={subject.id}
                         >
@@ -232,7 +234,6 @@ export default function MatrixInfo() {
           </Card>
         )}
       </div>
-      <Bottombanner />
     </div>
   );
 }

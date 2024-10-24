@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import Loader from "../../Login/loader";
 import { Checkbox } from "flowbite-react"; // Import Flowbite Checkbox
 import { CiSearch } from "react-icons/ci";
+import MatrixInfo from "./MatrixInfo";
+import SubjectInfo from "../Subjects/SubjectInfo";
 
 export default function MatrixLists() {
   const { t, i18n } = useTranslation("global");
@@ -29,6 +31,17 @@ export default function MatrixLists() {
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState([]); // Category selection state
   const [user, setUser] = useState("");
+  const [selectedMatrix, setselectedMatrix] = useState(null);
+  const [selectedSubject, setselectedSubject] = useState(null);
+  const handleMatrixctClick = (Matrix) => {
+    setselectedSubject(null);
+    setselectedMatrix(Matrix);
+  };
+  const handleSubjectClick = (subject) => {
+    setselectedMatrix(null);
+    setselectedSubject(subject);
+
+  };
 
   useEffect(() => {
     const fetchUserAndBanner = async () => {
@@ -53,9 +66,11 @@ export default function MatrixLists() {
 
   const categories = {
     قانون: t("select.law"), 
-    تعليمات: t("select.instructions"),
-    "لائحة تنفيذية": t("select.executiveRegulations"),
     نظام: t("select.system"),
+    "لائحة تنفيذية": t("select.executiveRegulations"),
+    تعليمات: t("select.instructions"),
+
+
   };
 
   useEffect(() => {
@@ -209,14 +224,14 @@ export default function MatrixLists() {
   return (
     <div
       className="flex flex-col"
-      style={{ paddingTop: "270px", paddingBottom: "44px" }}
+      style={{ paddingTop: "120px", paddingBottom: "44px" }}
     >
       <div className="relative flex justify-center items-center text-center">
-        <Topbanner />
+   
       </div>
 
       {/* Input search section */}
-      <div className="search flex xs:flex-col md:flex-row xs:items-center xs:gap-y-4 md:gap-y-0 justify-center mt-9">
+      <div className="search flex-col flex xs:flex-col md:flex-row xs:items-center xs:gap-y-4 md:gap-y-0 justify-center mt-9">
         <select
           value={searchBy}
           onChange={handleSearchByChange}
@@ -247,13 +262,14 @@ export default function MatrixLists() {
             setSearchQuery(tempSearchQuery);
             handleSearch();
           }}
-          className="ml-2 px-4 py-2 rounded-full bg-[#CDA03D] text-white"
+             className="  ml-2 mr-2  px-4 py-2 rounded-full bg-[#CDA03D] text-white"
+
         >
           {t("matrix.searchButton")}
         </button>
         <button
           onClick={handleClearFilters}
-          className="ml-2 px-4 py-2 rounded-full bg-[#CDA03D] text-white"
+          className="  ml-2 mr-2  px-4 py-2 rounded-full bg-[#CDA03D] text-white"
         >
           {t("matrix.clearFilters")}
         </button>
@@ -277,20 +293,30 @@ export default function MatrixLists() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center m-44">
-          <Loader />
-        </div>
-      ) : (
-        <div className="flex-grow mb-36">
-         
-            <MatrixTable matrices={filteredMatrices} />
-        
-        </div>
-      )}
+  <div className="flex justify-center items-center my-44">
+    <Loader />
+  </div>
+) : selectedMatrix ? (
+  <MatrixInfo
+    matrix={selectedMatrix}
+    onSubjectClick={handleSubjectClick}
+    onBack={() => setselectedMatrix(null)}
+  />
+) : selectedSubject ? (
+  <SubjectInfo
+    subject={selectedSubject}
 
-      <div className="mt-auto">
-        <Bottombanner />
-      </div>
+    onMatrixClick={handleMatrixctClick}
+    onBack={() => setselectedSubject(null)}
+  />
+) :
+ ( // Default case
+  <MatrixTable
+    matrices={filteredMatrices}
+    onMatrixClick={handleMatrixctClick}
+  />
+)}
+
     </div>
   );
 }

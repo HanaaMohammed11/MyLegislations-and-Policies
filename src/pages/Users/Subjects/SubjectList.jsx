@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import SubTable from "./SubCard"
 import { doc, getDoc } from "firebase/firestore";
 import db from "../../../config/firebase";
+import MatrixInfo from "../Matrixs/MatrixInfo";
+import SubjectInfo from "./SubjectInfo";
 
 export default function SubjectsLists() {
   const { t, i18n } = useTranslation("global");
@@ -16,6 +18,17 @@ export default function SubjectsLists() {
   const [tempSearchQuery, setTempSearchQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState(""); 
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [selectedMatrix, setSelectedMatrix] = useState(null);  const handleSubjectClick = (subject) => {
+    setSelectedMatrix(null);
+
+    setSelectedSubject(subject);
+  };
+  const handleMatrixClick = (matrix) => {
+
+    setSelectedSubject(null);
+    setSelectedMatrix(matrix);
+  };
   useEffect(() => {
     const storedAccountType = localStorage.getItem("accountType"); 
     if (storedAccountType) {
@@ -39,17 +52,15 @@ export default function SubjectsLists() {
   return (
     <div
       className="flex flex-col"
-      style={{ paddingTop: "270px", paddingBottom: "44px" }}
+      style={{ paddingTop: "120px", paddingBottom: "44px" }}
     >
-      <div className="relative flex justify-center items-center text-center">
-        <Topbanner />
-      </div>
+  
 
-      <div className="search flex justify-center mt-9">
-        <select
+  <div className="search flex-col flex xs:flex-col md:flex-row xs:items-center xs:gap-y-4 md:gap-y-0 justify-center mt-9">
+  <select
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
-          className="mr-2 rounded-md p-2"
+        className=" rounded-md  ml-2 mr-2  p-2"
         >
           <option value="" disabled>{t("search.subsearch")}</option>
           <option value="subjectTitle">{t("search.subjectTitle")}</option>
@@ -69,13 +80,13 @@ export default function SubjectsLists() {
         
         <button
           onClick={handleSearch}
-          className="ml-2 px-4 py-2 rounded-full bg-[#CDA03D] text-white"
+          className="  ml-2 mr-2  px-4 py-2 rounded-full bg-[#CDA03D] text-white"
         >
           {t("matrix.searchButton")}
         </button>
         <button
           onClick={clearSearch}
-          className="ml-2 px-4 py-2 rounded-full bg-[#CDA03D] text-white"
+          className="  ml-2 mr-2  px-4 py-2 rounded-full bg-[#CDA03D] text-white"
         >
           {t("matrix.clearFilters")}
         </button>
@@ -88,15 +99,31 @@ export default function SubjectsLists() {
 )}
 
 {accountType === "admin" && (
-  <div className="flex-grow mb-36">
-    <SubTable searchTerm={searchTerm} searchType={searchType} />
+    <div className="flex-grow">
+    {!selectedSubject && !selectedMatrix  ? (
+      <SubTable
+        searchTerm={searchTerm}
+        searchType={searchType}
+        onSubjectClick={handleSubjectClick}
+      />
+    ) : !selectedSubject &&  selectedMatrix ? (
+      <MatrixInfo
+        matrix={selectedMatrix}
+        onSubjectClick={handleSubjectClick}
+        onBack={() => setSelectedMatrix(null)}
+      />
+    ) : (
+      <SubjectInfo
+        subject={selectedSubject}
+        onMatrixClick={handleMatrixClick}
+        onBack={() => setSelectedSubject(null)}
+      />
+    )}
   </div>
 )}
 
 
-      <div className="mt-auto">
-        <Bottombanner />
-      </div>
+    
     </div>
   );
 }

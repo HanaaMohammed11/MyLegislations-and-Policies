@@ -19,16 +19,16 @@ function AdminDashboard() {
 
     return (
         <div >
-            <Topbanner/>
+ 
          
-        <div className=" top-0 "  style={{  paddingTop: "300px",
+        <div className=" top-0  mr-9 ml-9"  style={{  paddingTop: "150px",
    }}>
           
         <SideBar/>
          
         </div>
         <div className="">
-        <Bottombanner/>
+  
         </div>
    
         </div>

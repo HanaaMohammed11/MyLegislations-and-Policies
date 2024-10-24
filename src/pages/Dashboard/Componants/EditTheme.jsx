@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import db, { storage } from "../../../config/firebase"; // تأكد من تصدير 'storage' بشكل صحيح
+import db, { storage } from "../../../config/firebase"; 
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import {
   ref,
@@ -21,10 +21,8 @@ const EditTheme = () => {
 
   const [topBanner, setTopBanner] = useState(null);
   const [bottomBanner, setBottomBanner] = useState(null);
-  const [homeElements, setHomeElements] = useState(null);
   const [logo, setLogo] = useState(null);
 
-  const [homeElementsUrl, setHomeElementsUrl] = useState("");
   const [topBannerUrl, setTopBannerUrl] = useState("");
   const [bottomBannerUrl, setBottomBannerUrl] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
@@ -32,7 +30,6 @@ const EditTheme = () => {
   const [topBannerPreview, setTopBannerPreview] = useState("");
   const [bottomBannerPreview, setBottomBannerPreview] = useState("");
   const [logoPreview, setLogoPreview] = useState("");
-  const [homeElementsPreview, setHomeElementsPreview] = useState("");
 
   useEffect(() => {
     const unsubscribeTopBanner = onSnapshot(
@@ -59,20 +56,13 @@ const EditTheme = () => {
       }
     });
 
-    const unsubscribeHomeElements = onSnapshot(
-      doc(db, "banners", "homeElements"),
-      (doc) => {
-        if (doc.exists()) {
-          setHomeElementsUrl(doc.data().imageUrl || "");
-        }
-      }
-    );
+  
+    
 
     return () => {
       unsubscribeTopBanner();
       unsubscribeBottomBanner();
       unsubscribeLogo();
-      unsubscribeHomeElements();
     };
   }, []);
 
@@ -162,8 +152,7 @@ const EditTheme = () => {
       if (bottomBanner)
         await handleImageUpload(bottomBanner, "bottomBanner", bottomBannerUrl);
       if (logo) await handleImageUpload(logo, "logo", logoUrl);
-      if (homeElements)
-        await handleImageUpload(homeElements, "homeElements", homeElementsUrl);
+  
     } catch (error) {
       console.log("Error saving, please try again.", error);
     }
@@ -336,63 +325,7 @@ const EditTheme = () => {
             </button>
           </Label>
 
-          {/* Home Elements */}
-          <Label
-            htmlFor="home-elements"
-            className="relative flex h-64 w-full md:w-96 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
-          >
-            <div className="flex flex-col items-center justify-center pb-6 pt-5">
-              <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">{t("edittheme.upload")}</span>
-              </p>
-              <p className="text-xs text-gray-500">
-                {t("edittheme.homeElements")}
-              </p>
-
-              {homeElementsPreview ? (
-                <img
-                  src={homeElementsPreview}
-                  alt="Home Elements"
-                  className="mt-2 h-32 w-full object-cover"
-                />
-              ) : (
-                homeElementsUrl && (
-                  <img
-                    src={homeElementsUrl}
-                    alt="Home Elements"
-                    className="mt-2 h-32 w-full object-cover"
-                  />
-                )
-              )}
-            </div>
-
-            <input
-              id="home-elements"
-              type="file"
-              className="hidden"
-              onChange={(e) => {
-                if (e.target.files[0]) {
-                  setHomeElements(e.target.files[0]);
-                  setHomeElementsPreview(
-                    URL.createObjectURL(e.target.files[0])
-                  );
-                }
-              }}
-            />
-            <button
-              onClick={() =>
-                handleDeleteImage(
-                  "homeElements",
-                  setHomeElementsPreview,
-                  setHomeElements,
-                  setHomeElementsUrl
-                )
-              }
-              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
-            >
-              ❌
-            </button>
-          </Label>
+     
         </div>
       </div>
       <div>

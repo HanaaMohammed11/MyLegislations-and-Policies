@@ -19,7 +19,12 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { IoArrowBack } from "react-icons/io5";
 import { nav } from "framer-motion/client";
-export default function SubjectInfo() {
+export default function SubjectInfo({
+  subject,
+  onBack,
+  onMatrixClick,
+  onEmpClick,
+}) {
   const { t, i18n } = useTranslation("global");
   const pdfRef = useRef();
 
@@ -48,10 +53,9 @@ export default function SubjectInfo() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [subject, setSubject] = useState(null);
   const [matrices, setMatrices] = useState([]);
-  const clickedSubject = location.state?.subject;
-  console.log(clickedSubject.relatedLegislation.title);
+
+  console.log(subject.relatedLegislation.title);
   useEffect(() => {
     const qUser = query(
       collection(db, "legislations"),
@@ -70,39 +74,39 @@ export default function SubjectInfo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!clickedSubject) {
+        if (!subject) {
           console.error("No subject data found in location state");
           return;
         }
 
-        setSubject(clickedSubject);
+        setSubject(subject);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [clickedSubject]);
+  }, [subject]);
 
   const handleBack = () => {
     navigate(-1);
   };
-  console.log(clickedSubject.relatedLegislation.title);
+
 
   return (
     <div>
       <Topbanner />
       <div dir={direction} style={{ marginLeft: 20 }}>
         <button
-          className="text-center bg-[#CDA03D] fixed py-2 px-9 shadow-xl m-9 rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
-          onClick={handleBack}
+          className="text-center bg-[#CDA03D] fixed py-2 px-3 shadow-xl rounded-full text-white flex  text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
+          onClick={onBack}
           dir={direction}
         >
-          <IoArrowBack className="mt-1 mr-3" /> {t("text.back")}
+          <IoArrowBack className="" /> 
         </button>
       </div>
       <div
-        className="mt-[400px] justify-center flex items-center"
+        className="mt-[50px] justify-center flex items-center"
         style={{ paddingTop: "2px", paddingBottom: "440px" }}
       >
         <Card className="w-[1200px] ">
@@ -125,7 +129,7 @@ export default function SubjectInfo() {
                       {t("subjectEditForm.subjectNum")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2">
-                      {clickedSubject.subjectNum}
+                      {subject.subjectNum}
                     </td>
                   </tr>
                   <tr className="bg-[#fce8ca]">
@@ -133,7 +137,7 @@ export default function SubjectInfo() {
                       {t("subjectEditForm.subjectTitle")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2">
-                      {clickedSubject.subjectTitle}
+                      {subject.subjectTitle}
                     </td>
                   </tr>
                   <tr>
@@ -141,30 +145,26 @@ export default function SubjectInfo() {
                       {t("subjectEditForm.subjectContent")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                      {clickedSubject.subjectContent}
+                      {subject.subjectContent}
                     </td>
                   </tr>
                   <tr
-                    className="cursor-pointer hover:bg-[#fce8ca]"
+                    className="cursor-pointer bg-[#fce8ca] hover:bg-[#fce8ca]"
                     onClick={() => {
-                      console.log(matrices);
-
                       const matrix = matrices.find(
-                        (item) =>
-                          item.title === clickedSubject.relatedLegislation.title
+                        (item) => item.title === subject.relatedLegislation.title
                       );
-                      console.log(matrix);
-
-                      navigate("/MatrixInfo", {
-                        state: { matrix },
-                      });
+                      onMatrixClick(matrix);
+                      // navigate("/MatrixInfo", {
+                      //   state: { matrix },
+                      // });
                     }}
                   >
                     <td className="px-4 py-2 font-bold w-1/2">
                       {t("subjectEditForm.relatedLegislations")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2 overflow-hidden ">
-                      {clickedSubject.relatedLegislation.title}
+                      {subject.relatedLegislation.title}
                     </td>
                   </tr>
 
@@ -173,7 +173,7 @@ export default function SubjectInfo() {
                       {t("subjectInfo.notes")}
                     </td>
                     <td className="px-4 py-2 break-words w-1/2 overflow-hidden">
-                      {clickedSubject.notes}
+                      {subject.notes}
                     </td>
                   </tr>
                 </tbody>
@@ -182,7 +182,7 @@ export default function SubjectInfo() {
           </div>
         </Card>
       </div>
-      <Bottombanner />
+
     </div>
   );
 }

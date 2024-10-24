@@ -2,7 +2,7 @@
   "text": {
     "DashBoard": "Dashboard",
     "Employees": "Employees",
-    "Articles": "Policies",
+    "Articles": "Articles",
     "Matrices": "Legislations",
     "masfofa": "Masfofa",
     "home": "Main",
@@ -108,14 +108,14 @@
     "introduction": "Introduction :",
     "definitionsHeader": "Definitions Used in the Legislation",
     "definitions": "Definitions :",
-    "permissions": "Associated Policies :",
-    "subjectTitle": "Policies Title :",
-    "noRelatedSubjects": "No Related Policies",
+    "permissions": "Associated Articles :",
+    "subjectTitle": "Articles Title :",
+    "noRelatedSubjects": "No Related Articles",
     "notes": "Notes :"
   },
   "sidebar": {
     "Legislations": "Legislations",
-    "Policies": "Policies",
+    "Policies": "Articles",
     "employees": "Employees",
     "editAppearance": "Edit Theme",
     "addUser": "Add User"
@@ -196,7 +196,7 @@
   },
   "legislationForm": {
     "alert": "Data has been save successfully",
-    "addNewLegislations": "Add New Legislations",
+    "addNewLegislations": "Add Legislations",
     "companyName": "Company name",
     "legislationsName": "Legislations Name",
     "updateDate": "Amendment Date",
@@ -220,7 +220,7 @@
   },
   "subjectEditForm": {
     "editSubject": "Edit Article",
-    "addSubject": "Add New Policy",
+    "addSubject": "Add Articles",
     "search": "Search ",
     "field": "Field",
     "subjectNum": "Article Number",
@@ -256,9 +256,13 @@
     }
   },  "select":{
     "law": "Law",
-    "system": "System",
+    "system": "Regime",
     "executiveRegulations": "Executive Regulations",
     "decisions": "Decisions",
     "instructions": "Instructions"
-  }
+  },
+  "pagination":{
+     "of": "of",
+      "page": "Page"
+ }
 }

@@ -194,7 +194,7 @@
     "alert": "تم حفظ البيانات بنجاح",
     "choose":"اختر",
 
-    "addNewLegislations": "إضافة تشريع جديد",
+    "addNewLegislations": "إضافة تشريع ",
     "companyName": "الجهة المُنشئة",
     "legislationsName": "اسم التشريع",
     "updateDate": "تاريخ التعديل",
@@ -217,7 +217,7 @@
   },
   "subjectEditForm": {
     "editSubject": "تعديل المادة",
-    "addSubject": "إضافة مادة جديدة",
+    "addSubject": "إضافة مادة ",
     "search": "بحث عن مادة",
     "field": "الحقل",
     "subjectNum": "رقم المادة",
@@ -260,5 +260,8 @@
     "executiveRegulations": "لائحة تنفيذية ",
     "decisions": "قرارات",
     "instructions": "تعليمات"
-  }
+  },"pagination":{
+    "of": "من",
+     "page": "الصفحة"
+ }
 }

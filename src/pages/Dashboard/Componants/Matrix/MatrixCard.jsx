@@ -14,13 +14,15 @@ import db from "../../../../config/firebase";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../Login/loader";
 import { AiFillEye, AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-export default function MatrixCard({ searchQuery }) {
+export default function MatrixCard({ searchQuery, onMatrixClick }) {
   const [matrix, setMatrix] = useState([]);
   const [loading, setLoading] = useState(true);
   const { t, i18n } = useTranslation("global");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const id = useId();
   const navigate = useNavigate();
@@ -62,6 +64,11 @@ export default function MatrixCard({ searchQuery }) {
     card.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+    // Total pages based on filtered subjects
+    const totalPages = Math.ceil(filteredMatrix.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentMatrices = filteredMatrix.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div className={`mx-4  mt-32 mb-9 w-full ${direction} `}>
       {loading ? (
@@ -70,7 +77,7 @@ export default function MatrixCard({ searchQuery }) {
         </div>
       ) : filteredMatrix.length > 0 ? (
         <div
-          className={`overflow-x-auto overflow-y-auto mx-4 md:mx-14 shadow-2xl mb-9 mt-3 ${direction} }`}
+          className={`overflow-x-auto overflow-y-auto mx-4 md:mx-14 mb-9 mt-3 ${direction} }`}
         >
           <table
             className="min-w-full text-center text-xl font-semibold  shadow-lg "
@@ -90,7 +97,7 @@ export default function MatrixCard({ searchQuery }) {
               </tr>
             </thead>
             <tbody>
-              {filteredMatrix.map((card, index) => (
+              {currentMatrices.map((card, index) => (
                 <tr
                   key={card.id}
                   className={`${
@@ -108,7 +115,7 @@ export default function MatrixCard({ searchQuery }) {
                     <div className="flex justify-center space-x-2 md:space-x-4">
                       {/* أيقونة العرض */}
                       <button
-                        onClick={() => show(card)}
+                        onClick={() =>     onMatrixClick(card)}
                         className="text-blue-500 ml-4"
                       >
                         <AiFillEye size={20} />
@@ -135,6 +142,36 @@ export default function MatrixCard({ searchQuery }) {
               ))}
             </tbody>
           </table>
+              {/* Pagination Controls */}
+        <div className="flex justify-center mt-9">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className={`flex items-center `}
+        >
+          {i18n.language === 'ar' ? (
+            <MdKeyboardDoubleArrowRight className="ml-2" color="black" size={25} />
+          ) : (
+            <MdKeyboardDoubleArrowLeft className="mr-2" color="black" size={25} />
+          )}
+        </button>
+
+        <span className="mx-2">
+          {t("pagination.page")} {currentPage} {t("pagination.of")} {totalPages}
+        </span>
+
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className={`flex items-center }`}
+        >
+          {i18n.language === 'ar' ? (
+            <MdKeyboardDoubleArrowLeft className="ml-2" color="black" size={25} />
+          ) : (
+            <MdKeyboardDoubleArrowRight className="mr-2" color="black" size={25} />
+          )}
+        </button>
+      </div>
         </div>
       ) : (
         <div className="text-center">{t("matrixCardDashboard.noMatrix")}</div>

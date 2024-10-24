@@ -38,6 +38,7 @@ export default function Topbanner() {
         const userData = querySnapshot.docs.map((doc) => doc.data());
         if (userData.length > 0) {
           setUser(userData[0]);
+          // احفظ نوع الحساب في localStorage بحيث يكون متاحًا عند التنقل
           localStorage.setItem("accountType", userData[0].accountType);
         } else {
           console.log("No matching user found");
@@ -103,41 +104,86 @@ export default function Topbanner() {
   }, []);
 
   return (
-    <div className="w-full  "  style={{ 
+    <div className="  " 
 
-      position: "fixed", 
-      top: 0, 
-      left: 0, 
-      width: "100%", 
-      zIndex: 1000 
-    }}>
-      <Navbar
+>
+      {/* <Navbar
         fluid={true}
         rounded={true}
-        className="bg-[#771D1D] text-white "
+        className="bg-gray-500 text-white lg:hidden md:hidden"
       >
         <Navbar.Toggle className="bg-red text-yellow-50" />
 
-        <div className="flex">
-          {/* Logout Button */}
-
-          <div className="flex">
-       
+        <Navbar.Collapse>
+        {(localStorage.getItem("accountType") === "admin" || localStorage.getItem("accountType") === "superAdmin") && (
             <div
-              className="ml-8 font-semibold text-xl flex items-center justify-center text-white  cursor-pointer hover:bg-gray-600 p-2 "
-              onClick={handleLogout}
-              style={{
-                marginRight: 30,
-                marginBottom: "10px",
-              }}
+              className="relative cursor-pointer text-xl  rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+              onClick={() => navigate("/dashboard")}
             >
-              <TbLogout2 size={30} />
-            </div>
 
-        
+              <span className="block p-2 text-white">
+                {t("text.DashBoard")}
+              </span>
+              
+              
+            </div>
+          )}
+
+          <div
+            className="relative cursor-pointer text-xl  rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+            onClick={() => navigate("/users")}
+          >
+           
+            <span className="block p-2 text-white">{t("text.Employees")}</span>
+           
+            
+            
           </div>
-          {/* Language Dropdown */}
-          <div className="relative" ref={dropdownRef}>
+
+          <div
+            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+            onClick={() => navigate("/subjects")}
+          >
+           
+            <span className="block p-2 text-white">{t("text.Articles")}</span>
+       
+          </div>
+
+          <div
+            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+            onClick={() => navigate("/Matrix")}
+          >
+           
+            <span className="block p-2 text-white">{t("text.Matrices")}</span>
+       
+          </div>
+
+          <div
+            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group bg-slate-900 hover:bg-[#CDA03D] px-9 "
+            onClick={() => navigate("/")}
+          >
+           
+            <span className="block p-2 text-white">{t("text.home")}</span>
+           
+            
+          </div>
+        </Navbar.Collapse>
+      </Navbar> */}
+
+      {/* Banner section */}
+      <div
+  className="Topbaner w-full   h-36 rounded-xl bg-cover bg-center flex justify-between items-center"
+  style={{ 
+    backgroundImage: `url(${topBannerUrl})`,
+    zIndex:"10",
+    position: "fixed", 
+    top: 0, 
+
+  }}
+>
+  <div className="flex">
+
+            <div className="relative mr-9 ml-9 " ref={dropdownRef}>
             <button
               className="p-2  bg-slate-400 border-yellow-400 border-2 text-white flex items-center hover:bg-slate-500"
               onClick={() => setIsOpen((prev) => !prev)}
@@ -149,7 +195,7 @@ export default function Topbanner() {
               />
             </button>
             {isOpen && (
-              <div className="absolute bg-white shadow-lg  mt-2 w-full z-10">
+              <div className="absolute   bg-white shadow-lg   w-full">
                 <div
                   onClick={() => handleLanguageSelect("en")}
                   className="p-2 flex items-center cursor-pointer hover:bg-gray-100"
@@ -169,69 +215,20 @@ export default function Topbanner() {
               </div>
             )}
           </div>
-        </div>
-
-
-
-        {/* Navbar Items */}
-        <Navbar.Collapse>
-        {(localStorage.getItem("accountType") === "admin" || localStorage.getItem("accountType") === "superAdmin") && (
-            <div
-              className="relative cursor-pointer text-xl  rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
-              onClick={() => navigate("/dashboard")}
+          <div
+              className="ml- font-semibold text-xl flex items-center justify-center text-gray-500  cursor-pointer hover:text-red-600 p-2 "
+              onClick={handleLogout}
+              style={{
+                marginBottom: "10px",
+              }}
             >
-
-              <span className="block p-2 text-white">
-                {t("text.DashBoard")}
-              </span>
-              
-            
+              <TbLogout2 size={30} />
             </div>
-          )}
+  </div>
 
-       
-
-          <div
-            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
-            onClick={() => navigate("/subjects")}
-          >
-           
-            <span className="block p-2 text-white">{t("text.Articles")}</span>
-         
-          </div>
-
-          <div
-            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
-            onClick={() => navigate("/Matrix")}
-          >
-           
-            <span className="block p-2 text-white">{t("text.Matrices")}</span>
-         
-          </div>
-
-          <div
-            className="relative cursor-pointer text-xl rounded-full transition-all duration-300 group sm:bg-none lg:bg-slate-900 hover:bg-[#CDA03D] px-9 "
-            onClick={() => navigate("/")}
-          >
-           
-            <span className="block p-2 text-white">{t("text.home")}</span>
-           
-          
-          </div>
-        </Navbar.Collapse>
-      </Navbar>
-
-      {/* Banner section */}
-      <div
-  className="Topbaner w-full h-48 bg-cover bg-center flex justify-end items-center"
-  style={{ 
-    backgroundImage: `url(${topBannerUrl})`, 
-
-  }}
->
   {/* Logo */}
-  <div className="w-60 pr-5 pt-9 mb-12 logo">
-    <Link to="/" className="ml-4">
+  <div className="w-60 pr-5 pt-12 mb-12 ml-[300px] mr-[300px] logo">
+    <Link to="/" className="">
       <img src={logoUrl} alt="Logo" />
     </Link>
   </div>

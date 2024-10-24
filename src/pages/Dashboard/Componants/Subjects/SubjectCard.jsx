@@ -15,15 +15,17 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../Login/loader";
 import { AiOutlineEdit, AiOutlineDelete, AiFillEye } from "react-icons/ai";
+import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-export default function SubjctCard({ searchTerm }) {
+export default function SubjctCard({ searchTerm, onSubjectClick, onEmpClick }) {
   const navigate = useNavigate();
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const { t, i18n } = useTranslation("global");
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
   const deleteSubject = async (subjectId) => {
     const subjectRef = doc(db, "subjects", subjectId);
     try {
@@ -64,7 +66,10 @@ export default function SubjctCard({ searchTerm }) {
       (subject.subjectField?.toString().toLowerCase().replace(/\s+/g, "").includes(searchText)) ||
       (subject.ownerAdmin?.toLowerCase().replace(/\s+/g, "").includes(searchText))
     );
-  });
+  });  // Total pages based on filtered subjects
+  const totalPages = Math.ceil(filteredSubjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentArticles = filteredSubjects.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className={`mx-4  mt-32 mb-9 w-full ${direction} `}>
@@ -72,8 +77,8 @@ export default function SubjctCard({ searchTerm }) {
         <div className="flex justify-center items-center min-h-[300px]">
           <Loader />
         </div>
-      ) : filteredSubjects.length > 0 ? (
-        <div className="overflow-x-auto flex justify-center items-center">
+      ) : currentArticles.length > 0 ? (
+        <div className="overflow-x-auto  items-center">
           <table className="min-w-full border-collapse" dir={direction}>
             <thead className=" uppercase bg-gray-50" dir={direction}>
               <tr>
@@ -90,7 +95,7 @@ export default function SubjctCard({ searchTerm }) {
               </tr>
             </thead>
             <tbody className="">
-              {filteredSubjects.map((subjectItem, index) => (
+              {currentArticles.map((subjectItem, index) => (
                 <tr
                   key={subjectItem.id}
                   className={`border-b twxt-xl  ${
@@ -106,7 +111,7 @@ export default function SubjctCard({ searchTerm }) {
                   </td>
                   <td className="px-4 py-2 font-semibold text-center flex justify-center space-x-3">
                     <button
-                      onClick={() => handleShowInfo(subjectItem)}
+                      onClick={() =>          onSubjectClick(subjectItem)}
                       className="text-blue-500 ml-3"
                     >
                       <AiFillEye size={20} />
@@ -136,6 +141,36 @@ export default function SubjctCard({ searchTerm }) {
               ))}
             </tbody>
           </table>
+              {/* Pagination Controls */}
+        <div className="flex justify-center mt-9">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className={`flex items-center `}
+        >
+          {i18n.language === 'ar' ? (
+            <MdKeyboardDoubleArrowRight className="ml-2" color="black" size={25} />
+          ) : (
+            <MdKeyboardDoubleArrowLeft className="mr-2" color="black" size={25} />
+          )}
+        </button>
+
+        <span className="mx-2">
+          {t("pagination.page")} {currentPage} {t("pagination.of")} {totalPages}
+        </span>
+
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className={`flex items-center }`}
+        >
+          {i18n.language === 'ar' ? (
+            <MdKeyboardDoubleArrowLeft className="ml-2" color="black" size={25} />
+          ) : (
+            <MdKeyboardDoubleArrowRight className="mr-2" color="black" size={25} />
+          )}
+        </button>
+      </div>
         </div>
       ) : (
         <div className="p-4 text-center text-neutral-600">
