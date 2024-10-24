@@ -251,7 +251,7 @@ export default function MatrixLists() {
         <input
           type="text"
           placeholder={t("matrix.searchButton")}
-          className="xs:w-72 sm:w-96 rounded-full ml-4"
+          className="xs:w-72 sm:w-96 rounded-full ml-4 mr-4"
           dir={direction}
           value={tempSearchQuery}
           onChange={(e) => setTempSearchQuery(e.target.value)}
