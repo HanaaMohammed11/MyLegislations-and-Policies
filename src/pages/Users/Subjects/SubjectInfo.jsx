@@ -109,7 +109,7 @@ export default function SubjectInfo({
         className="mt-[50px] justify-center flex items-center"
         style={{ paddingTop: "2px", paddingBottom: "440px" }}
       >
-        <Card className="w-[1200px] ">
+        <Card className="lg:w-[1200px] ">
           <div className=" w-full" dir={direction}>
             <Button onClick={downloadPDF} className="bg-[#d4af37] rounded-full">
               {t("text.download")}

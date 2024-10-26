@@ -99,7 +99,7 @@ export default function MatrixInfo({ matrix, onBack, onSubjectClick }) {
         {loading ? (
           <Loader />
         ) : (
-          <Card className="w-[1200px] h-auto ">
+          <Card className="lg:w-[1200px] h-auto ">
             <div className="flex justify-end px-4 pt-4 "></div>
             <div className="flex flex-col items-center pb-10 ">
               <div className="mt-4 w-full">
