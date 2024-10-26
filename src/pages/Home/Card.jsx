@@ -7,7 +7,7 @@ import "./Card.css";
 import logo from "../../assets/logo-4 1.png";
 
 export default function Cards({ setSelectedContent, toggleSidebar }) {
-  const { t } = useTranslation("global");
+  const { t ,i18n} = useTranslation("global");
   const [user, setUser] = useState("");
   const [bannerUrl, setBannerUrl] = useState(""); 
 
@@ -47,11 +47,13 @@ export default function Cards({ setSelectedContent, toggleSidebar }) {
 
     fetchUserAndBanner();
   }, []);
+  const direction = i18n.language === "ar" ? "rtl" : "ltr";
+
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col fixed " dir={direction} >
       {/* الشريط الجانبي المتجاوب */}
-      <div className="fixed inset-y-0 left-0 w-64 bg-white min-h-screen z-40 transform transition-transform duration-300 ease-in-out sm:translate-x-0 sm:static">
+      <div className="fixed inset-y-0 w-64 bg-white h-screen z-40  sm:translate-x-0 sm:static">
         <div className="flex flex-col items-center p-4">
           <img src={logo} alt="Logo" className="mb-4" />
 

@@ -23,7 +23,7 @@
 .aux-button::before {
     content: '';
     position: absolute;
-
+color: aliceblue;
     background-color: #000000; 
     transition: width 0.5s ease, height 1s ease, top 0.5s ease, left 0.5s ease;
     border-radius: 0%;

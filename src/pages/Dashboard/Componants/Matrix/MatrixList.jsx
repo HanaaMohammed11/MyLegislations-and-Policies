@@ -38,7 +38,7 @@ export default function MatrixList() {
           className={`flex flex-col justify-center  w-full  items-center gap-4 md:gap-9 z-10 sticky lg:fixed md:fixed sm:sticky xs:sticky `}
           >
           <div
-            className="btn-button  w-64 text-center btn-curve btn-gold flex items-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
+            className="btn-button  w-48 text-center btn-curve btn-gold flex items-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
             onClick={handleClick}
           >
             <span className="whitespace-nowrap flex items-center space-x-2 btn-text">

@@ -36,7 +36,7 @@ export default function SubjectList() {
         <div
           className={`flex flex-col justify-center  w-full  items-center gap-4 md:gap-9 z-10 sticky lg:fixed md:fixed sm:sticky xs:sticky `}
           >
-          <div
+         <div
             className="btn-button text-center btn-curve btn-gold flex items-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
             onClick={handleClick}
           >

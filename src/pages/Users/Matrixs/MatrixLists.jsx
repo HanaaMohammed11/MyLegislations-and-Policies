@@ -276,21 +276,22 @@ export default function MatrixLists() {
       </div>
 
       {/* Category filter section */}
-      <div className="flex justify-center mt-4">
-      {Object.entries(categories).map(([key, value]) => (
-        <div key={key} className="mx-2">
-          <label className="flex items-center space-x-2" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
-            <Checkbox
-              className="ml-2"
-              value={key} 
-              checked={selectedCategories.includes(key)}
-              onChange={handleCategoryChange}
-            />
-            <span>{value}</span>
-          </label>
-        </div>
-      ))}
-      </div>
+      <div className="flex flex-wrap justify-center mt-4">
+  {Object.entries(categories).map(([key, value]) => (
+    <div key={key} className="mx-2 mb-2"> 
+      <label className="flex items-center space-x-2" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+        <Checkbox
+          className="ml-2"
+          value={key} 
+          checked={selectedCategories.includes(key)}
+          onChange={handleCategoryChange}
+        />
+        <span>{value}</span>
+      </label>
+    </div>
+  ))}
+</div>
+
 
       {loading ? (
   <div className="flex justify-center items-center my-44">

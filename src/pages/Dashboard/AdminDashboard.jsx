@@ -27,9 +27,7 @@ function AdminDashboard() {
         <SideBar/>
          
         </div>
-        <div className="">
-  
-        </div>
+     
    
         </div>
     );
