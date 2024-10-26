@@ -141,7 +141,7 @@
     "emp": "مستخدم",
     "admin": "مشرف",
     "superAdmin": "سوبر أدمن",
-    "noUsers": "لا يوجد مستخدمين"
+    "noUsers": "لا يوجد مستخدمين","selectAccountType":"اختر نوع الحساب"
   },
   "userform": {
     "empimg": "صورة الموظف",

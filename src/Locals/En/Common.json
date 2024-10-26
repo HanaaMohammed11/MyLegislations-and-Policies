@@ -144,7 +144,7 @@
     "emp": "User",
     "admin": "Admin",
     "superAdmin": "Super Admin",
-    "noUsers": "No users available"
+    "noUsers": "No users available","selectAccountType":"select Account Type"
   },
   "userform": {
     "empimg": "Employee Photo",

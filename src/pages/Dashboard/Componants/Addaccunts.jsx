@@ -46,7 +46,7 @@ export default function AddAccounts() {
     lastName: "",
     email: "",
     password: "",
-    accountType: "employee",
+    accountType: "user",
   };
 
   const validationSchema = Yup.object().shape({
@@ -75,7 +75,7 @@ export default function AddAccounts() {
       const user = userCredential.user;
 
       const docRef = await addDoc(usersCollection, {
-        ...(accountType === "employee" && {
+        ...(accountType === "user" && {
           ownerAdmin: localStorage.getItem("id"),
         }),
         firstname: firstName,
@@ -105,23 +105,28 @@ export default function AddAccounts() {
     }
   };
 
+
+
   useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        const q = collection(db, "users");
-        const querySnapshot = await getDocs(q);
+    const fetchEmployees = () => {
+      const q = collection(db, "users");
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const employeeList = querySnapshot.docs.map((doc) => ({
           docId: doc.id,
           ...doc.data(),
         }));
         setEmployees(employeeList);
-      } catch (error) {
+      }, (error) => {
         console.error("Error fetching employees:", error);
-      }
+      });
+  
+      // Clean up the subscription on unmount
+      return () => unsubscribe();
     };
-
+  
     fetchEmployees();
   }, [refresh]);
+  
 
   useEffect(() => {
     const qUser = query(
