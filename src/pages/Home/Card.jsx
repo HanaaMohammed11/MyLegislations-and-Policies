@@ -4,14 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import db, { storage } from "../../config/firebase";
 import "./Card.css";
-import logo from "../../assets/logo-4 1.png"
-import { HiMenu, HiX } from "react-icons/hi";
+import logo from "../../assets/logo-4 1.png";
 
-export default function Cards({ setSelectedContent }) {
+export default function Cards({ setSelectedContent, toggleSidebar }) {
   const { t } = useTranslation("global");
   const [user, setUser] = useState("");
   const [bannerUrl, setBannerUrl] = useState(""); 
-  const [isOpen, setIsOpen] = useState(false); 
 
   useEffect(() => {
     const fetchUserAndBanner = async () => {
@@ -51,52 +49,42 @@ export default function Cards({ setSelectedContent }) {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white relative">
- 
-      {/* Toggle Menu Button */}
-      {/* <button 
-        className="absolute top-4 right-4 text-2xl z-50" // Adjust position as needed
-        onClick={() => setIsOpen(!isOpen)} 
-        aria-label={isOpen ? "Close menu" : "Open menu"}
-      >
-        {isOpen ? <HiX /> : <HiMenu />}
-      </button> */}
-      
-      <div className={`flex flex-col items-center sm:p-4 justify-center ${isOpen ? 'block' : 'hidden'} sm:flex`}>
-        <img src={logo} alt="Logo" className="mb-4" />
-        
-        {/* Cards with responsive styling */}
-        <div className="p-4 text-center w-full max-w-xs card-container">
-          <button
-            className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase w-full"
-            onClick={() => setSelectedContent("matrices")}
-          >
-            <h1 className="aux-text">{t("text.Matrices")}</h1>
-          </button>
-        </div>
+    <div className="flex flex-col min-h-screen">
+      {/* الشريط الجانبي المتجاوب */}
+      <div className="fixed inset-y-0 left-0 w-64 bg-white min-h-screen z-40 transform transition-transform duration-300 ease-in-out sm:translate-x-0 sm:static">
+        <div className="flex flex-col items-center p-4">
+          <img src={logo} alt="Logo" className="mb-4" />
 
-        <div className="p-4 text-center w-full max-w-xs card-container">
-          <button
-            className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase w-full"
-            onClick={() => setSelectedContent("articles")}
-          >
-            <h1 className="aux-text">{t("text.Articles")}</h1>
-          </button>
-        </div>
-
-   
-
-        {/* Admin-only Sidebar Item */}
-        {(user.accountType === "admin" || user.accountType === "superAdmin") && (
           <div className="p-4 text-center w-full max-w-xs card-container">
             <button
               className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase w-full"
-              onClick={() => setSelectedContent("dashboard")}
+              onClick={() => { setSelectedContent("matrices"); toggleSidebar(); }}
             >
-              <h1 className="aux-text">{t("text.DashBoard")}</h1>
+              <h1 className="aux-text">{t("text.Matrices")}</h1>
             </button>
           </div>
-        )}
+
+          <div className="p-4 text-center w-full max-w-xs card-container">
+            <button
+              className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase w-full"
+              onClick={() => { setSelectedContent("articles"); toggleSidebar(); }}
+            >
+              <h1 className="aux-text">{t("text.Articles")}</h1>
+            </button>
+          </div>
+
+
+          {(user.accountType === "admin" || user.accountType === "superAdmin") && (
+            <div className="p-4 text-center w-full max-w-xs card-container">
+              <button
+                className="aux-button aux-medium aux-carmine-pink aux-curve aux-none aux-uppercase w-full"
+                onClick={() => { setSelectedContent("dashboard"); toggleSidebar(); }}
+              >
+                <h1 className="aux-text">{t("text.DashBoard")}</h1>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
