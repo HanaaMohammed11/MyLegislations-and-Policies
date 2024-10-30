@@ -57,6 +57,8 @@ export default function AdminMatrixInfo() {
   };
 
   useEffect(() => {
+    
+    setLoading(false); // تأكد من إلغاء تحميل البيانات
     const usersCollectionRef = collection(db, "subjects");
 
     if (legislation.subjects) {
@@ -73,7 +75,7 @@ export default function AdminMatrixInfo() {
           ...doc.data(),
         }));
         setRelatedsubjectss(subjects);
-        setLoading(false); // تأكد من إلغاء تحميل البيانات
+   
       });
 
       return () => unsubscribe();
