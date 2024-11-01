@@ -4,11 +4,10 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect,  useState } from "react";
 import {
   collection,
-  doc,
-  getDoc,
+
   getDocs,
   query,
   where,
@@ -20,7 +19,6 @@ import MatrixEditForm from "./pages/Dashboard/Componants/Matrix/MatrixEditForm";
 import MatrixForm from "./pages/Dashboard/Componants/Matrix/MatrixForm";
 import Form from "./pages/Login/Form";
 import Home from "./pages/Home/Home";
-import AdminUsers from "./pages/Dashboard/Componants/users/AdminUsers";
 import MatrixLists from "./pages/Users/Matrixs/MatrixLists";
 import SubjectEditForm from "./pages/Dashboard/Componants/Subjects/SubjectEditForm";
 import MatrixInfo from "./pages/Users/Matrixs/MatrixInfo";
@@ -31,7 +29,7 @@ import SubjectsList from "./pages/Dashboard/Componants/Subjects/SubjectList";
 import SubjectsLists from "./pages/Users/Subjects/SubjectList";
 import AdminMatrixInfo from "./pages/Dashboard/Componants/Matrix/MatrixInfo";
 import AdminSubjectInfo from "./pages/Dashboard/Componants/Subjects/AdminSubInfo";
-
+import IntroPage from "./pages/Login/introPage";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,12 +47,12 @@ export default function App() {
         } else {
           console.log("User not found in Firestore with ID:", userId);
           setIsLoggedIn(false);
-          navigate("/login");
+   
         }
       } catch (error) {
         console.error("Error checking Firestore: ", error);
         setIsLoggedIn(false);
-        navigate("/login");
+
       }
     };
 
@@ -64,18 +62,15 @@ export default function App() {
       checkUserInFirestore(userId);
     } else {
       setIsLoggedIn(false);
-      navigate("/login");
     }
   }, [navigate]);
 
-  console.log(isLoggedIn);
 
   return (
     <Routes>
       {isLoggedIn ? (
         <>
           <Route path="/" element={<Home />} />
-
           <Route path="/Matrix" element={<MatrixLists />} />
           <Route path="/subjects" element={<SubjectsLists />} />
           <Route path="/MatrixInfo" element={<MatrixInfo />} />
@@ -84,20 +79,20 @@ export default function App() {
           <Route path="/admin-subjects" element={<SubjectsList />} />
           <Route path="/acc" element={<AddAccounts />} />
           <Route path="/dashboard" element={<AdminDashboard />} />
-
           <Route path="/editsubject" element={<SubjectEditForm />} />
- 
           <Route path="/AdminMtrixInfo" element={<AdminMatrixInfo />} />
-
           <Route path="/edit-Theme" element={<EditTheme />} />
-          <Route path="/AdminUsers" element={<AdminUsers />} />
           <Route path="/MatrixList" element={<MatrixList />} />
           <Route path="/MatrixEditForm" element={<MatrixEditForm />} />
           <Route path="/MatrixForm" element={<MatrixForm />} />
         </>
       ) : (
-        <Route path="/login" element={<Form />} />
-      )}
+        <>
+        <Route path="/mycorgov" element={<IntroPage />} />
+   <Route path="/login" element={<Form />} />
+   <Route path="*" element={<IntroPage />} />
+
+   </>      )}
     </Routes>
   );
 }

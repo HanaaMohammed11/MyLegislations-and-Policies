@@ -84,7 +84,7 @@ export default function Topbanner() {
     try {
       localStorage.removeItem("id");
       await signOut(auth);
-      navigate("/login", { replace: true });
+      navigate("/mycorgov", { replace: true });
     } catch (error) {
       console.error("Error logging out: ", error);
     }

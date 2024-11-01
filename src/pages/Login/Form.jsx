@@ -56,21 +56,10 @@ export default function Form() {
   };
 
   const direction = i18n.language === "ar" ? "rtl" : "ltr";
-console.log("hiiiiii");
 
   return (
-    <div className="form">
-      <div className="pt-4 flex justify-end p-9 ">
+    <div className="form h-screen">
 
-        <select
-          onChange={(e) => handleChangeLanguage(e.target.value)}
-          className="p-2 rounded-md bg-slate-400"
-          defaultValue={localStorage.getItem("lang") || "ar"}
-        >
-          <option value="en">English</option>
-          <option value="ar">الغة العربية</option>
-        </select>
-      </div>
       <div
         className="form-container sm:w-full xs:w-[80%] xs:mx-auto"
         dir={direction}
@@ -144,7 +133,7 @@ console.log("hiiiiii");
 
                   <Button
                     type="submit"
-                    style={{ backgroundColor: "#C69221", marginTop: 20 }}
+                    style={{ backgroundColor: "#CDA03D", marginTop: 20 }}
                   >
                     {t("login.loginButton")}
                   </Button>

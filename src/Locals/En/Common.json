@@ -264,5 +264,9 @@
   "pagination":{
      "of": "of",
       "page": "Page"
- }
+ },"intropage":{
+  "header":"MYLEGISLATIONS",
+  "content":"MYLEGISLATIONS simplifies legal compliance by offering a comprehensive platform to organize, access, and update relevant laws and regulations, ensuring effective governance and informed decision-making within your organization"
+  
+   }
 }
