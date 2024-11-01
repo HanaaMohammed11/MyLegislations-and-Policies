@@ -1,98 +1,103 @@
-import {
-  HashRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
-import { useEffect,  useState } from "react";
-import {
-  collection,
+import React, { useContext, useEffect, useRef, useState } from "react";
+import logo from "../../../src/assets/logo1.png"
+import saudiArabia from "../../../src/assets//Flag_of_Saudi_Arabia.png";
+import USA from "../../../src/assets//Flag_of_the_United_States.png";
+import "./FormStyle.css";
 
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import db from "./config/firebase";
-import AdminDashboard from "./pages/Dashboard/AdminDashboard";
-import MatrixList from "./pages/Dashboard/Componants/Matrix/MatrixList";
-import MatrixEditForm from "./pages/Dashboard/Componants/Matrix/MatrixEditForm";
-import MatrixForm from "./pages/Dashboard/Componants/Matrix/MatrixForm";
-import Form from "./pages/Login/Form";
-import Home from "./pages/Home/Home";
-import MatrixLists from "./pages/Users/Matrixs/MatrixLists";
-import SubjectEditForm from "./pages/Dashboard/Componants/Subjects/SubjectEditForm";
-import MatrixInfo from "./pages/Users/Matrixs/MatrixInfo";
-import SubjectInfo from "./pages/Users/Subjects/SubjectInfo";
-import AddAccounts from "./pages/Dashboard/Componants/Addaccunts";
-import EditTheme from "./pages/Dashboard/Componants/EditTheme";
-import SubjectsList from "./pages/Dashboard/Componants/Subjects/SubjectList";
-import SubjectsLists from "./pages/Users/Subjects/SubjectList";
-import AdminMatrixInfo from "./pages/Dashboard/Componants/Matrix/MatrixInfo";
-import AdminSubjectInfo from "./pages/Dashboard/Componants/Subjects/AdminSubInfo";
-import IntroPage from "./pages/Login/introPage";
+import { TranslateContext } from "../../TranslateContext/TransContext";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+function IntroPage() {
+    const navigate = useNavigate();
+    const { t, i18n } = useTranslation("global");
 
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkUserInFirestore = async (userId) => {
-      try {
-        const q = query(collection(db, "users"), where("ID", "==", userId)); 
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-          console.log("User found in Firestore:", querySnapshot.docs[0].data());
-          setIsLoggedIn(true);
-        } else {
-          console.log("User not found in Firestore with ID:", userId);
-          setIsLoggedIn(false);
-   
+    const dropdownRef = useRef(null);
+    const { handleChangeLanguage } = useContext(TranslateContext);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedLanguage, setSelectedLanguage] = useState(
+      localStorage.getItem("lang") || "ar"
+    );
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setIsOpen(false);
         }
-      } catch (error) {
-        console.error("Error checking Firestore: ", error);
-        setIsLoggedIn(false);
-
-      }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+    const handleLanguageSelect = (lang) => {
+      setSelectedLanguage(lang);
+      handleChangeLanguage(lang);
+      localStorage.setItem("lang", lang);
+      setIsOpen(false);
     };
-
-    const userId = localStorage.getItem("id");
-    if (userId) {
-      console.log("User ID found: ", userId);
-      checkUserInFirestore(userId);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [navigate]);
-
+    const direction = i18n.language === "ar" ? "rtl" : "ltr";
 
   return (
-    <Routes>
-      {isLoggedIn ? (
-        <>
-          <Route path="/" element={<Home />} />
-          <Route path="/Matrix" element={<MatrixLists />} />
-          <Route path="/subjects" element={<SubjectsLists />} />
-          <Route path="/MatrixInfo" element={<MatrixInfo />} />
-          <Route path="/subjectInfo" element={<SubjectInfo />} />
-          <Route path="/AdminSubjectInfo" element={<AdminSubjectInfo />} />
-          <Route path="/admin-subjects" element={<SubjectsList />} />
-          <Route path="/acc" element={<AddAccounts />} />
-          <Route path="/dashboard" element={<AdminDashboard />} />
-          <Route path="/editsubject" element={<SubjectEditForm />} />
-          <Route path="/AdminMtrixInfo" element={<AdminMatrixInfo />} />
-          <Route path="/edit-Theme" element={<EditTheme />} />
-          <Route path="/MatrixList" element={<MatrixList />} />
-          <Route path="/MatrixEditForm" element={<MatrixEditForm />} />
-          <Route path="/MatrixForm" element={<MatrixForm />} />
-        </>
-      ) : (
-        <>
-        <Route path="/mycorgov" element={<IntroPage />} />
-   <Route path="/login" element={<Form />} />
-   <Route path="*" element={<IntroPage />} />
+    <div className="min-h-screen bg-gradient-radial flex flex-col items-center   text-center" dir={direction}>
+      {/* الشعار */}
+      <header className="w-full flex justify-between px-10 py-9">
+        <img src={logo} alt="Logo" className="w-16 h-16" /> 
+        <h1 className="text-lg font-medium ">MyCorgov</h1>
+     
+        <div className="relative " ref={dropdownRef}>
+            <button
+              className="p-2   border-yellow-400 border-2 text-white flex items-center hover:bg-slate-500"
+              onClick={() => setIsOpen((prev) => !prev)}
+            >
+              <img
+                src={selectedLanguage === "en" ? USA : saudiArabia}
+                alt={selectedLanguage === "en" ? "English" : "Arabic"}
+                className="w-6 h-6 mr-2"
+              />
+            </button>
+            {isOpen && (
+              <div className="absolute  z-[2200] bg-white shadow-lg   w-full">
+                <div
+                  onClick={() => handleLanguageSelect("en")}
+                  className="p-2 flex items-center cursor-pointer hover:bg-gray-100"
+                >
+                  <img src={USA} alt="USA Flag" className="w-6 h-6 mr-2" />
+                </div>
+                <div
+                  onClick={() => handleLanguageSelect("ar")}
+                  className="p-2 flex items-center cursor-pointer hover:bg-gray-100"
+                >
+                  <img
+                    src={saudiArabia}
+                    alt="Saudi Arabia Flag"
+                    className="w-6 h-6 mr-2"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+   
+ 
+      </header>
 
-   </>      )}
-    </Routes>
+      {/* المحتوى الرئيسي */}
+      <main className="flex flex-col items-center justify-center px-14 my-auto space-y-4 ">
+        <div className=" ">
+
+        <h2 className="lg:text-7xl md:text-7xl sm:text-3xl  text-3xl font-semibold text-[#8E6505] lg:mb-4">   {t("intropage.header")}
+        </h2>
+        </div>
+        <p className="text-gray-500 max-w-screen-lg lg:text-2xl md:text-2xl sm:text-xl  text-xl ">
+   
+   {t("intropage.content")}
+        </p>
+        <button onClick={()=>{navigate("/login")}} className="w-44 mt-8 px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:border-gray-700">
+        
+          <span className="text-yellow-600 text-xl font-semibold" dir={direction}> {t("login.loginButton")} →</span>
+        </button>
+      </main>
+    </div>
   );
 }
+
+export default IntroPage;
