@@ -81,7 +81,7 @@ function IntroPage() {
       </header>
 
       {/* المحتوى الرئيسي */}
-      <main className="flex flex-col items-center justify-center px-14 mt-36 space-y-4 ">
+      <main className="flex flex-col items-center justify-center px-14 my-auto space-y-4 ">
         <div className=" ">
 
         <h2 className="lg:text-7xl md:text-7xl sm:text-3xl  text-3xl font-semibold text-[#8E6505] lg:mb-4">   {t("intropage.header")}
@@ -91,9 +91,9 @@ function IntroPage() {
    
    {t("intropage.content")}
         </p>
-        <button onClick={()=>{navigate("/login")}} className="mt-8 px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:border-gray-700">
+        <button onClick={()=>{navigate("/login")}} className="w-44 mt-8 px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:border-gray-700">
         
-          <span className="text-yellow-600 " dir={direction}> {t("login.loginButton")} →</span>
+          <span className="text-yellow-600 text-xl font-semibold" dir={direction}> {t("login.loginButton")} →</span>
         </button>
       </main>
     </div>
