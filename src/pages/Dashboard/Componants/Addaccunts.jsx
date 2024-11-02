@@ -218,14 +218,16 @@ export default function AddAccounts() {
     }));
     await updateAcc(); // Call update function
   };
+
+  const isRtl = i18n.language === "ar";
   return (
     <div className=" ">
       <div
 className={`flex flex-col lg:justify-center  lg:w-full  md:items-center md:justify-center  md:w-full r gap-4 md:gap-9 z-10 sticky lg:fixed md:fixed sm:sticky xs:sticky `}
 >
         <div
-          className="btn-button sm:w-[100%] lg:w-[13%] md:w-[13%] text-center btn-curve btn-gold flex items-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
-          onClick={() => setOpenModal(true)}
+            className={` ${isRtl?"lg:mr-[500px]":"lg:ml-[500px] "} w-44 btn-button  text-center btn-curve btn-gold flex items-center text-lg font-semibold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300`}
+            onClick={() => setOpenModal(true)}
         >
           <span className="whitespace-nowrap flex items-center space-x-2 btn-text">
             {t("addaccount.createAccount")}{" "}

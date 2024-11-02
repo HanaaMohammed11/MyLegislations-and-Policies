@@ -34,11 +34,11 @@ export default function MatrixList() {
   return (
     <>
       <div className="flex flex-col  ">
-        <div
-          className={`flex flex-col justify-center  w-full  items-center gap-4 md:gap-9 z-10 sticky lg:fixed md:fixed sm:sticky xs:sticky `}
-          >
+      <div
+          className={`flex flex-col lg:justify-center  lg:w-full  md:items-center md:justify-center  md:w-full  gap-4 md:gap-9 z-10 sticky lg:fixed md:fixed sm:sticky xs:sticky `}
+        >
           <div
-            className="btn-button  w-48 text-center btn-curve btn-gold flex items-center text-lg font-bold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300"
+            className={` ${isRtl?"lg:mr-[500px]":"lg:ml-[500px] "} w-44 btn-button  text-center btn-curve btn-gold flex items-center text-lg font-semibold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-300`}
             onClick={handleClick}
           >
             <span className="whitespace-nowrap flex items-center space-x-2 btn-text">
